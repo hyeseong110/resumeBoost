@@ -1,0 +1,57 @@
+@import url(./basic/reset.css); 
+
+
+
+.index {
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.index .index-con {
+  width: 100%;
+  height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.index .index-con .join-button {
+
+}
+
+.index .index-con .join-button > ul {
+  display: flex;
+}
+
+.index .index-con .join-button > ul > li {
+  flex: 1;
+  border: 1px solid #000;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  cursor: pointer;
+}
+
+.index .index-con .join-button > ul > li > a {
+  padding: 10px 10px;
+  box-sizing: border-box;
+  
+}
+
+
+.index .index-con .index-button > span {
+  border: 1px solid #000;
+}
+
+.index .index-con .index-button > span > a {
+  padding: 10px 10px;
+  box-sizing: border-box;
+}
