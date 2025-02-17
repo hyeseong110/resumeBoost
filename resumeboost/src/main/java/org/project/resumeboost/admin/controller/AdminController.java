@@ -1,5 +1,5 @@
 package org.project.resumeboost.admin.controller;
 
-public class AdminComtroller {
-  
+public class AdminController {
+
 }
