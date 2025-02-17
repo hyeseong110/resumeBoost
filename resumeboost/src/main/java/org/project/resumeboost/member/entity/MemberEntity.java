@@ -7,6 +7,7 @@ import javax.management.relation.Role;
 import org.project.resumeboost.basic.common.BasicTime;
 import org.project.resumeboost.board.entity.BoardEntity;
 import org.project.resumeboost.item.entity.ItemEntity;
+import org.project.resumeboost.pay.entity.PayEntity;
 import org.project.resumeboost.reply.entity.ReplyEntity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -89,4 +90,8 @@ public class MemberEntity extends BasicTime {
   @JsonIgnore
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<ItemEntity> itemEntities;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "memberEntity",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+  private List<PayEntity> payEntities;
 }
