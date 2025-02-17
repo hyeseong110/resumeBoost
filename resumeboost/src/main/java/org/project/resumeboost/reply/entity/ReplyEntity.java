@@ -1,5 +1,6 @@
 package org.project.resumeboost.reply.entity;
 
+import org.project.resumeboost.board.entity.BoardEntity;
 import org.project.resumeboost.member.entity.MemberEntity;
 
 import jakarta.persistence.Column;
@@ -31,4 +32,8 @@ public class ReplyEntity {
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
   private MemberEntity memberEntity;
+
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "board_id")
+  private BoardEntity boardEntity;
 }
