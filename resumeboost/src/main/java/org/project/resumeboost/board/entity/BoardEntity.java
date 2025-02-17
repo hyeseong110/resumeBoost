@@ -3,6 +3,7 @@ package org.project.resumeboost.board.entity;
 import java.util.List;
 
 import org.project.resumeboost.basic.common.BasicTime;
+import org.project.resumeboost.board.dto.BoardDto;
 import org.project.resumeboost.member.entity.MemberEntity;
 import org.project.resumeboost.reply.entity.ReplyEntity;
 
@@ -42,6 +43,9 @@ public class BoardEntity extends BasicTime {
   @Column(nullable = false)
   private String content;
 
+  @Column(nullable = false)
+  private String category;
+
   @Column(nullable = true, columnDefinition = "int default 0")
   private int viewCount;
 
@@ -62,4 +66,30 @@ public class BoardEntity extends BasicTime {
   @JsonIgnore
   @OneToMany(mappedBy = "boardEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   private List<BoardImgEntity> boardImgEntities;
+
+  // 파일 없을 경우
+  public static BoardEntity toNotFileInsert(BoardDto dto) {
+    return BoardEntity.builder()
+        .title(dto.getTitle())
+        .content(dto.getContent())
+        .category(dto.getCategory())
+        .attachFile(0)
+        .memberEntity(MemberEntity.builder().id(dto.getMemberId()).build())
+        .build();
+  }
+
+  // 파일 있을 경우
+  public static BoardEntity toYesFileInsert(BoardDto dto) {
+    return BoardEntity.builder()
+        .title(dto.getTitle())
+        .content(dto.getContent())
+        .category(dto.getCategory())
+        .attachFile(1)
+        .memberEntity(MemberEntity.builder().id(dto.getMemberId()).build())
+        .build();
+  }
+
+  public static BoardEntity toNotFileUpdate(BoardDto dto) {
+    return null;
+  }
 }
