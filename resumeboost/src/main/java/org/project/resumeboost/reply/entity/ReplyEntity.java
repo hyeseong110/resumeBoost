@@ -1,5 +1,6 @@
 package org.project.resumeboost.reply.entity;
 
+import org.project.resumeboost.basic.common.BasicTime;
 import org.project.resumeboost.board.entity.BoardEntity;
 import org.project.resumeboost.member.entity.MemberEntity;
 
@@ -23,7 +24,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "reply_tb")
-public class ReplyEntity {
+public class ReplyEntity extends BasicTime {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "reply_id")

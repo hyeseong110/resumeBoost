@@ -1,5 +1,6 @@
 package org.project.resumeboost.item.entity;
 
+import org.project.resumeboost.basic.common.BasicTime;
 import org.project.resumeboost.member.entity.MemberEntity;
 
 import jakarta.persistence.Column;
@@ -22,7 +23,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "item_tb")
-public class ItemEntity {
+public class ItemEntity extends BasicTime {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "item_id")

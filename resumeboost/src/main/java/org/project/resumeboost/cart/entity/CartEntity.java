@@ -1,5 +1,6 @@
 package org.project.resumeboost.cart.entity;
 
+import org.project.resumeboost.basic.common.BasicTime;
 import org.project.resumeboost.member.entity.MemberEntity;
 
 import jakarta.persistence.Column;
@@ -21,7 +22,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "cart_tb")
-public class CartEntity {
+public class CartEntity extends BasicTime {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "cart_id")
