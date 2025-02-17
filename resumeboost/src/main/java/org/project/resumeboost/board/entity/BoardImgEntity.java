@@ -1,7 +1,5 @@
 package org.project.resumeboost.board.entity;
 
-import org.project.resumeboost.member.entity.MemberEntity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
