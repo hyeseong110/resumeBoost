@@ -46,7 +46,7 @@ public class MemberEntity extends BasicTime {
   private String userPw;
 
   // 별명
-  @Column(nullable = false)
+  @Column(nullable = false, unique = true)
   private String nickName;
 
   // 실제 이름
@@ -97,6 +97,6 @@ public class MemberEntity extends BasicTime {
   private List<ItemEntity> itemEntities;
 
   @JsonIgnore
-  @OneToMany(mappedBy = "memberEntity",cascade = CascadeType.REMOVE,fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<PayEntity> payEntities;
 }
