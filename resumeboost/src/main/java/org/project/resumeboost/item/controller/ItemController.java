@@ -19,7 +19,7 @@ public class ItemController {
   @PostMapping("/insert")
   public ResponseEntity<?> itemInsert(ItemDto itemDto){
     itemServiceImpl.itemInsert(itemDto);
-    return ResponseEntity.status(HttpStatus.OK).body(null);
+    return ResponseEntity.status(HttpStatus.OK).body("a");
   }
 
 }
