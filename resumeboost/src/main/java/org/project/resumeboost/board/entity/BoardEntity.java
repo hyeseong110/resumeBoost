@@ -36,6 +36,21 @@ public class BoardEntity extends BasicTime {
   @Column(name = "board_id")
   private Long id;
 
+  @Column(nullable = false)
+  private String title;
+
+  @Column(nullable = false)
+  private String content;
+
+  @Column(nullable = true, columnDefinition = "int default 0")
+  private int viewCount;
+
+  @Column(nullable = true, columnDefinition = "int default 0")
+  private int replyCount;
+
+  @Column(nullable = false)
+  private int attachFile;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
   private MemberEntity memberEntity;
@@ -43,4 +58,8 @@ public class BoardEntity extends BasicTime {
   @JsonIgnore
   @OneToMany(mappedBy = "boardEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
   private List<ReplyEntity> replyEntities;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "boardEntity", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+  private List<BoardImgEntity> boardImgEntities;
 }

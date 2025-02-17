@@ -2,9 +2,8 @@ package org.project.resumeboost.member.entity;
 
 import java.util.List;
 
-import javax.management.relation.Role;
-
 import org.project.resumeboost.basic.common.BasicTime;
+import org.project.resumeboost.basic.common.Role;
 import org.project.resumeboost.board.entity.BoardEntity;
 import org.project.resumeboost.item.entity.ItemEntity;
 import org.project.resumeboost.pay.entity.PayEntity;
@@ -15,6 +14,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -62,10 +63,14 @@ public class MemberEntity extends BasicTime {
   @Column(nullable = true, columnDefinition = "int default 0")
   private int replyCount;
 
+  @Column(nullable = true, columnDefinition = "int default 0")
+  private int viewCount;
+
   // 경력
   private String antecedents;
 
   // 권한 MEMBER(일반회원), MENTOR(멘토회원), ADMIN
+  @Enumerated(EnumType.STRING)
   private Role role;
 
   // 프로필 사진 유무
