@@ -5,7 +5,6 @@ import java.util.List;
 
 import org.project.resumeboost.board.entity.BoardEntity;
 import org.project.resumeboost.board.entity.BoardImgEntity;
-import org.project.resumeboost.item.entity.ItemEntity;
 import org.project.resumeboost.member.entity.MemberEntity;
 import org.project.resumeboost.reply.entity.ReplyEntity;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,7 +50,7 @@ public class BoardDto {
   private LocalDateTime createTime;
   private LocalDateTime updateTime;
 
-  public static BoardDto toItemDto(BoardEntity boardEntity) {
+  public static BoardDto toBoardDto(BoardEntity boardEntity) {
     // 파일이 있을 경우
     if (boardEntity.getAttachFile() == 1) {
       return BoardDto.builder()

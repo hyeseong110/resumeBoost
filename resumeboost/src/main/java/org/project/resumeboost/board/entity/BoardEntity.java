@@ -90,6 +90,24 @@ public class BoardEntity extends BasicTime {
   }
 
   public static BoardEntity toNotFileUpdate(BoardDto dto) {
-    return null;
+    return BoardEntity.builder()
+        .id(dto.getId())
+        .title(dto.getTitle())
+        .content(dto.getContent())
+        .category(dto.getCategory())
+        .attachFile(0)
+        .memberEntity(MemberEntity.builder().id(dto.getMemberId()).build())
+        .build();
+  }
+
+  public static BoardEntity toYesFileUpdate(BoardDto dto) {
+    return BoardEntity.builder()
+        .id(dto.getId())
+        .title(dto.getTitle())
+        .content(dto.getContent())
+        .category(dto.getCategory())
+        .attachFile(1)
+        .memberEntity(MemberEntity.builder().id(dto.getMemberId()).build())
+        .build();
   }
 }
