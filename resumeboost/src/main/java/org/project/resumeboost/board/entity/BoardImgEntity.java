@@ -1,7 +1,5 @@
-package org.project.resumeboost.reply.entity;
+package org.project.resumeboost.board.entity;
 
-import org.project.resumeboost.basic.common.BasicTime;
-import org.project.resumeboost.board.entity.BoardEntity;
 import org.project.resumeboost.member.entity.MemberEntity;
 
 import jakarta.persistence.Column;
@@ -20,21 +18,21 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
 @Builder
+@Data
 @Entity
-@Table(name = "reply_tb")
-public class ReplyEntity extends BasicTime {
+@Table(name = "board_img_tb")
+public class BoardImgEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "reply_id")
+  @Column(name = "board_img_id")
   private Long id;
 
-  private String content;
+  @Column(nullable = false)
+  private String newImgName;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "member_id")
-  private MemberEntity memberEntity;
+  @Column(nullable = false)
+  private String oldImgName;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "board_id")
