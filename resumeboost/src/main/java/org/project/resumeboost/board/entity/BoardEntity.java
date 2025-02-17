@@ -2,6 +2,7 @@ package org.project.resumeboost.board.entity;
 
 import java.util.List;
 
+import org.project.resumeboost.basic.common.BasicTime;
 import org.project.resumeboost.member.entity.MemberEntity;
 import org.project.resumeboost.reply.entity.ReplyEntity;
 
@@ -29,7 +30,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @Entity
 @Table(name = "board_tb")
-public class BoardEntity {
+public class BoardEntity extends BasicTime {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "board_id")
