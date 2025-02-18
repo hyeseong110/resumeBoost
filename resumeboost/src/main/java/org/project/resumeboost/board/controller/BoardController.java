@@ -57,7 +57,7 @@ public class BoardController {
 
   @GetMapping("/boardList")
   public ResponseEntity<?> boardList(
-      @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+      @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
       @RequestParam(name = "subject", required = false) String subject,
       @RequestParam(name = "search", required = false) String search) {
 
@@ -85,7 +85,7 @@ public class BoardController {
 
   @GetMapping("/boardList/letter")
   public ResponseEntity<?> boardListLetter(
-      @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+      @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
       @RequestParam(name = "subject", required = false) String subject,
       @RequestParam(name = "search", required = false) String search) {
 
@@ -113,7 +113,7 @@ public class BoardController {
 
   @GetMapping("/boardList/resume")
   public ResponseEntity<?> boardListResume(
-      @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+      @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
       @RequestParam(name = "subject", required = false) String subject,
       @RequestParam(name = "search", required = false) String search) {
 
@@ -141,11 +141,39 @@ public class BoardController {
 
   @GetMapping("/boardList/interview")
   public ResponseEntity<?> boardListInterview(
-      @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+      @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
       @RequestParam(name = "subject", required = false) String subject,
       @RequestParam(name = "search", required = false) String search) {
 
     Page<BoardDto> pagingList = boardServiceImpl.boardListInterview(pageable, subject, search);
+
+    Map<String, Object> map = new HashMap<>();
+
+    int totalPages = pagingList.getTotalPages(); // 총 페이지수
+    int currentPage = pagingList.getPageable().getPageNumber();
+    int block = 5;
+
+    int startPage = (int) ((Math.floor(currentPage / block) * block) + 1 <= totalPages
+        ? (Math.floor(currentPage / block) * block) + 1
+        : totalPages);
+    int endPage = (startPage + block) - 1 < totalPages ? (startPage + block) - 1 : totalPages;
+
+    map.put("boardList", pagingList);
+    map.put("startPage", startPage);
+    map.put("endPage", endPage);
+    map.put("subject", subject);
+    map.put("search", search);
+
+    return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
+  @GetMapping("/boardList/freedom")
+  public ResponseEntity<?> boardListFreedom(
+      @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+      @RequestParam(name = "subject", required = false) String subject,
+      @RequestParam(name = "search", required = false) String search) {
+
+    Page<BoardDto> pagingList = boardServiceImpl.boardListFreedom(pageable, subject, search);
 
     Map<String, Object> map = new HashMap<>();
 

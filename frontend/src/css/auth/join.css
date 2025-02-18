@@ -79,7 +79,8 @@
   justify-content: space-between;
 }
 
-.join .join-con > form > ul > li:last-child input, span {
+.join .join-con > form > ul > li:last-child input,
+.join .join-con > form > ul > li:last-child span {
   flex: 1;
   border: 0;
 

@@ -127,6 +127,10 @@ public class BoardServiceImpl implements BoardService {
         boardEntities = boardRepository.findByTitleContaining(pageable, search);
       } else if (subject.equals("content")) {
         boardEntities = boardRepository.findByContentContaining(pageable, search);
+      } else if (subject.equals("writer")) {
+        boardEntities = boardRepository.findByWriterContaining(pageable, search);
+      } else {
+        boardEntities = boardRepository.findByTitleOrContentOrWriterContaining(pageable, search);
       }
     }
 
@@ -142,9 +146,9 @@ public class BoardServiceImpl implements BoardService {
       boardEntities = boardRepository.findByCategoryContaining(pageable, "자기소개서");
     } else {
       if (subject.equals("title")) {
-        boardEntities = boardRepository.findByTitleContaining(pageable, "자기소개서");
+        boardEntities = boardRepository.findByTitleContaining(pageable, search);
       } else if (subject.equals("content")) {
-        boardEntities = boardRepository.findByContentContaining(pageable, "자기소개서");
+        boardEntities = boardRepository.findByContentContaining(pageable, search);
       }
     }
 
@@ -160,9 +164,9 @@ public class BoardServiceImpl implements BoardService {
       boardEntities = boardRepository.findByCategoryContaining(pageable, "이력서");
     } else {
       if (subject.equals("title")) {
-        boardEntities = boardRepository.findByTitleContaining(pageable, "이력서");
+        boardEntities = boardRepository.findByTitleContaining(pageable, search);
       } else if (subject.equals("content")) {
-        boardEntities = boardRepository.findByContentContaining(pageable, "이력서");
+        boardEntities = boardRepository.findByContentContaining(pageable, search);
       }
     }
 
@@ -178,9 +182,27 @@ public class BoardServiceImpl implements BoardService {
       boardEntities = boardRepository.findByCategoryContaining(pageable, "면접");
     } else {
       if (subject.equals("title")) {
-        boardEntities = boardRepository.findByTitleContaining(pageable, "면접");
+        boardEntities = boardRepository.findByTitleContaining(pageable, search);
       } else if (subject.equals("content")) {
-        boardEntities = boardRepository.findByContentContaining(pageable, "면접");
+        boardEntities = boardRepository.findByContentContaining(pageable, search);
+      }
+    }
+
+    return boardEntities.map(BoardDto::toBoardDto);
+  }
+
+  @SuppressWarnings("null")
+  @Override
+  public Page<BoardDto> boardListFreedom(Pageable pageable, String subject, String search) {
+    Page<BoardEntity> boardEntities = null;
+
+    if (subject == null || search == null || search.trim().length() <= 0) {
+      boardEntities = boardRepository.findByCategoryContaining(pageable, "자유");
+    } else {
+      if (subject.equals("title")) {
+        boardEntities = boardRepository.findByTitleContaining(pageable, search);
+      } else if (subject.equals("content")) {
+        boardEntities = boardRepository.findByContentContaining(pageable, search);
       }
     }
 

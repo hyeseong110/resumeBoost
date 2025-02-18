@@ -3,6 +3,7 @@ import {createBrowserRouter} from "react-router-dom";
 import DefaultLayout from '../layouts/basic/DefaultLayout';
 import IndexPage from '../pages/IndexPage';
 import toMainRouter from './toMainRouter';
+import toBoardRouter from './toBoardRouter';
 
 
 const Loading = <div className='loading'>Loading...</div>;
@@ -25,6 +26,16 @@ const root = createBrowserRouter([
       </Suspense>
     ),
     children: toMainRouter()
+  }
+  ,
+  {
+    path: "/board",
+    element: (
+      <Suspense fallback={Loading}>
+        <DefaultLayout/>
+      </Suspense>
+    ),
+    children: toBoardRouter()
   }
 
 ])

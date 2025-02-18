@@ -19,6 +19,8 @@ public interface BoardService {
 
   public Page<BoardDto> boardListInterview(Pageable pageable, String subject, String search);
 
+  public Page<BoardDto> boardListFreedom(Pageable pageable, String subject, String search);
+
   public void boardDelete(Long boardId);
 
   public BoardDto boardDetail(Long boardId);

@@ -13,12 +13,14 @@ const Header = () => {
             </Link>
           </h1>
           <ul>
-            <li>괴외 선생님 찾기</li>
-            <li>커뮤니티</li>
+            <li>멘토 찾기</li>
+            <li>
+              <Link to={"/board"}>커뮤니티</Link>
+            </li>
             <li>
               <Link to={"/index/join"}>로그인 / 회원가입</Link>
             </li>
-            <li>고민 상담</li>
+            <li>문의하기</li>
           </ul>
         </div>
       </div>

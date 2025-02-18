@@ -45,6 +45,14 @@ public class MemberEntity extends BasicTime {
   @Column(nullable = false)
   private String userPw;
 
+  // 나이
+  @Column(nullable = false)
+  private int age;
+
+  // 지역
+  @Column(nullable = false)
+  private String address;
+
   // 별명
   @Column(nullable = false, unique = true)
   private String nickName;
@@ -65,6 +73,14 @@ public class MemberEntity extends BasicTime {
 
   @Column(nullable = true, columnDefinition = "int default 0")
   private int viewCount;
+
+  // 내가 작성한 댓글 수
+  @Column(nullable = true, columnDefinition = "int default 0")
+  private int myReplyCount;
+
+  // 내가 작성한 게시글 수
+  @Column(nullable = true, columnDefinition = "int default 0")
+  private int myPostCount;
 
   // 경력
   private String antecedents;
