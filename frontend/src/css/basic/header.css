@@ -2,24 +2,25 @@
   width: 100%;
   display: flex;
   justify-content: center;
+
+  box-shadow: inset 0 -1px 3px #a7a7a7;
+  padding: 10px 30px;
+  box-sizing: border-box;
 }
 
 .header .header-con {
   flex: 0 1 1600px;
+ 
 
-
-  
 }
 
 .header .header-con .gnb {
+  height: 60px;
 
   display: flex;
   justify-content: space-between;
 
-  box-shadow: inset 0 -1px 3px #a7a7a7;
-
-  padding: 10px 30px;
-  box-sizing: border-box;
+  
 }
 
 .header .header-con .gnb h1 {
@@ -36,10 +37,19 @@
 
 .header .header-con .gnb > ul {
   display: flex;
+  gap: 20px;
 }
 
 .header .header-con .gnb > ul > li {
   display: flex;
   justify-content: center;
   align-items: center;
+
+  color: #5a5a5a;
+
+  cursor: pointer;
+}
+
+.header .header-con .gnb > ul > li:hover {
+  color: #000;
 }

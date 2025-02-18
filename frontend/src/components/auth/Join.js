@@ -2,7 +2,30 @@ import React from 'react'
 
 const Join = () => {
   return (
-    <div>일반 회원가입</div>
+    <>
+      <div className='join'>
+        <div className="join-con">
+          <form action="" method="post">
+            <h1>회원가입</h1>
+
+            <ul>
+              <li>
+                <label htmlFor="email" aria-placeholder='이메일 입력'>이메일 :</label>
+                <input type="text" name="email" id="email" />
+              </li>
+              <li>
+                <label htmlFor="pw" aria-placeholder='비밀번호 입력'>비밀번호 : </label>
+                <input type="password" name="pw" id="pw" />
+              </li>
+              <li>
+                <span>이전</span>
+                <input type="submit" value="회원가입" />
+              </li>
+            </ul>
+          </form>
+        </div>
+    </div>
+    </>
   )
 }
 
