@@ -5,17 +5,13 @@ import Footer from '../../components/basic/Footer'
 const DefaultLayout = () => {
   return (
     <div className='wrraper'>
-      <div className='header'>
-        <Header/>
-      </div>
+      <Header/>
       <div className='default-layout'>
         <div className='default-layout-con'>
           <Outlet/>
         </div>
       </div>
-      <div className='footer'>
-        <Footer/>
-      </div>
+      <Footer/>
     </div>
   )
 }
