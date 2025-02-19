@@ -137,6 +137,8 @@ public class BoardServiceImpl implements BoardService {
     return boardEntities.map(BoardDto::toBoardDto);
   }
 
+  String letter;
+
   @SuppressWarnings("null")
   @Override
   public Page<BoardDto> boardListLetter(Pageable pageable, String subject, String search) {
@@ -145,10 +147,15 @@ public class BoardServiceImpl implements BoardService {
     if (subject == null || search == null || search.trim().length() <= 0) {
       boardEntities = boardRepository.findByCategoryContaining(pageable, "자기소개서");
     } else {
+      letter = "자기소개서";
       if (subject.equals("title")) {
-        boardEntities = boardRepository.findByTitleContaining(pageable, search);
+        boardEntities = boardRepository.findByTitleAndCategoryContaining(pageable, search, letter);
       } else if (subject.equals("content")) {
-        boardEntities = boardRepository.findByContentContaining(pageable, search);
+        boardEntities = boardRepository.findByContentAndCategoryContaining(pageable, search, letter);
+      } else if (subject.equals("writer")) {
+        boardEntities = boardRepository.findByWriterAndCategoryContaining(pageable, search, letter);
+      } else {
+        boardEntities = boardRepository.findByTitleOrContentOrWriterAndLetterContaining(pageable, search, letter);
       }
     }
 
@@ -163,10 +170,15 @@ public class BoardServiceImpl implements BoardService {
     if (subject == null || search == null || search.trim().length() <= 0) {
       boardEntities = boardRepository.findByCategoryContaining(pageable, "이력서");
     } else {
+      letter = "이력서";
       if (subject.equals("title")) {
-        boardEntities = boardRepository.findByTitleContaining(pageable, search);
+        boardEntities = boardRepository.findByTitleAndCategoryContaining(pageable, search, letter);
       } else if (subject.equals("content")) {
-        boardEntities = boardRepository.findByContentContaining(pageable, search);
+        boardEntities = boardRepository.findByContentAndCategoryContaining(pageable, search, letter);
+      } else if (subject.equals("writer")) {
+        boardEntities = boardRepository.findByWriterAndCategoryContaining(pageable, search, letter);
+      } else {
+        boardEntities = boardRepository.findByTitleOrContentOrWriterAndLetterContaining(pageable, search, letter);
       }
     }
 
@@ -181,10 +193,15 @@ public class BoardServiceImpl implements BoardService {
     if (subject == null || search == null || search.trim().length() <= 0) {
       boardEntities = boardRepository.findByCategoryContaining(pageable, "면접");
     } else {
+      letter = "면접";
       if (subject.equals("title")) {
-        boardEntities = boardRepository.findByTitleContaining(pageable, search);
+        boardEntities = boardRepository.findByTitleAndCategoryContaining(pageable, search, letter);
       } else if (subject.equals("content")) {
-        boardEntities = boardRepository.findByContentContaining(pageable, search);
+        boardEntities = boardRepository.findByContentAndCategoryContaining(pageable, search, letter);
+      } else if (subject.equals("writer")) {
+        boardEntities = boardRepository.findByWriterAndCategoryContaining(pageable, search, letter);
+      } else {
+        boardEntities = boardRepository.findByTitleOrContentOrWriterAndLetterContaining(pageable, search, letter);
       }
     }
 
@@ -199,14 +216,24 @@ public class BoardServiceImpl implements BoardService {
     if (subject == null || search == null || search.trim().length() <= 0) {
       boardEntities = boardRepository.findByCategoryContaining(pageable, "자유");
     } else {
+      letter = "자유";
       if (subject.equals("title")) {
-        boardEntities = boardRepository.findByTitleContaining(pageable, search);
+        boardEntities = boardRepository.findByTitleAndCategoryContaining(pageable, search, letter);
       } else if (subject.equals("content")) {
-        boardEntities = boardRepository.findByContentContaining(pageable, search);
+        boardEntities = boardRepository.findByContentAndCategoryContaining(pageable, search, letter);
+      } else if (subject.equals("writer")) {
+        boardEntities = boardRepository.findByWriterAndCategoryContaining(pageable, search, letter);
+      } else {
+        boardEntities = boardRepository.findByTitleOrContentOrWriterAndLetterContaining(pageable, search, letter);
       }
     }
 
     return boardEntities.map(BoardDto::toBoardDto);
+  }
+
+  @Override
+  public void BoardViewCount(Long id) {
+    boardRepository.BoardViewCount(id);
   }
 
   @Override
@@ -219,7 +246,7 @@ public class BoardServiceImpl implements BoardService {
 
   @Override
   public BoardDto boardDetail(Long boardId) {
-
+    BoardViewCount(boardId);
     BoardEntity boardEntity = boardRepository.findById(boardId).orElseThrow(IllegalArgumentException::new);
 
     return BoardDto.toBoardDto(boardEntity);

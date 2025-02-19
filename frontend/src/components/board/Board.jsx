@@ -233,25 +233,30 @@ const Board = () => {
         {posts.length > 0 ? (
           posts.map((post) => (
             <div key={post.id} className="post" onClick={() => navigate(`/board/detail/${post.id}`)}>
-              <div className="post-left">
-                <div className="post-header">
-                  <span className="post-category">{post.category}</span>
-                  {post.attachFile === 1 && <span className="post-file">📎</span>}
+              <div className="post-top">
+                <div className="post-left">
+                  <div className="post-header">
+                    <span className="post-category">{post.category}</span>
+                    {post.attachFile === 1 && <span className="post-file">📎</span>}
+                  </div>
+                  <div className="post-title">{post.title}</div>
+                  <div className="post-content">
+                    {post.content.length > 100 ? `${post.content.slice(0, 100)}....` : post.content}
+                  </div>
+                  {post.content.length > 100 && <div className="post-readmore">전체보기</div>}
                 </div>
-                <div className="post-title">{post.title}</div>
-                <div className="post-content">{post.content}</div>
-              </div>
-              {post.attachFile === 1 && (
                 <div className="post-right">
-                  <img 
-                    src={`http://localhost:8090/board/${post.id}/${post.boardImgEntities[0]?.newImgName}`}
-                    alt="첨부 이미지" 
-                    onError={(e) => {
-                      e.target.style.display = 'none';
-                    }}
-                  />
+                {post.attachFile === 1 && (
+                    <img 
+                      src={`http://localhost:8090/board/${post.id}/${post.boardImgEntities[0]?.newImgName}`}
+                      alt="첨부 이미지" 
+                      onError={(e) => {
+                        e.target.style.display = 'none';
+                      }}
+                    />
+                  )}
                 </div>
-              )}
+              </div>
               <div className="post-footer">
                 <div className="post-footer-left">
                   <span className="post-nickName">{post.memberEntity?.nickName}</span>
