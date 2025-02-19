@@ -247,6 +247,19 @@
   margin-bottom: 5px;
 }
 
+.post-top{
+  display: flex;
+  margin-bottom: 5px;
+}
+
+.post-left{
+  flex: 4;
+}
+
+.post-right{
+  flex: 1;
+}
+
 .post-category {
   font-weight: bold;
   color: #007bff;
@@ -260,6 +273,12 @@
 
 .post-content{
   margin-bottom: 14px;
+}
+
+.post-readmore{
+  font-size: 14px;
+  color: #ccc;
+  margin-bottom: 5px;
 }
 
 .post-footer {

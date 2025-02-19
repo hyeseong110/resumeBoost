@@ -23,5 +23,7 @@ public interface BoardService {
 
   public void boardDelete(Long boardId);
 
+  public void BoardViewCount(Long id);
+
   public BoardDto boardDetail(Long boardId);
 }

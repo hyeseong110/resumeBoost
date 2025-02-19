@@ -2,22 +2,20 @@ import React, { useState } from 'react';
 
 const BoardWrite = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isCancelModalOpen, setIsCancelModalOpen] = useState(false); // 취소 모달 상태 추가
   const [selectedCategory, setSelectedCategory] = useState('자유게시판');
-  const [showWarning, setShowWarning] = useState(false);
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [file, setFile] = useState(null);
-  const [previewURL, setPreviewURL] = useState(null); // 미리보기 이미지 URL 상태
+  const [previewURL, setPreviewURL] = useState(null);
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleOpenModal = () => setIsModalOpen(true);
-  const handleCloseModal = () => {
-    if (!selectedCategory) setShowWarning(true);
-    else setIsModalOpen(false);
-  };
+  const handleOpenCancelModal = () => setIsCancelModalOpen(true);
+  const handleCloseCancelModal = () => setIsCancelModalOpen(false);
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
-    setShowWarning(false);
   };
 
   const handleFileChange = (e) => {
@@ -32,6 +30,16 @@ const BoardWrite = () => {
       fileReader.readAsDataURL(selectedFile);
     } else {
       setPreviewURL(null);
+    }
+  };
+
+  const handleContentChange = (e) => {
+    const value = e.target.value;
+    if (value.length <= 250) {
+      setContent(value);
+      setErrorMessage('');
+    } else {
+      setErrorMessage('내용은 250자를 넘길 수 없습니다.');
     }
   };
 
@@ -69,10 +77,21 @@ const BoardWrite = () => {
                 </button>
               ))}
             </div>
-            {showWarning && <p className="warning">주제를 선택해주세요!</p>}
             <div className="modal-actions">
-              <button onClick={handleCloseModal}>확인</button>
-              <button onClick={() => setIsModalOpen(false)}>취소</button>
+              <button onClick={() => setIsModalOpen(false)}>확인</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isCancelModalOpen && (
+        <div className="modal-overlay">
+          <div className="modal-content">
+            <h2>게시글 작성 화면을 나갈까요?</h2>
+            <p>작성 중이던 내용은 삭제되며 복구가 불가능합니다.</p>
+            <div className="modal-actions">
+              <button onClick={handleCloseCancelModal}>계속 작성하기</button>
+              <button onClick={() => window.location.href = '/board'} className="exit-btn">나가기</button>
             </div>
           </div>
         </div>
@@ -93,7 +112,7 @@ const BoardWrite = () => {
               value={title}
               onChange={(e) => setTitle(e.target.value)}
               required
-              placeholder='제목을 입력해주세요.'
+              placeholder="제목을 입력해주세요."
             />
           </div>
           <div className="form-group">
@@ -101,21 +120,29 @@ const BoardWrite = () => {
             <textarea
               id="content"
               value={content}
-              onChange={(e) => setContent(e.target.value)}
+              onChange={handleContentChange}
               required
-              placeholder='내용을 입력해주세요.'
+              placeholder="내용을 입력해주세요."
             />
+            {errorMessage && <p className="error-message">{errorMessage}</p>}
           </div>
           <div className="form-group-last">
             <label htmlFor="file">이미지 첨부</label>
             <input type="file" id="file" onChange={handleFileChange} accept="image/*" />
             {previewURL && (
-              <div className='imgView'>
+              <div className="imgView">
                 <img src={previewURL} alt="미리보기 이미지" />
               </div>
             )}
           </div>
-          <button type="submit" className="submit-btn">작성 완료</button>
+          <div className="last-button">
+            <span className='cancel' onClick={handleOpenCancelModal}>
+              취소
+            </span>
+            <button type="submit" className="submit-btn" disabled={content.length > 250}>
+              작성 완료
+            </button>
+          </div>
         </form>
       </div>
     </div>
