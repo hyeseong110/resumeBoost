@@ -1,8 +1,4 @@
-@import url(./css/basic/reset.css);
 @import url(./css/index.css);
-@import url(./css/basic/main.css);
-@import url(./css/auth/join.css);
-/* @import url(./css/auth/joinT.css); */
 @import url(./css/board/board.css);
 @import url(./css/board/boardWrite.css);
 

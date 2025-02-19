@@ -112,7 +112,18 @@ public class MemberEntity extends BasicTime {
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<ItemEntity> itemEntities;
 
+  // 결제
   @JsonIgnore
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<PayEntity> payEntities;
+
+  // 프로필사진 파일
+  @JsonIgnore
+  @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+  private List<MemberImgEntity> memberImgEntities;
+
+  // 폴트폴리오 파일
+  @JsonIgnore
+  @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+  private List<MemberPtEntity> memberPtEntities;
 }

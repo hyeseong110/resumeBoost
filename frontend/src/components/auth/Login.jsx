@@ -1,10 +1,11 @@
 import React from 'react'
 
-const JoinT = () => {
+const Login = () => {
   return (
     <>
+      
     </>
   )
 }
 
-export default JoinT
+export default Login

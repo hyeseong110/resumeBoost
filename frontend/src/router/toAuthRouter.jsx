@@ -1,23 +1,17 @@
 import React, { Suspense } from 'react'
-import MainPage from '../pages/basic/MainPage';
 import JoinPage from '../pages/auth/JoinPage';
 import JoinTPage from '../pages/auth/JoinTPage';
-
+import LoginPage from '../pages/auth/LoginPage';
+import { Navigate } from 'react-router-dom';
 
 const Loading = <div className='loading'>Loading...</div>;
 
-const toMainRouter = () => {
-
+const toAuthRouter = () => {
   return (
-
     [
       {
         path: "",
-        element: (
-          <Suspense fallback={Loading}>
-            <MainPage/>
-          </Suspense>
-        )
+        element: <Navigate replace to="login" />,
       },
       {
         path: "join",
@@ -34,16 +28,17 @@ const toMainRouter = () => {
             <JoinTPage/>
           </Suspense>
         )
+      },
+      {
+        path: "login",
+        element: (
+          <Suspense fallback={Loading}>
+            <LoginPage />
+          </Suspense>
+        )
       }
     ]
-
   )
-  
-
-
 }
-  
-  
- 
 
-export default toMainRouter
+export default toAuthRouter

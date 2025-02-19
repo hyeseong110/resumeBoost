@@ -1,10 +1,10 @@
 import React from 'react'
-import Index from '../../components/basic/Index'
+import Main from '../../components/basic/Main';
 
 const MainPage = () => {
   return (
-    <Index/>
+    <Main/>
   )
 }
 
-export default MainPage
+export default MainPage;
