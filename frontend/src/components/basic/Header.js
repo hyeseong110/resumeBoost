@@ -7,7 +7,7 @@ const Header = () => {
       <div className="header-con">
         <div className="gnb">
           <h1 className="logo">
-            <Link to={"/index"}>
+            <Link to={"/main"}>
               LOGO
               {/* <img src="" alt="" /> */}
             </Link>
@@ -18,7 +18,9 @@ const Header = () => {
               <Link to={"/board"}>커뮤니티</Link>
             </li>
             <li>
-              <Link to={"/index/join"}>로그인 / 회원가입</Link>
+              <Link to={"/auth/login"}>로그인</Link>
+              /
+              <Link to={"/auth/join"}>회원가입</Link>
             </li>
             <li>문의하기</li>
           </ul>

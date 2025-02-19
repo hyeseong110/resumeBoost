@@ -1,10 +1,12 @@
-import React, { Suspense } from 'react'
+import React, { lazy, Suspense } from 'react'
 import {createBrowserRouter} from "react-router-dom";
 import DefaultLayout from '../layouts/basic/DefaultLayout';
 import IndexPage from '../pages/IndexPage';
-import toMainRouter from './toMainRouter';
 import toBoardRouter from './toBoardRouter';
+import toAuthRouter from './toAuthRouter';
+import AuthLayout from '../layouts/auth/AuthLayout';
 
+const MainPage = lazy(() => import("../pages/basic/MainPage"));
 
 const Loading = <div className='loading'>Loading...</div>;
 
@@ -19,13 +21,22 @@ const root = createBrowserRouter([
   }
   ,
   {
-    path: "/index",
+    path: "/main",
     element: (
       <Suspense fallback={Loading}> 
          <DefaultLayout/> {/* 메인 페이지  */}
       </Suspense>
     ),
-    children: toMainRouter()
+    children: [
+      {
+        path: "",
+        element: (
+          <Suspense fallback={Loading}>
+            <MainPage />
+          </Suspense>
+        )
+      }
+    ]
   }
   ,
   {
@@ -36,6 +47,15 @@ const root = createBrowserRouter([
       </Suspense>
     ),
     children: toBoardRouter()
+  },
+  {
+    path: '/auth',
+    element: (
+      <Suspense fallback={Loading}>
+        <AuthLayout />
+      </Suspense>
+    ),
+    children: toAuthRouter()
   }
 
 ])

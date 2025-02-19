@@ -1,6 +1,6 @@
-@import url(./basic/reset.css); 
-
-
+@import url(../css/basic/footer.css);
+@import url(../css/basic/header.css);
+@import url(../css/basic/reset.css);
 
 .index {
   width: 100%;

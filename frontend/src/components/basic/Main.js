@@ -1,9 +1,6 @@
 import React from 'react'
 
-
-
-
-const Index = () => {
+const Main = () => {
   return (
     <>
      <div className='main'>
@@ -15,4 +12,4 @@ const Index = () => {
   )
 }
 
-export default Index
+export default Main
