@@ -13,7 +13,7 @@ const Index = () => {
                 <Link to={'/auth/join'}>회원가입</Link> 
               </li>
               <li>
-                <Link to={'/auth/joinT'}>멘토 회원가입</Link>
+                <Link to={'/auth/join/mentor'}>멘토 회원가입</Link>
               </li>
             </ul>
           </div>

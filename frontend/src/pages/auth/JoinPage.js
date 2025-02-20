@@ -3,7 +3,7 @@ import Join from '../../components/auth/Join'
 
 const JoinPage = () => {
   return (
-    <Join/>
+    <Join isMentor={true}/>
   )
 }
 

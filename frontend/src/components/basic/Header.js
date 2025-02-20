@@ -8,8 +8,7 @@ const Header = () => {
         <div className="gnb">
           <h1 className="logo">
             <Link to={"/main"}>
-              LOGO
-              {/* <img src="" alt="" /> */}
+              <img src="/images/logo2.jpg" alt="" />
             </Link>
           </h1>
           <ul>

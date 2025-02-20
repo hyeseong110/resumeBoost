@@ -9,6 +9,7 @@ import org.project.resumeboost.member.entity.MemberImgEntity;
 import org.project.resumeboost.member.entity.MemberPtEntity;
 import org.project.resumeboost.pay.entity.PayEntity;
 import org.project.resumeboost.reply.entity.ReplyEntity;
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -56,7 +57,7 @@ public class MemberDto {
   private int myPostCount;
 
   // 경력
-  private String antecedents;
+  private String career;
 
   // 권한 MEMBER(일반회원), MENTOR(멘토회원), ADMIN
   private Role role;
@@ -66,6 +67,13 @@ public class MemberDto {
 
   // 포트폴리오 유무
   private int portfolioFile;
+
+  // 전화번호
+  private String phone;
+
+  private MultipartFile profileFile;
+
+  private MultipartFile ptFile;
 
   // 게시판
   private List<BoardEntity> boardEntities;

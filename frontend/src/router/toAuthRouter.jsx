@@ -1,6 +1,5 @@
 import React, { Suspense } from 'react'
 import JoinPage from '../pages/auth/JoinPage';
-import JoinTPage from '../pages/auth/JoinTPage';
 import LoginPage from '../pages/auth/LoginPage';
 import { Navigate } from 'react-router-dom';
 
@@ -22,10 +21,10 @@ const toAuthRouter = () => {
         )
       },
       {
-        path: "joinT",
+        path: "join/mentor",
         element: (
           <Suspense fallback={Loading}>
-            <JoinTPage/>
+            {<JoinPage isMentor={true} />}
           </Suspense>
         )
       },
