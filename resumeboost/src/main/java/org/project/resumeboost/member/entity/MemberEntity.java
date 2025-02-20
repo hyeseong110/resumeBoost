@@ -6,6 +6,7 @@ import org.project.resumeboost.basic.common.BasicTime;
 import org.project.resumeboost.basic.common.Role;
 import org.project.resumeboost.board.entity.BoardEntity;
 import org.project.resumeboost.item.entity.ItemEntity;
+import org.project.resumeboost.member.dto.MemberDto;
 import org.project.resumeboost.pay.entity.PayEntity;
 import org.project.resumeboost.reply.entity.ReplyEntity;
 
@@ -83,7 +84,7 @@ public class MemberEntity extends BasicTime {
   private int myPostCount;
 
   // 경력
-  private String antecedents;
+  private String career;
 
   // 권한 MEMBER(일반회원), MENTOR(멘토회원), ADMIN
   @Enumerated(EnumType.STRING)
@@ -96,6 +97,9 @@ public class MemberEntity extends BasicTime {
   // 포트폴리오 유무
   @Column(nullable = false)
   private int portfolioFile;
+
+  @Column(nullable = false)
+  private String phone;
 
   // 게시판
   @JsonIgnore

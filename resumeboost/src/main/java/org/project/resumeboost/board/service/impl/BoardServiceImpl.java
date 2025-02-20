@@ -51,7 +51,7 @@ public class BoardServiceImpl implements BoardService {
       // 암호화
       UUID uuid = UUID.randomUUID();
       String newImgName = uuid + "(ง •_•)ง" + oldImgName;
-      String saveFilePath = saveFile + newImgName;
+      String saveFilePath = saveFile + "board/" + newImgName;
       boardFile.transferTo(new File(saveFilePath));
       BoardEntity boardEntity = BoardEntity.toYesFileInsert(boardDto);
       // 게시글 저장
@@ -77,7 +77,7 @@ public class BoardServiceImpl implements BoardService {
     Optional<BoardImgEntity> optionalBoardImgEntities = boardImgRepository.findByBoardEntityId(boardDto.getId());
     if (optionalBoardImgEntities.isPresent()) {
       String newImgName = optionalBoardImgEntities.get().getNewImgName();
-      String saveFilePath = saveFile + "/item/" + newImgName;
+      String saveFilePath = saveFile + "board/" + newImgName;
       File deleteFile = new File(saveFilePath);
       if (deleteFile.exists()) {
         deleteFile.delete();

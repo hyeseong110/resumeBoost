@@ -166,7 +166,7 @@ const Board = () => {
             />
             <h2 className="nickName">{memberInfo.nickName}님</h2>
             <div className="age-address">
-              <div className="age">{memberInfo.age}살</div>
+              <div className="age">{memberInfo.age}대</div>
               <span className='vertical1'></span>
               <div className="address">{memberInfo.address}서울</div>
             </div>
