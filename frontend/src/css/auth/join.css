@@ -139,6 +139,13 @@
 .status-message {
   margin-top: 5px;
   font-size: 14px;
+}
+
+.status-message.success {
+  color: rgb(35, 35, 207);
+}
+
+.status-message.error {
   color: #dc3545;
 }
 

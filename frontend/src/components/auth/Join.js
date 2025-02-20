@@ -138,7 +138,7 @@ const Join = () => {
         </h3>
         <button 
           type='button'
-          onClick={()=>navigate("/main")}
+          onClick={()=>navigate(-1)}
           className='back-button'>
           〈
         </button>
@@ -163,7 +163,7 @@ const Join = () => {
                 required
               />
               <div className="status">
-                <div className="status-message">
+                <div className={`status-message ${emailStatus === '사용 가능한 이메일입니다.' ? 'success' : 'error'}`}>
                   {emailStatus && <span>{emailStatus}</span>}
                 </div>
                 <button type="button" onClick={handleEmailCheck}>중복 확인</button>
@@ -199,7 +199,7 @@ const Join = () => {
                 required
               />
               <div className="status">
-                <div className="status-message">
+                <div className={`status-message ${nickNameStatus === '사용 가능한 닉네임입니다.' ? 'success' : 'error'}`}>
                   {nickNameStatus && <span>{nickNameStatus}</span>}
                 </div>
                 <button type="button" onClick={handleNickNameCheck}>중복 확인</button>
