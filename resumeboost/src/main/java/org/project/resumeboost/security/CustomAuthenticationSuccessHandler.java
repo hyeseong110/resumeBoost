@@ -32,11 +32,12 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     // MemberDto memberDto = (MemberDto) authentication.getPrincipal();
     Map<String, Object> claims = new HashMap<>();
     claims.put("userEmail", userDetails.getUsername());
-    claims.put("userPw", userDetails.getPassword()); // 비번은 넣지 말 것
+    // claims.put("userPw", userDetails.getPassword());
     claims.put("NickName", userDetails.getNickName()); // ??
+    claims.put("id", userDetails.getMemberId());
     claims.put("role", userDetails.getAuthorities().stream().map(el -> el.getAuthority()).collect(Collectors.toList()));
 
-    String accessToken = JWTUtil.generateToken(claims, 10); // 10분
+    String accessToken = JWTUtil.generateToken(claims, 1); // 10분
     String refreshToken = JWTUtil.generateToken(claims, 60 * 24); // 24시간
 
     claims.put("accessToken", accessToken);
