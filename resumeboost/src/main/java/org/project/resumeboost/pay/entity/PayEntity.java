@@ -50,4 +50,8 @@ public class PayEntity extends BasicTime {
   @OneToMany(mappedBy = "payEntity",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
   @JsonIgnore
   private List<CartEntity> cartEntities;
+
+  @OneToMany(mappedBy = "payEntity",fetch = FetchType.LAZY,cascade = CascadeType.REMOVE)
+  @JsonIgnore
+  private List<OrderItemEntity> orderItemEntities;
 }

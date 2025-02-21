@@ -13,6 +13,7 @@ import org.project.resumeboost.member.repository.MemberPtRepository;
 import org.project.resumeboost.member.repository.MemberRepository;
 import org.project.resumeboost.member.service.MemberService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import lombok.RequiredArgsConstructor;
@@ -24,7 +25,7 @@ public class MemberServiceImpl implements MemberService {
   private final MemberRepository memberRepository;
   private final MemberImgRepository memberImgRepository;
   private final MemberPtRepository memberPtRepository;
-  // private final PasswordEncoder passwordEncoder;
+  private final PasswordEncoder passwordEncoder;
 
   @Value("${file.path}")
   String saveFile;
@@ -43,8 +44,7 @@ public class MemberServiceImpl implements MemberService {
 
     memberRepository.save(MemberEntity.builder()
         .userEmail(memberDto.getUserEmail())
-        // .userPw(passwordEncoder.encode(memberDto.getUserPw()))
-        .userPw(memberDto.getUserPw())
+        .userPw(passwordEncoder.encode(memberDto.getUserPw()))
         .userName(memberDto.getUserName())
         .address(memberDto.getAddress())
         .age(memberDto.getAge())
