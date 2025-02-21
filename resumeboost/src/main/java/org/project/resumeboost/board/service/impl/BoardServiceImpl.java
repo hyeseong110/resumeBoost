@@ -11,6 +11,7 @@ import org.project.resumeboost.board.entity.BoardImgEntity;
 import org.project.resumeboost.board.repository.BoardImgRepository;
 import org.project.resumeboost.board.repository.BoardRepository;
 import org.project.resumeboost.board.service.BoardService;
+import org.project.resumeboost.member.entity.MemberEntity;
 import org.project.resumeboost.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -33,17 +34,23 @@ public class BoardServiceImpl implements BoardService {
   @Value("${file.path}")
   String saveFile;
 
+  public void myPostCount(Long memberId) {
+    memberRepository.myPostCount(memberId);
+  }
+
   @Override
   public void boardInsert(BoardDto boardDto) throws IOException {
 
     // 1. member 있는지 확인
-    memberRepository.findById(boardDto.getMemberId()).orElseThrow(
-        IllegalArgumentException::new);
+    Long memberId = memberRepository.findById(boardDto.getMemberId()).orElseThrow(
+        IllegalArgumentException::new).getId();
 
     // 2. 이미지 있는지 확인
     if (boardDto.getBoardImgFile().isEmpty()) {
       // int i = 1;
       // if (1 == 1) {
+      // 내가 작성한 게시글 카운트
+      myPostCount(memberId);
       boardRepository.save(BoardEntity.toNotFileInsert(boardDto));
     } else {
       MultipartFile boardFile = boardDto.getBoardImgFile();
@@ -54,6 +61,8 @@ public class BoardServiceImpl implements BoardService {
       String saveFilePath = saveFile + "board/" + newImgName;
       boardFile.transferTo(new File(saveFilePath));
       BoardEntity boardEntity = BoardEntity.toYesFileInsert(boardDto);
+      // 내가 작성한 게시글 카운트
+      myPostCount(memberId);
       // 게시글 저장
       Long boardId = boardRepository.save(boardEntity).getId();
       BoardEntity entity = boardRepository.findById(boardId).orElseThrow(
@@ -236,11 +245,16 @@ public class BoardServiceImpl implements BoardService {
     boardRepository.BoardViewCount(id);
   }
 
+  public void myPostCountDelete(Long id) {
+    memberRepository.myPostCountDelete(id);
+  }
+
   @Override
   public void boardDelete(Long boardId) {
 
-    boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 입니다."));
-
+    Long id = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 입니다."))
+        .getMemberEntity().getId();
+    myPostCountDelete(id);
     boardRepository.deleteById(boardId);
   }
 

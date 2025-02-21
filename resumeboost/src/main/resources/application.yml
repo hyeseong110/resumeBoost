@@ -35,7 +35,7 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 
-file.path: "E:/saveFails/"
+file.path: "E:/saveFiles/"
 
 kakaopay:
   secret-key: DEV253954679F732C951B24C65E73933D731D33D
