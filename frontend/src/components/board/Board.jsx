@@ -183,13 +183,13 @@ const Board = () => {
       <div className="container">
         {/* 왼쪽 프로필 영역 */}
         <div className="left">
-          {isLogin===null?(
+          {!isLogin.id?(
             <div className="left-con">
               <div className="left-login">
                 <Link to={"/auth/login"}>로그인</Link>
               </div>
               <div className="left-join">
-                <Link to={"/auth/join"}>로그아웃</Link>
+                <Link to={"/auth/join"}>회원가입</Link>
               </div>
             </div>
           ):(

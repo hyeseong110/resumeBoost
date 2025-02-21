@@ -14,9 +14,9 @@ import lombok.NoArgsConstructor;
 public class MemberPtDto {
   private Long id;
 
-  private String newImgName;
+  private String newPtName;
 
-  private String oldImgName;
+  private String oldPtName;
 
   private MemberEntity memberEntity;
 }

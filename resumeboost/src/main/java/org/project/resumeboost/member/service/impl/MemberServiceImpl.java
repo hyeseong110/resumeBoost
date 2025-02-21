@@ -2,6 +2,8 @@ package org.project.resumeboost.member.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Member;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -56,6 +58,25 @@ public class MemberServiceImpl implements MemberService {
         .nickName(memberDto.getNickName())
         .build());
 
+  }
+
+  @Override
+  public MemberDto mentorDetail(Long mentorId, Long myId) {
+    if (mentorId != myId) {
+      mentorViewCount(mentorId);
+    }
+    MemberEntity mentorEntity = memberRepository.findById(mentorId).orElseThrow(IllegalArgumentException::new);
+    return MemberDto.toMemberDto(mentorEntity);
+  }
+
+  public void mentorViewCount(Long id) {
+    memberRepository.MentorViewCount(id);
+  }
+
+  @Override
+  public MemberDto memberDetail(Long mentorId) {
+    MemberEntity memberEntity = memberRepository.findById(mentorId).orElseThrow(IllegalArgumentException::new);
+    return MemberDto.toMemberDto(memberEntity);
   }
 
 }
