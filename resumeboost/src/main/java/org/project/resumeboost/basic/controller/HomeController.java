@@ -10,7 +10,6 @@ public class HomeController {
   
   @GetMapping("")
   public ResponseEntity<?> index(){
-
     return ResponseEntity.status(HttpStatus.OK).body(null); 
   }
 }
