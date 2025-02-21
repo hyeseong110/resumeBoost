@@ -26,7 +26,7 @@ const Login = () => {
         alert("이메일과 비밀번호를 확인해주세요")
       } else {
         alert("로그인 성공")
-        moveToPath("/")
+        moveToPath("/main")
       }
     })
   }

@@ -4,8 +4,13 @@ const Main = () => {
   return (
     <>
      <div className='main'>
+      <div className="slogan">
+        <img src="/images/main.jpg" alt="슬로건" />
+      </div>
       <div className="main-con">
-        main-con
+        <div className="main-container">
+
+        </div>
       </div>
      </div>
     </>

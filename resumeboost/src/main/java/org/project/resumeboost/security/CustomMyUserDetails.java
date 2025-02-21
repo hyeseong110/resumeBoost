@@ -42,6 +42,10 @@ public class CustomMyUserDetails implements UserDetails { // 사용자의 정보
     return memberEntity.getUserPw();
   }
 
+  public String getMemberId() {
+
+    return memberEntity.getId().toString();
+  }
   @Override
   public String getUsername() {
 

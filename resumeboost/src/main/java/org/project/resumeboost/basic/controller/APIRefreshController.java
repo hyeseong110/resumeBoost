@@ -1,10 +1,12 @@
 package org.project.resumeboost.basic.controller;
 
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.project.resumeboost.util.CustomJWTException;
 import org.project.resumeboost.util.JWTUtil;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -17,10 +19,13 @@ public class APIRefreshController {
 
   @RequestMapping("/api/member/refresh")
   public Map<String, Object> refresh(@RequestHeader("Authorization") String authHeader, String refreshToken) {
+    System.out.println("authHeader >>>>>>>>>>" + authHeader);
+    System.out.println("refreshToken >>>>>>>>>>" + refreshToken);
+
     if (refreshToken == null) {
       throw new CustomJWTException("Null_Refresh");
     }
-    if (refreshToken == null || authHeader.length() < 7) {
+    if (authHeader == null || authHeader.length() < 7) {
       throw new CustomJWTException("INVALID_STRING");
     }
 
@@ -36,7 +41,15 @@ public class APIRefreshController {
     String newRefreshToken = checkTime((Integer) claims.get("exp")) == true ? JWTUtil.generateToken(claims, 60 * 24)
         : refreshToken;
 
+    System.out.println("newAccessToken >>>>>>>>>>" + newAccessToken);
+    System.out.println("newRefreshToken >>>>>>>>>>" + newRefreshToken);
+
+    // Map<String, Object> map = new HashMap<>();
+    // map.put("accessToken", newAccessToken);
+    // map.put("refreshToken", newRefreshToken);
+
     return Map.of("accessToken", newAccessToken, "refreshToken", newRefreshToken);
+    // return map;
   }
 
   private boolean checkTime(Integer exp) {

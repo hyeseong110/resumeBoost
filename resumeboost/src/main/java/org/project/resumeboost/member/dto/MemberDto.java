@@ -5,6 +5,7 @@ import java.util.List;
 import org.project.resumeboost.basic.common.Role;
 import org.project.resumeboost.board.entity.BoardEntity;
 import org.project.resumeboost.item.entity.ItemEntity;
+import org.project.resumeboost.member.entity.MemberEntity;
 import org.project.resumeboost.member.entity.MemberImgEntity;
 import org.project.resumeboost.member.entity.MemberPtEntity;
 import org.project.resumeboost.pay.entity.PayEntity;
@@ -90,6 +91,122 @@ public class MemberDto {
   // 프로필사진 파일
   private List<MemberImgEntity> memberImgEntities;
 
+  private String newImgName;
+
+  private String oldImgName;
+
   // 폴트폴리오 파일
   private List<MemberPtEntity> memberPtEntities;
+
+  private String newPtName;
+
+  private String oldPtName;
+
+  public static MemberDto toMemberDto(MemberEntity memberEntity) {
+    if (memberEntity.getAttachFile() == 1 && memberEntity.getPortfolioFile() == 1) {
+      return MemberDto.builder()
+          .id(memberEntity.getId())
+          .address(memberEntity.getAddress())
+          .age(memberEntity.getAge())
+          .attachFile(memberEntity.getAttachFile())
+          .career(memberEntity.getCareer())
+          .detail(memberEntity.getDetail())
+          .detailTitle(memberEntity.getDetailTitle())
+          .itemEntities(memberEntity.getItemEntities())
+          .memberImgEntities(memberEntity.getMemberImgEntities())
+          .newImgName(memberEntity.getMemberImgEntities().get(0).getNewImgName())
+          .oldImgName(memberEntity.getMemberImgEntities().get(0).getOldImgName())
+          .portfolioFile(memberEntity.getPortfolioFile())
+          .memberPtEntities(memberEntity.getMemberPtEntities())
+          .newPtName(memberEntity.getMemberPtEntities().get(0).getNewPtName())
+          .oldPtName(memberEntity.getMemberPtEntities().get(0).getOldPtName())
+          .myPostCount(memberEntity.getMyPostCount())
+          .myReplyCount(memberEntity.getMyReplyCount())
+          .nickName(memberEntity.getNickName())
+          .payEntities(memberEntity.getPayEntities())
+          .phone(memberEntity.getPhone())
+          .replyCount(memberEntity.getReplyCount())
+          .replyEntities(memberEntity.getReplyEntities())
+          .role(memberEntity.getRole())
+          .userEmail(memberEntity.getUserEmail())
+          .userName(memberEntity.getUserName())
+          .viewCount(memberEntity.getViewCount())
+          .build();
+    } else if (memberEntity.getAttachFile() == 1) {
+      return MemberDto.builder()
+          .id(memberEntity.getId())
+          .address(memberEntity.getAddress())
+          .age(memberEntity.getAge())
+          .attachFile(memberEntity.getAttachFile())
+          .portfolioFile(memberEntity.getPortfolioFile())
+          .career(memberEntity.getCareer())
+          .detail(memberEntity.getDetail())
+          .detailTitle(memberEntity.getDetailTitle())
+          .itemEntities(memberEntity.getItemEntities())
+          .memberImgEntities(memberEntity.getMemberImgEntities())
+          .newImgName(memberEntity.getMemberImgEntities().get(0).getNewImgName())
+          .oldImgName(memberEntity.getMemberImgEntities().get(0).getOldImgName())
+          .myPostCount(memberEntity.getMyPostCount())
+          .myReplyCount(memberEntity.getMyReplyCount())
+          .nickName(memberEntity.getNickName())
+          .payEntities(memberEntity.getPayEntities())
+          .phone(memberEntity.getPhone())
+          .replyCount(memberEntity.getReplyCount())
+          .replyEntities(memberEntity.getReplyEntities())
+          .role(memberEntity.getRole())
+          .userEmail(memberEntity.getUserEmail())
+          .userName(memberEntity.getUserName())
+          .viewCount(memberEntity.getViewCount())
+          .build();
+    } else if (memberEntity.getPortfolioFile() == 1) {
+      return MemberDto.builder()
+          .id(memberEntity.getId())
+          .address(memberEntity.getAddress())
+          .age(memberEntity.getAge())
+          .attachFile(memberEntity.getAttachFile())
+          .career(memberEntity.getCareer())
+          .detail(memberEntity.getDetail())
+          .detailTitle(memberEntity.getDetailTitle())
+          .itemEntities(memberEntity.getItemEntities())
+          .portfolioFile(memberEntity.getPortfolioFile())
+          .memberPtEntities(memberEntity.getMemberPtEntities())
+          .newPtName(memberEntity.getMemberPtEntities().get(0).getNewPtName())
+          .oldPtName(memberEntity.getMemberPtEntities().get(0).getOldPtName())
+          .myPostCount(memberEntity.getMyPostCount())
+          .myReplyCount(memberEntity.getMyReplyCount())
+          .nickName(memberEntity.getNickName())
+          .payEntities(memberEntity.getPayEntities())
+          .phone(memberEntity.getPhone())
+          .replyCount(memberEntity.getReplyCount())
+          .replyEntities(memberEntity.getReplyEntities())
+          .role(memberEntity.getRole())
+          .userEmail(memberEntity.getUserEmail())
+          .userName(memberEntity.getUserName())
+          .viewCount(memberEntity.getViewCount())
+          .build();
+    } else {
+      return MemberDto.builder()
+          .id(memberEntity.getId())
+          .address(memberEntity.getAddress())
+          .age(memberEntity.getAge())
+          .attachFile(memberEntity.getAttachFile())
+          .career(memberEntity.getCareer())
+          .detail(memberEntity.getDetail())
+          .detailTitle(memberEntity.getDetailTitle())
+          .itemEntities(memberEntity.getItemEntities())
+          .portfolioFile(memberEntity.getPortfolioFile())
+          .myPostCount(memberEntity.getMyPostCount())
+          .myReplyCount(memberEntity.getMyReplyCount())
+          .nickName(memberEntity.getNickName())
+          .payEntities(memberEntity.getPayEntities())
+          .phone(memberEntity.getPhone())
+          .replyCount(memberEntity.getReplyCount())
+          .replyEntities(memberEntity.getReplyEntities())
+          .role(memberEntity.getRole())
+          .userEmail(memberEntity.getUserEmail())
+          .userName(memberEntity.getUserName())
+          .viewCount(memberEntity.getViewCount())
+          .build();
+    }
+  }
 }

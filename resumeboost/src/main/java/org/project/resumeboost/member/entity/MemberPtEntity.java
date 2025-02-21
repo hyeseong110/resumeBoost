@@ -27,10 +27,10 @@ public class MemberPtEntity {
   private Long id;
 
   @Column(nullable = false)
-  private String newImgName;
+  private String newPtName;
 
   @Column(nullable = false)
-  private String oldImgName;
+  private String oldPtName;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")

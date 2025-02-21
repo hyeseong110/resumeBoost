@@ -60,10 +60,13 @@ public class BoardDto {
           .category(boardEntity.getCategory())
           .viewCount(boardEntity.getViewCount())
           .attachFile(boardEntity.getAttachFile())
+          .boardImgEntities(boardEntity.getBoardImgEntities())
           .newImgName(boardEntity.getBoardImgEntities().get(0).getNewImgName())
           .oldImgName(boardEntity.getBoardImgEntities().get(0).getOldImgName())
           .memberId(boardEntity.getMemberEntity().getId())
           .memberEntity(boardEntity.getMemberEntity())
+          .replyCount(boardEntity.getReplyCount())
+          .replyEntities(boardEntity.getReplyEntities())
           .createTime(boardEntity.getCreateTime())
           .updateTime(boardEntity.getUpdateTime())
           .build();
@@ -78,6 +81,8 @@ public class BoardDto {
         .attachFile(boardEntity.getAttachFile())
         .memberId(boardEntity.getMemberEntity().getId())
         .memberEntity(boardEntity.getMemberEntity())
+        .replyCount(boardEntity.getReplyCount())
+        .replyEntities(boardEntity.getReplyEntities())
         .createTime(boardEntity.getCreateTime())
         .updateTime(boardEntity.getUpdateTime())
         .build();
