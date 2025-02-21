@@ -1,4 +1,5 @@
 @import url(./css/index.css);
+@import url(./css/basic/main.css);
 @import url(./css/board/board.css);
 @import url(./css/board/boardWrite.css);
 @import url(./css/auth/join.css);
