@@ -36,3 +36,7 @@ logging:
     org.hibernate.type: trace
 
 file.path: "E:/saveFails/"
+
+kakaopay:
+  secret-key: DEV253954679F732C951B24C65E73933D731D33D
+  cid: TC0ONETIME

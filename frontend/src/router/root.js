@@ -5,6 +5,7 @@ import IndexPage from '../pages/IndexPage';
 import toBoardRouter from './toBoardRouter';
 import toAuthRouter from './toAuthRouter';
 import AuthLayout from '../layouts/auth/AuthLayout';
+import toItemRouter from './toItemRouter';
 
 const MainPage = lazy(() => import("../pages/basic/MainPage"));
 
@@ -56,6 +57,15 @@ const root = createBrowserRouter([
       </Suspense>
     ),
     children: toAuthRouter()
+  },
+  {
+    path: "/item",
+    element: (
+      <Suspense fallback={Loading}>
+        <DefaultLayout />
+      </Suspense>
+    ),
+    children: toItemRouter(),
   }
 
 ])
