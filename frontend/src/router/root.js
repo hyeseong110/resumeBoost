@@ -6,26 +6,26 @@ import toBoardRouter from './toBoardRouter';
 import toAuthRouter from './toAuthRouter';
 import AuthLayout from '../layouts/auth/AuthLayout';
 import toItemRouter from './toItemRouter';
+import toMemberRouter from "./toMemberRouter"
 
-const MainPage = lazy(() => import("../pages/basic/MainPage"));
+const MainPage = lazy(() => import("../pages/basic/MainPage"))
 
-const Loading = <div className='loading'>Loading...</div>;
+const Loading = <div className='loading'>Loading...</div>
 
 const root = createBrowserRouter([
   {
     path: "/",
     element: (
       <Suspense fallback={Loading}>
-        <IndexPage/> {/* 시작 페이지 */}
+        <IndexPage /> {/* 시작 페이지 */}
       </Suspense>
-    )
-  }
-  ,
+    ),
+  },
   {
     path: "/main",
     element: (
-      <Suspense fallback={Loading}> 
-         <DefaultLayout/> {/* 메인 페이지  */}
+      <Suspense fallback={Loading}>
+        <DefaultLayout /> {/* 메인 페이지  */}
       </Suspense>
     ),
     children: [
@@ -35,28 +35,27 @@ const root = createBrowserRouter([
           <Suspense fallback={Loading}>
             <MainPage />
           </Suspense>
-        )
-      }
-    ]
-  }
-  ,
+        ),
+      },
+    ],
+  },
   {
     path: "/board",
     element: (
       <Suspense fallback={Loading}>
-        <DefaultLayout/>
+        <DefaultLayout />
       </Suspense>
     ),
-    children: toBoardRouter()
+    children: toBoardRouter(),
   },
   {
-    path: '/auth',
+    path: "/auth",
     element: (
       <Suspense fallback={Loading}>
         <AuthLayout />
       </Suspense>
     ),
-    children: toAuthRouter()
+    children: toAuthRouter(),
   },
   {
     path: "/item",
@@ -66,8 +65,16 @@ const root = createBrowserRouter([
       </Suspense>
     ),
     children: toItemRouter(),
-  }
-
+  },
+  {
+    path: "/member",
+    element: (
+      <Suspense fallback={Loading}>
+        <DefaultLayout />
+      </Suspense>
+    ),
+    children: toMemberRouter(),
+  },
 ])
 
 export default root
