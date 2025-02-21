@@ -139,6 +139,7 @@
 .status-message {
   margin-top: 5px;
   font-size: 14px;
+  color: #dc3545;
 }
 
 .status-message.success {

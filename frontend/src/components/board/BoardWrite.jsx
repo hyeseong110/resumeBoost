@@ -1,4 +1,8 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import jwtAxios from '../../util/jwtUtils';
+import { useSelector } from 'react-redux';
 
 const BoardWrite = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -13,6 +17,8 @@ const BoardWrite = () => {
   const handleOpenModal = () => setIsModalOpen(true);
   const handleOpenCancelModal = () => setIsCancelModalOpen(true);
   const handleCloseCancelModal = () => setIsCancelModalOpen(false);
+
+  const navigate = useNavigate();
 
   const handleCategorySelect = (category) => {
     setSelectedCategory(category);
@@ -43,22 +49,29 @@ const BoardWrite = () => {
     }
   };
 
+  const id = useSelector((state) => state.loginSlice.id);
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
+    formData.append('id',id);
     formData.append('title', title);
     formData.append('content', content);
     formData.append('category', selectedCategory);
     if (file) formData.append('file', file);
-
-    fetch('http://localhost:8090/board/insert', {
-      method: 'POST',
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then(() => alert('게시글이 작성되었습니다.'))
-      .catch(() => alert('게시글 작성에 실패했습니다.'));
+  
+    jwtAxios.post('http://localhost:8090/board/insert', formData)
+      .then((response) => {
+        alert('게시글이 작성되었습니다.');
+        navigate("/board");
+      })
+      .catch((error) => {
+        alert('게시글 작성에 실패했습니다.');
+        navigate("/board");
+        console.error(error);
+      });
   };
+  
 
   return (
     <div className="board-write-container">

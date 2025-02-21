@@ -31,7 +31,7 @@
 
 /* 카드 공통 스타일 */
 .card {
-  width: 500px;
+  width: 480px;
   height: 35vh;
   padding: 30px;
   border-radius: 15px;
@@ -134,7 +134,7 @@
 }
 
 .index-button{
-  width: 20vw;
+  width: 300px;
   border: 1px solid rgb(17 182 154);
   border-radius: 15px;
   color: rgb(17 182 154);

@@ -1,0 +1,12 @@
+.main{
+  width: 100%;
+}
+
+.main .slogan{
+  width: 100%;
+}
+
+.main .slogan img{
+  width: 100%;
+  display: block;
+}
