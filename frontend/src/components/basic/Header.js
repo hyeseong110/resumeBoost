@@ -34,7 +34,9 @@ const Header = () => {
             </Link>
           </h1>
           <ul>
-            <li>멘토 찾기</li>
+            <li>
+              <Link to={"/member/mentorList"}>멘토 찾기</Link>
+            </li>
             <li>
               <Link to={"/board"}>커뮤니티</Link>
             </li>
@@ -56,7 +58,7 @@ const Header = () => {
             {loginState.role && loginState.role[0] === "ROLE_ADMIN" ? (
               <>
                 <li>
-                  <Link to={'/admin'}>관리자 페이지</Link>
+                  <Link to={"/admin"}>관리자 페이지</Link>
                 </li>
               </>
             ) : (
