@@ -11,7 +11,6 @@ import org.project.resumeboost.board.entity.BoardImgEntity;
 import org.project.resumeboost.board.repository.BoardImgRepository;
 import org.project.resumeboost.board.repository.BoardRepository;
 import org.project.resumeboost.board.service.BoardService;
-import org.project.resumeboost.member.entity.MemberEntity;
 import org.project.resumeboost.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -46,14 +45,15 @@ public class BoardServiceImpl implements BoardService {
         IllegalArgumentException::new).getId();
 
     // 2. 이미지 있는지 확인
-    if (boardDto.getBoardImgFile().isEmpty()) {
+    MultipartFile boardFile = boardDto.getBoardImgFile();
+
+    if (boardFile == null || boardFile.isEmpty()) {
       // int i = 1;
       // if (1 == 1) {
       // 내가 작성한 게시글 카운트
       myPostCount(memberId);
       boardRepository.save(BoardEntity.toNotFileInsert(boardDto));
     } else {
-      MultipartFile boardFile = boardDto.getBoardImgFile();
       String oldImgName = boardFile.getOriginalFilename();
       // 암호화
       UUID uuid = UUID.randomUUID();
@@ -223,9 +223,9 @@ public class BoardServiceImpl implements BoardService {
     Page<BoardEntity> boardEntities = null;
 
     if (subject == null || search == null || search.trim().length() <= 0) {
-      boardEntities = boardRepository.findByCategoryContaining(pageable, "자유");
+      boardEntities = boardRepository.findByCategoryContaining(pageable, "자유게시판");
     } else {
-      letter = "자유";
+      letter = "자유게시판";
       if (subject.equals("title")) {
         boardEntities = boardRepository.findByTitleAndCategoryContaining(pageable, search, letter);
       } else if (subject.equals("content")) {

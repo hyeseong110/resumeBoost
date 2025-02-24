@@ -41,24 +41,25 @@ const BoardWrite = () => {
 
   const handleContentChange = (e) => {
     const value = e.target.value;
-    if (value.length <= 250) {
+    if (value.length <= 2000) {
       setContent(value);
       setErrorMessage('');
     } else {
-      setErrorMessage('내용은 250자를 넘길 수 없습니다.');
+      setErrorMessage('내용은 2000자를 넘길 수 없습니다.');
     }
   };
 
-  const id = useSelector((state) => state.loginSlice.id);
+  const isLogin = useSelector((state) => state.loginSlice);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
-    formData.append('id',id);
+    formData.append('memberId',isLogin.id);
     formData.append('title', title);
     formData.append('content', content);
     formData.append('category', selectedCategory);
-    if (file) formData.append('file', file);
+    formData.append('writer', isLogin.NickName);
+    if (file) formData.append('boardImgFile', file);
   
     jwtAxios.post('http://localhost:8090/board/insert', formData)
       .then((response) => {
@@ -67,7 +68,7 @@ const BoardWrite = () => {
       })
       .catch((error) => {
         alert('게시글 작성에 실패했습니다.');
-        navigate("/board");
+        // navigate("/board");
         console.error(error);
       });
   };
@@ -152,7 +153,7 @@ const BoardWrite = () => {
             <span className='cancel' onClick={handleOpenCancelModal}>
               취소
             </span>
-            <button type="submit" className="submit-btn" disabled={content.length > 250}>
+            <button type="submit" className="submit-btn" disabled={content.length > 2000}>
               작성 완료
             </button>
           </div>

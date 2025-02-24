@@ -2,6 +2,7 @@
 .top {
   position: sticky;
   top: 0;
+  z-index: 99;
   height: fit-content;
   width: 100%;
   background-color: #f8f9fa;
@@ -45,7 +46,6 @@
 }
 
 .left-con {
-  height: 250px;
   background: #fff;
   padding: 20px;
   border-radius: 10px;
@@ -137,6 +137,64 @@
   text-decoration: none;
   color: white;
   font-size: 16px;
+}
+
+.left-noLogin{
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.left-login{
+  width: 100%;
+  background-color: #baffba;
+  border: none;
+  padding: 10px 50px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.left-login a{
+  text-decoration: none;
+  color: rgb(13 144 122);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.left-login:hover{
+  background-color: #8fff8f;
+}
+
+.left-join{
+  width: 100%;
+  background-color: #b8ddff;
+  border: none;
+  padding: 10px 50px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.left-join a{
+  text-decoration: none;
+  color: rgb(0 118 204);
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.left-join:hover{
+  background-color: #87c5ff;
 }
 
 /* 오른쪽 게시글 목록 */
@@ -246,6 +304,7 @@
   font-size: 14px;
   color: #666;
   margin-bottom: 5px;
+  position: relative;
 }
 
 .post-top{
@@ -258,7 +317,12 @@
 }
 
 .post-right{
-  flex: 1;
+  flex: 0.5;
+}
+
+.post-right img{
+  width: 100%;
+  display: block;
 }
 
 .post-category {
@@ -297,6 +361,16 @@
   gap: 10px;
 }
 
+.no-board{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+  box-sizing: border-box;
+  font-size: 20px;
+  color: #888;
+}
 
 /* 페이징 */
 .pagination {

@@ -1,5 +1,13 @@
 package org.project.resumeboost.reply.service;
 
-public interface ReplyService {
+import org.project.resumeboost.reply.dto.ReplyDto;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+public interface ReplyService {
+  Page<ReplyDto> boardReply(Long id, Pageable pageable);
+
+  void replyInsert(ReplyDto replyDto);
+
+  void replyDelete(Long replyId);
 }
