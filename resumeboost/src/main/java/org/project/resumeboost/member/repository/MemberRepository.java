@@ -2,7 +2,10 @@ package org.project.resumeboost.member.repository;
 
 import java.util.Optional;
 
+import org.project.resumeboost.basic.common.Role;
 import org.project.resumeboost.member.entity.MemberEntity;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -37,4 +40,13 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
   @Query("update MemberEntity m set m.myReplyCount = m.myReplyCount - 1 where m.id = :id")
   void myReplyCountDelete(@Param("id") Long id);
 
+  Page<MemberEntity> findByNickNameContaining(Pageable pageable, String search);
+
+  Page<MemberEntity> findByAddressContaining(Pageable pageable, String search);
+
+  Page<MemberEntity> findByRole(Pageable pageable, Role mentor);
+
+  Page<MemberEntity> findByRoleAndNickNameContaining(Pageable pageable, Role mentor, String search);
+
+  Page<MemberEntity> findByRoleAndAddressContaining(Pageable pageable, Role mentor, String search);
 }

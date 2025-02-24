@@ -1,10 +1,12 @@
-import React from 'react'
-import Mentor from './../../components/member/Mentor';
+import React from "react"
+import Mentor from "./../../components/member/Mentor"
+import { useParams } from "react-router"
 
 const MentorDetailPage = () => {
+  const param = useParams()
   return (
     <>
-    <Mentor/>
+      <Mentor param={param} />
     </>
   )
 }
