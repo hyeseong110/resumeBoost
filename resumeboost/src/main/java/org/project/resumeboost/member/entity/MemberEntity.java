@@ -66,6 +66,7 @@ public class MemberEntity extends BasicTime {
   private String detailTitle;
 
   // 상세설명
+  @Column(length = 5000)
   private String detail;
 
   // 리뷰수

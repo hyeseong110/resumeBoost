@@ -41,6 +41,8 @@ public class BoardDto {
 
   private Long memberId;
 
+  private String writer;
+
   private MemberEntity memberEntity;
 
   private List<ReplyEntity> replyEntities;

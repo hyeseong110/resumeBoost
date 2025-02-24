@@ -29,4 +29,12 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
   @Query("update MemberEntity m set m.myPostCount = m.myPostCount - 1 where m.id = :id")
   void myPostCountDelete(@Param("id") Long id);
 
+  @Modifying // JPQL
+  @Query("update MemberEntity m set m.myReplyCount = m.myReplyCount + 1 where m.id = :id")
+  void myReplyCount(@Param("id") Long memberId);
+
+  @Modifying // JPQL
+  @Query("update MemberEntity m set m.myReplyCount = m.myReplyCount - 1 where m.id = :id")
+  void myReplyCountDelete(@Param("id") Long id);
+
 }

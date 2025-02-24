@@ -41,7 +41,7 @@ const Login = () => {
           <h3>로그인</h3>
           <button
             type="button"
-            onClick={() => navigate("/main")}
+            onClick={() => navigate(-1)}
             className="back-button"
           >
             〈

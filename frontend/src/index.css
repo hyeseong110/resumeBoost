@@ -2,6 +2,7 @@
 @import url(./css/basic/main.css);
 @import url(./css/board/board.css);
 @import url(./css/board/boardWrite.css);
+@import url(./css/board/boardDetail.css);
 @import url(./css/auth/join.css);
 @import url(./css/auth/login.css);
 @import url(./css/admin/admin.css);

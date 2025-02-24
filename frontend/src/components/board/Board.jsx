@@ -184,7 +184,7 @@ const Board = () => {
         {/* 왼쪽 프로필 영역 */}
         <div className="left">
           {!isLogin.id?(
-            <div className="left-con">
+            <div className="left-noLogin">
               <div className="left-login">
                 <Link to={"/auth/login"}>로그인</Link>
               </div>
@@ -305,9 +305,6 @@ const Board = () => {
                     <div className="post-left">
                       <div className="post-header">
                         <span className="post-category">{post.category}</span>
-                        {post.attachFile === 1 && (
-                          <span className="post-file">📎</span>
-                        )}
                       </div>
                       <div className="post-title">{post.title}</div>
                       <div className="post-content">
@@ -348,7 +345,7 @@ const Board = () => {
                 </div>
               ))
             ) : (
-              <p>게시글이 없습니다.</p>
+              <p className='no-board'>게시글이 없습니다.</p>
             )}
           </div>
 

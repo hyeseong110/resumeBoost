@@ -40,7 +40,7 @@ public class BoardEntity extends BasicTime {
   @Column(nullable = false)
   private String title;
 
-  @Column(nullable = false)
+  @Column(nullable = false, length = 5000)
   private String content;
 
   @Column(nullable = false)
@@ -77,7 +77,7 @@ public class BoardEntity extends BasicTime {
         .content(dto.getContent())
         .category(dto.getCategory())
         .attachFile(0)
-        .writer(dto.getMemberEntity().getNickName())
+        .writer(dto.getWriter())
         .memberEntity(MemberEntity.builder().id(dto.getMemberId()).build())
         .build();
   }
@@ -89,7 +89,7 @@ public class BoardEntity extends BasicTime {
         .content(dto.getContent())
         .category(dto.getCategory())
         .attachFile(1)
-        .writer(dto.getMemberEntity().getNickName())
+        .writer(dto.getWriter())
         .memberEntity(MemberEntity.builder().id(dto.getMemberId()).build())
         .build();
   }
@@ -101,7 +101,7 @@ public class BoardEntity extends BasicTime {
         .content(dto.getContent())
         .category(dto.getCategory())
         .attachFile(0)
-        .writer(dto.getMemberEntity().getNickName())
+        .writer(dto.getWriter())
         .memberEntity(MemberEntity.builder().id(dto.getMemberId()).build())
         .build();
   }
@@ -113,7 +113,7 @@ public class BoardEntity extends BasicTime {
         .content(dto.getContent())
         .category(dto.getCategory())
         .attachFile(1)
-        .writer(dto.getMemberEntity().getNickName())
+        .writer(dto.getWriter())
         .memberEntity(MemberEntity.builder().id(dto.getMemberId()).build())
         .build();
   }
