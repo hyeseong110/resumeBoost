@@ -27,6 +27,7 @@ public class CustomUserDetailServiceImpl implements UserDetailsService{
       throw new NullPointerException("이메일이 존재하지 않습니다!!");
     }
 
+    
     return new CustomMyUserDetails(optionalMemberEntity.get());
   }
   
