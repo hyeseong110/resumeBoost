@@ -7,6 +7,8 @@ import toAuthRouter from './toAuthRouter';
 import AuthLayout from '../layouts/auth/AuthLayout';
 import toItemRouter from './toItemRouter';
 import toMemberRouter from "./toMemberRouter"
+import toAdminRouter from './toAdminRouter';
+import AdminLayout from '../layouts/admin/AdminLayout';
 
 const MainPage = lazy(() => import("../pages/basic/MainPage"))
 
@@ -75,6 +77,16 @@ const root = createBrowserRouter([
     ),
     children: toMemberRouter(),
   },
+  {
+    path: '/admin',
+    element: (
+      <Suspense fallback={Loading}>
+        <AdminLayout/>
+      </Suspense>
+    ),
+    children: toAdminRouter()
+  }
+
 ])
 
 export default root

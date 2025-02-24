@@ -1,0 +1,17 @@
+.admin-index {
+  flex: 1;
+  height: calc(100vh - 80px);
+
+  /* border: 1px solid #f00; */
+
+}
+
+.admin-index .admin-index-con {
+  width: 100%;
+  height: inherit;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+

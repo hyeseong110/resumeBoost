@@ -1,0 +1,148 @@
+.admin-member {
+  flex: 1;
+  height: calc(100vh - 80px);
+
+  /* border: 1px solid #f00; */
+
+}
+
+.admin-member .admin-member-con {
+  width: 100%;
+  height: inherit;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-member .admin-member-con > ul {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(1, 1fr);
+  grid-auto-rows: auto;
+  gap: 5vmin;
+
+  
+}
+
+.admin-member .admin-member-con > ul > li {
+
+  border: 1px solid #f00;
+
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+
+/* ul > li 회원 정보 칸   */
+
+.member-pocket .member-pocket-top h1.member-pocket-name {
+  background-color: #f00;
+
+  display: flex;
+  justify-content: center;
+}
+
+.member-pocket .member-pocket-bottom h1.member-pocket-img {
+
+  background-color: #f00;
+
+  width: 300px;
+  height: 300px;
+
+  cursor: pointer;
+}
+
+.member-pocket .member-pocket-bottom h1.member-pocket-img img {
+  width: 100%;
+  display: block;
+}
+
+
+
+/* 모달 창 */
+.admin-member-modal {
+
+  width: 100%;
+  height: 100vh;
+
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+  background-color: rgba(243, 41, 41, 0.692);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-member-modal-con {
+  background-color: #fff;
+  
+  flex: 0 1 1200px;
+
+  position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-member-modal-con > form > ul {
+
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+
+}
+
+.admin-member-modal-con > form > ul > li {
+  display: flex;
+}
+
+.admin-member-modal-con > form > ul > li label {
+  flex: 1;
+}
+
+.admin-member-modal-con > form > ul > li label input {
+  flex: 1;
+}
+
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  background-color: #f00;
+  color: #fff;
+
+  padding: 10px 15px;
+  box-sizing: border-box;
+
+  cursor: pointer;
+}
+
+
+.paging {
+  /* border: 5px solid #000; */
+}
+
+.paging > ul {
+  display: flex;
+
+  gap: 10px;
+}
+
+.paging > ul > li {
+
+  border: 3px solid rgb(87, 255, 205);
+  padding: 10px 15px;
+  box-sizing: border-box;
+
+
+  cursor: pointer;
+}
