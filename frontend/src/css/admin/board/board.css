@@ -1,0 +1,105 @@
+.admin-board {
+
+  flex: 1;
+  height: calc(100vh - 80px);
+
+}
+
+.admin-board .admin-board-con {
+  width: 100%;
+  height: inherit;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+}
+
+.admin-board .admin-board-con .admin-board-left {
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 20px;
+
+  border: 1px solid #00f;
+}
+
+.admin-board .admin-board-con .admin-board-left .admin-board-left-header {
+  width: 100%;
+}
+
+.admin-board .admin-board-con .admin-board-left .admin-board-left-header > ul {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.admin-board .admin-board-con .admin-board-left .admin-board-left-header > ul > li {
+  flex: 1;
+  
+
+  border: 1px solid #00f;
+
+  
+
+  
+
+}
+
+
+
+.admin-board .admin-board-con .admin-board-left .board-pocket {
+
+  width: 100%;
+
+  border: 1px solid #00f;
+
+  cursor: pointer;
+ 
+}
+
+.admin-board .admin-board-con .admin-board-left .board-pocket > ul {
+
+  display: flex;
+  gap: 10px;
+
+  padding: 10px;
+  box-sizing: border-box;
+
+}
+
+.admin-board .admin-board-con .admin-board-left .board-pocket > ul > li {
+  flex: 1;
+  border: 1px solid #00f;
+}
+
+.admin-board .admin-board-con .admin-board-right {
+  flex: 1;
+
+  border: 1px solid #f00;
+}
+
+.admin-board .admin-board-con .admin-board-right .admin-board-result {
+  height: 600px;
+}
+
+.admin-board .admin-board-con .admin-board-right .admin-board-result > form > ul > li .admin-board-img {
+
+  width: 200px;
+  height: 200px;
+}
+
+.admin-board .admin-board-con .admin-board-right .admin-board-result > form > ul > li .admin-board-img img {
+
+  width: 100%;
+  display: block;
+
+}

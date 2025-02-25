@@ -39,6 +39,9 @@ const LeftBar = () => {
               <li>
                 <Link to={'/admin/board'}>게시판목록</Link>
               </li>
+              <li>
+                <Link to={'/admin/cart'}>장바구니목록</Link>
+              </li>
             </ul>
           </div>
           

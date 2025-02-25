@@ -28,17 +28,19 @@
 
 .admin-member .admin-member-con > ul > li {
 
-  border: 1px solid #f00;
-
-  padding: 10px;
+ 
+  border-radius: 15px;
   box-sizing: border-box;
+
+  overflow: hidden;
 }
 
 
 /* ul > li 회원 정보 칸   */
 
 .member-pocket .member-pocket-top h1.member-pocket-name {
-  background-color: #f00;
+  background-color: rgb(87, 255, 205);
+  color: #fff;
 
   display: flex;
   justify-content: center;
@@ -46,7 +48,7 @@
 
 .member-pocket .member-pocket-bottom h1.member-pocket-img {
 
-  background-color: #f00;
+  background-color: rgb(255, 0, 0);
 
   width: 300px;
   height: 300px;
@@ -72,7 +74,7 @@
   top: 0;
   left: 0;
 
-  background-color: rgba(243, 41, 41, 0.692);
+  /* background-color: rgba(243, 41, 41, 0.692); */
 
   display: flex;
   justify-content: center;
