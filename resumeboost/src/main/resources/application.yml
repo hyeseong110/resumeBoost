@@ -37,6 +37,7 @@ logging:
 
 file.path: "E:/saveFiles/"
 
+
 kakaopay:
   secret-key: DEV253954679F732C951B24C65E73933D731D33D
   cid: TC0ONETIME

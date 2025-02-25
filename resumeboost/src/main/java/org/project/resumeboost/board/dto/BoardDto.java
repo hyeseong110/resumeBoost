@@ -71,6 +71,7 @@ public class BoardDto {
           .replyEntities(boardEntity.getReplyEntities())
           .createTime(boardEntity.getCreateTime())
           .updateTime(boardEntity.getUpdateTime())
+          .writer(boardEntity.getWriter())
           .build();
     }
     // 파일이 없을 경우
@@ -87,6 +88,7 @@ public class BoardDto {
         .replyEntities(boardEntity.getReplyEntities())
         .createTime(boardEntity.getCreateTime())
         .updateTime(boardEntity.getUpdateTime())
+        .writer(boardEntity.getWriter())
         .build();
   }
 }

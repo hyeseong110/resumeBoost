@@ -12,6 +12,10 @@ const Member = () => {
 
   const [pageData, setPageData] = useState({});
 
+  // 모달 
+  const [isModal, setIsModal] = useState(false)
+  const [memberId, setMemberId] = useState("")
+
 
   useEffect(()=> {
 
@@ -45,51 +49,16 @@ const Member = () => {
     
     memberList();
     
-  }, []);
+  }, [isModal]); // isModal -> 모달창이 켜지고 꺼질 때 마다 작동 // 수정 & 삭제 시 맴버 리스트 다시 받아와서 랜더
   
   console.log(pageData) // 필요한 데이터 
 
-
-  // 해당 page memberList 가져오기
-  // const getPage = async (index) => {
-  //   const res = await jwtAxios.get(`http://localhost:8090/admin/member?page=${index - 1}`);
-
-  //   console.log(res.data);
-
-  // }
-
-
-  // 페이징 버튼 <li></li>
-  // const pagingBar = () => {
-        
-  //   let arr = []
-
-  //   for (let i = pageData.startPage; i <= pageData.endPage; i++) {
-      
-  //     arr.push(
-  //       <li>
-  //         {i == pageData.currentPage + 1 ? 
-  //         <span>{i}</span> : 
-  //         <span onClick={async () => {
-  //           const res = await jwtAxios.get(`http://localhost:8090/admin/member?page=${i - 1}`);
-
-  //           console.log(res.data);
-  //         }}>{i}</span>}
-  //       </li>
-  //     )
-
-  //   }
-    
-  //   return arr;
-  // }     
 
 
   console.log(pageData.memberList)
   console.log(typeof(pageData.memberList))
 
-  // 모달 
-  const [isModal, setIsModal] = useState(false)
-  const [memberId, setMemberId] = useState("")
+
   
 
   const memberDetail = (id) => {
@@ -120,9 +89,10 @@ const Member = () => {
 
                     <div className='member-pocket-bottom'>
                       <h1 className='member-pocket-img'>
-                        {el.newImgName ? 
+                        {el.attachFile ? 
                           <div onClick={() => {memberDetail(el.id)}}>
-                            <img src={`http://192.168.23.231:8090/member/profile/${el.newImgName}`} alt='image'></img> 
+                            <img src={`http://localhost:8090/member/profile/${el.newImgName}`} alt='image'></img>
+                            {/* <img src={`http://192.168.23.231:8090/member/profile/${el.newImgName}`} alt='image'></img> */}
                           </div> :
                           <div onClick={() => {memberDetail(el.id)}}>
                             <img src={`https://place-hold.it/300x300/666/fff/000?text= no Image`}></img>
@@ -136,31 +106,12 @@ const Member = () => {
               )
             })}
 
-
-            {/* {pageData && Object.values(pageData.memberList).map(el => {
-              <li>
-                <div className='member-pocket'>
-                  <div className='member-pocket-top'>
-                    <span>
-                      {el.userName}
-                    </span>
-                  </div>
-                  <div className='member-pocket-bottom'>
-                    <div className='member-pocket-img'>
-                      <img src={`http://localhost:8090/member/profile/${el.nickName}`} alt="" />
-                    </div>
-                  </div>
-                </div>
-              </li>
-            })} */}
           </ul>
           
         
           <div className="paging">
             <Paging startPage={pageData.startPage} endPage={pageData.endPage} currentPage={pageData.currentPage} totalPages={pageData.totalPages} setPageData={setPageData}/>
           </div>
-
-
 
         </div>
       </div>
