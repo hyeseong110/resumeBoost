@@ -195,6 +195,31 @@ public class BoardController {
     return ResponseEntity.status(HttpStatus.OK).body(map);
   }
 
+  @GetMapping("/boardList/my/{id}")
+  public ResponseEntity<?> boardListMy(
+      @PathVariable("id") Long memberId,
+      @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+    Page<BoardDto> pagingList = boardServiceImpl.boardMyList(pageable, memberId);
+
+    Map<String, Object> map = new HashMap<>();
+
+    int totalPages = pagingList.getTotalPages(); // 총 페이지수
+    int currentPage = pagingList.getPageable().getPageNumber();
+    int block = 5;
+
+    int startPage = (int) ((Math.floor(currentPage / block) * block) + 1 <= totalPages
+        ? (Math.floor(currentPage / block) * block) + 1
+        : totalPages);
+    int endPage = (startPage + block) - 1 < totalPages ? (startPage + block) - 1 : totalPages;
+
+    map.put("boardList", pagingList);
+    map.put("startPage", startPage);
+    map.put("endPage", endPage);
+
+    return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
   @DeleteMapping("/delete/{id}")
   public ResponseEntity<?> boardDelete(@PathVariable("id") Long id) {
 

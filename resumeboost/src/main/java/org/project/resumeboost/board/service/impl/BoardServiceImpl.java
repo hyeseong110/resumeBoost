@@ -2,6 +2,7 @@ package org.project.resumeboost.board.service.impl;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -11,7 +12,10 @@ import org.project.resumeboost.board.entity.BoardImgEntity;
 import org.project.resumeboost.board.repository.BoardImgRepository;
 import org.project.resumeboost.board.repository.BoardRepository;
 import org.project.resumeboost.board.service.BoardService;
+import org.project.resumeboost.member.entity.MemberEntity;
 import org.project.resumeboost.member.repository.MemberRepository;
+import org.project.resumeboost.reply.entity.ReplyEntity;
+import org.project.resumeboost.reply.repository.ReplyRepository;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -29,6 +33,7 @@ public class BoardServiceImpl implements BoardService {
   private final BoardRepository boardRepository;
   private final BoardImgRepository boardImgRepository;
   private final MemberRepository memberRepository;
+  private final ReplyRepository replyRepository;
 
   @Value("${file.path}")
   String saveFile;
@@ -80,34 +85,38 @@ public class BoardServiceImpl implements BoardService {
   @Override
   public void boardUpdate(BoardDto boardDto) throws IOException {
 
+    Optional<BoardImgEntity> optionalBoardImgEntities = boardImgRepository.findByBoardEntityId(boardDto.getId());
+
     boardRepository.findById(boardDto.getId()).orElseThrow(
         IllegalArgumentException::new);
-
-    Optional<BoardImgEntity> optionalBoardImgEntities = boardImgRepository.findByBoardEntityId(boardDto.getId());
-    if (optionalBoardImgEntities.isPresent()) {
-      String newImgName = optionalBoardImgEntities.get().getNewImgName();
-      String saveFilePath = saveFile + "board/" + newImgName;
-      File deleteFile = new File(saveFilePath);
-      if (deleteFile.exists()) {
-        deleteFile.delete();
-      }
-      boardImgRepository.deleteById(optionalBoardImgEntities.get().getId());
-    }
 
     // 1. member 있는지 확인
     memberRepository.findById(boardDto.getMemberId()).orElseThrow(
         IllegalArgumentException::new);
 
     // 2. 이미지 있는지 확인
-    if (boardDto.getBoardImgFile().isEmpty()) {
+    MultipartFile boardFile = boardDto.getBoardImgFile();
+    String existingImgName = boardDto.getNewImgName();
+
+    if ((boardFile == null || boardFile.isEmpty()) && existingImgName != null) {
+      boardRepository.save(BoardEntity.toYesFileUpdate(boardDto));
+    } else if (boardFile == null || boardFile.isEmpty()) {
       boardRepository.save(BoardEntity.toNotFileUpdate(boardDto));
     } else {
-      MultipartFile boardFile = boardDto.getBoardImgFile();
+      if (optionalBoardImgEntities.isPresent()) {
+        String newImgName = optionalBoardImgEntities.get().getNewImgName();
+        String saveFilePath = saveFile + "board/" + newImgName;
+        File deleteFile = new File(saveFilePath);
+        if (deleteFile.exists()) {
+          deleteFile.delete();
+        }
+        boardImgRepository.deleteById(optionalBoardImgEntities.get().getId());
+      }
       String oldImgName = boardFile.getOriginalFilename();
       // 암호화
       UUID uuid = UUID.randomUUID();
       String newImgName = uuid + "(ง •_•)ง" + oldImgName;
-      String saveFilePath = saveFile + newImgName;
+      String saveFilePath = saveFile + "board/" + newImgName;
       boardFile.transferTo(new File(saveFilePath));
       BoardEntity boardEntity = BoardEntity.toYesFileUpdate(boardDto);
       // 게시글 저장
@@ -241,6 +250,12 @@ public class BoardServiceImpl implements BoardService {
   }
 
   @Override
+  public Page<BoardDto> boardMyList(Pageable pageable, Long memberId) {
+    Page<BoardEntity> boardEntities = boardRepository.findAllByMemberEntityId(memberId, pageable);
+    return boardEntities.map(BoardDto::toBoardDto);
+  }
+
+  @Override
   public void BoardViewCount(Long id) {
     boardRepository.BoardViewCount(id);
   }
@@ -252,8 +267,28 @@ public class BoardServiceImpl implements BoardService {
   @Override
   public void boardDelete(Long boardId) {
 
-    Long id = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 회원 입니다."))
+    Optional<BoardImgEntity> optionalBoardImgEntities = boardImgRepository.findByBoardEntityId(boardId);
+    if (optionalBoardImgEntities.isPresent()) {
+      String newImgName = optionalBoardImgEntities.get().getNewImgName();
+      String saveFilePath = saveFile + "board/" + newImgName;
+      File deleteFile = new File(saveFilePath);
+      if (deleteFile.exists()) {
+        deleteFile.delete();
+      }
+      boardImgRepository.deleteById(optionalBoardImgEntities.get().getId());
+    }
+
+    Long id = boardRepository.findById(boardId).orElseThrow(() -> new IllegalArgumentException("존재하지 않는 게시글 입니다."))
         .getMemberEntity().getId();
+
+    List<ReplyEntity> replyEntities = replyRepository.findAllByBoardEntityId(boardId);
+
+    for (ReplyEntity replyEntity : replyEntities) {
+      Long memberId = replyEntity.getMemberEntity().getId();
+      MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);
+      memberRepository.myReplyCountDelete(memberEntity.getId());
+    }
+
     myPostCountDelete(id);
     boardRepository.deleteById(boardId);
   }
@@ -262,7 +297,6 @@ public class BoardServiceImpl implements BoardService {
   public BoardDto boardDetail(Long boardId) {
     BoardViewCount(boardId);
     BoardEntity boardEntity = boardRepository.findById(boardId).orElseThrow(IllegalArgumentException::new);
-
     return BoardDto.toBoardDto(boardEntity);
   }
 

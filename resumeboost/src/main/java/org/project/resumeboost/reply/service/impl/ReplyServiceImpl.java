@@ -1,5 +1,6 @@
 package org.project.resumeboost.reply.service.impl;
 
+import org.project.resumeboost.board.dto.BoardDto;
 import org.project.resumeboost.board.repository.BoardRepository;
 import org.project.resumeboost.member.repository.MemberRepository;
 import org.project.resumeboost.reply.dto.ReplyDto;
@@ -76,5 +77,19 @@ public class ReplyServiceImpl implements ReplyService {
     boardReplyCountDelete(boardId);
 
     replyRepository.deleteById(replyId);
+  }
+
+  @Override
+  public Page<ReplyDto> replyMyList(Pageable pageable, Long memberId) {
+    Page<ReplyEntity> replyEntities = replyRepository.findAllByMemberEntityId(memberId, pageable);
+    return replyEntities.map(reply -> ReplyDto.builder()
+        .boardEntity(reply.getBoardEntity())
+        .boardId(reply.getBoardEntity().getId())
+        .content(reply.getContent())
+        .createTime(reply.getCreateTime())
+        .id(reply.getId())
+        .memberEntity(reply.getMemberEntity())
+        .memberId(reply.getMemberEntity().getId())
+        .build());
   }
 }
