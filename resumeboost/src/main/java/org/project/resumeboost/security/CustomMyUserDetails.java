@@ -46,6 +46,7 @@ public class CustomMyUserDetails implements UserDetails { // 사용자의 정보
 
     return memberEntity.getId().toString();
   }
+
   @Override
   public String getUsername() {
 
@@ -54,6 +55,10 @@ public class CustomMyUserDetails implements UserDetails { // 사용자의 정보
 
   public String getNickName() {
     return memberEntity.getNickName(); // 직접 커스텀도 가능
+  }
+
+  public boolean isSocial() {
+    return memberEntity.getSocial();
   }
 
   @Override

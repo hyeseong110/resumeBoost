@@ -1,11 +1,11 @@
-import React from "react";
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { setCookie, getCookie, removeCookie } from "../util/cookieUtil";
-import { loginPost } from "../util/memberApi";
+import React from "react"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { setCookie, getCookie, removeCookie } from "../util/cookieUtil"
+import { loginPost } from "../util/memberApi"
 
 const initState = {
   userEmail: "",
-};
+}
 
 const loadMemberCookie = () => {
   const memberInfo = getCookie("member")
@@ -28,11 +28,10 @@ const loginSlice = createSlice({
   reducers: {
     login: (state, action) => {
       console.log("login.....")
-      const data = action.payload
+      const payload = action.payload
 
-      console.log(data)
-
-      return { email: data.userEmail }
+      setCookie("member", JSON.stringify(payload), 1)
+      return payload
     },
     logout: (state, action) => {
       console.log("logout....")
@@ -63,5 +62,5 @@ const loginSlice = createSlice({
   },
 })
 
-export const { login, logout } = loginSlice.actions;
-export default loginSlice.reducer;
+export const { login, logout } = loginSlice.actions
+export default loginSlice.reducer

@@ -2,6 +2,7 @@ import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import useCustomLogin from "./../../hook/useCustomLogin"
 import { useDispatch } from "react-redux"
+import KakaoLogin from "./KakaoLogin"
 
 const initState = {
   userEmail: "",
@@ -33,28 +34,27 @@ const Login = () => {
 
   return (
     <>
-      <div className="login">
-        <div className="login-header">
+      <div className='login'>
+        <div className='login-header'>
           <h1>
-            <img src="/images/logo2.jpg" alt="" />
+            <img src='/images/logo2.jpg' alt='' />
           </h1>
           <h3>로그인</h3>
           <button
-            type="button"
+            type='button'
             onClick={() => navigate(-1)}
-            className="back-button"
+            className='back-button'
           >
             〈
           </button>
         </div>
-        <div className="login-con">
-          {/* <form> */}
-          <div className="login-container">
+        <div className='login-con'>
+          <div className='login-container'>
             <div>
               <label>이메일</label>
               <input
-                type="email"
-                name="userEmail"
+                type='email'
+                name='userEmail'
                 required
                 onChange={handleChange}
                 value={loginParam.userEmail}
@@ -63,18 +63,20 @@ const Login = () => {
             <div>
               <label>비밀번호</label>
               <input
-                type="password"
-                name="userPw"
+                type='password'
+                name='userPw'
                 required
                 onChange={handleChange}
                 value={loginParam.userPw}
               />
             </div>
           </div>
-          <button className="login-footer" onClick={handleClickLogin}>
+          <button className='login-footer' onClick={handleClickLogin}>
             로그인
           </button>
-          {/* </form> */}
+          <button className='login-footer'>
+            <KakaoLogin />
+          </button>
         </div>
       </div>
     </>

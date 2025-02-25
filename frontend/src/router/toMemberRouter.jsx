@@ -3,6 +3,8 @@ import MemberDetailPage from "../pages/member/MemberDetailPage"
 import MentorDetailPage from "./../pages/member/MentorDetailPage"
 import Index from "../components/member/Index"
 import MentorListPage from "./../pages/member/MentorListPage"
+import KakaoRedirectPage from "../components/member/KakaoRedirectPage"
+import KakaoModify from "../components/member/KakaoModify"
 
 const Loading = <div className='loading'>Loading...</div>
 
@@ -37,6 +39,22 @@ const toMemberRouter = () => {
       element: (
         <Suspense fallback={Loading}>
           <MentorListPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "kakao",
+      element: (
+        <Suspense fallback={Loading}>
+          <KakaoRedirectPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "modify",
+      element: (
+        <Suspense fallback={Loading}>
+          <KakaoModify />
         </Suspense>
       ),
     },

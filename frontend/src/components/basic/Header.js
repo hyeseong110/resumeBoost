@@ -11,8 +11,10 @@ const Header = () => {
 
   if (loginState.role && loginState.role[0] === "ROLE_MEMBER") {
     detailUrl = "/member/memberDetail"
-  } else {
+  } else if (loginState.role && loginState.role[0] === "ROLE_MENTOR") {
     detailUrl = "/member/mentorDetail"
+  } else if (loginState.role && loginState.role[0] === "ROLE_ADMIN") {
+    detailUrl = "/admin"
   }
 
   const { doLogout, moveToPath } = useCustomLogin()
@@ -64,7 +66,13 @@ const Header = () => {
             ) : (
               <></>
             )}
-            <li>문의하기</li>
+            {loginState.role && loginState.role[0] === "ROLE_ADMIN" ? (
+              <></>
+            ) : (
+              <>
+                <li>문의하기</li>
+              </>
+            )}
           </ul>
         </div>
       </div>

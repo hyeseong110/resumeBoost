@@ -16,4 +16,8 @@ public interface MemberService {
   public Page<MemberDto> memberList(Pageable pageable, String subject, String search);
 
   public Page<MemberDto> mentorList(Pageable pageable, String subject, String search);
+
+  public MemberDto getKakaoMember(String accessToken);
+
+  public void modifyOk(MemberDto memberDto);
 }
