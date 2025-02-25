@@ -40,9 +40,10 @@ const Mentor = () => {
   return (
     <div className='mentorDetail'>
       <div className='profileDiv'>
-        <div className='profileImg'>
-          <img src='/images/mentor.jpg' alt='mentor' />
-        </div>
+        <div className='profileImg'></div>
+      </div>
+      <div className='imgThum'>
+        <img src='/images/mentor.jpg' alt='mentor' />
       </div>
       <div className='mentorDetail-con'>
         <div className='mentor-detail'>

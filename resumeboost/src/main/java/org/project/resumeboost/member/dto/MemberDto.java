@@ -76,6 +76,9 @@ public class MemberDto {
 
   private MultipartFile ptFile;
 
+  // 소셜로그인
+  private Boolean social;
+
   // 게시판
   private List<BoardEntity> boardEntities;
 
@@ -131,6 +134,7 @@ public class MemberDto {
           .userEmail(memberEntity.getUserEmail())
           .userName(memberEntity.getUserName())
           .viewCount(memberEntity.getViewCount())
+          .social(memberEntity.getSocial())
           .build();
     } else if (memberEntity.getAttachFile() == 1) {
       return MemberDto.builder()
@@ -157,6 +161,7 @@ public class MemberDto {
           .userEmail(memberEntity.getUserEmail())
           .userName(memberEntity.getUserName())
           .viewCount(memberEntity.getViewCount())
+          .social(memberEntity.getSocial())
           .build();
     } else if (memberEntity.getPortfolioFile() == 1) {
       return MemberDto.builder()
@@ -183,6 +188,7 @@ public class MemberDto {
           .userEmail(memberEntity.getUserEmail())
           .userName(memberEntity.getUserName())
           .viewCount(memberEntity.getViewCount())
+          .social(memberEntity.getSocial())
           .build();
     } else {
       return MemberDto.builder()
@@ -206,6 +212,7 @@ public class MemberDto {
           .userEmail(memberEntity.getUserEmail())
           .userName(memberEntity.getUserName())
           .viewCount(memberEntity.getViewCount())
+          .social(memberEntity.getSocial())
           .build();
     }
   }

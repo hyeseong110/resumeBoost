@@ -35,6 +35,7 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     // claims.put("userPw", userDetails.getPassword());
     claims.put("NickName", userDetails.getNickName()); // ??
     claims.put("id", userDetails.getMemberId());
+    claims.put("social", userDetails.isSocial());
     claims.put("role", userDetails.getAuthorities().stream().map(el -> el.getAuthority()).collect(Collectors.toList()));
 
     String accessToken = JWTUtil.generateToken(claims, 1); // 10분

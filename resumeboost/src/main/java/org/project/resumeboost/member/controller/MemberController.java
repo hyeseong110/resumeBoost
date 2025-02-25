@@ -158,4 +158,32 @@ public class MemberController {
     return ResponseEntity.ok().body(map);
   }
 
+  @PostMapping("/modify")
+  public ResponseEntity<?> modify(@RequestBody MemberDto memberDto) {
+
+    Map<String, String> map = new HashMap<>();
+
+    memberDto.setRole(Role.MEMBER);
+
+    memberServiceImpl.modifyOk(memberDto);
+
+    map.put("member", "성공");
+
+    return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
+  @PostMapping("/modify/mentor")
+  public ResponseEntity<?> modifyT(@RequestBody MemberDto memberDto) {
+
+    Map<String, String> map = new HashMap<>();
+
+    memberDto.setRole(Role.MENTOR);
+
+    memberServiceImpl.modifyOk(memberDto);
+
+    map.put("member", "성공");
+
+    return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
 }

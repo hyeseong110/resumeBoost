@@ -46,7 +46,7 @@ public class CustomSecurityConfig { // security 설정
     });
 
     http.formLogin(login -> login
-        // .loginPage("/member/login")
+        .loginPage("/member/login")
         .usernameParameter("userEmail")
         .passwordParameter("userPw")
         .loginProcessingUrl("/member/login")

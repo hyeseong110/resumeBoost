@@ -102,6 +102,10 @@ public class MemberEntity extends BasicTime {
   @Column(nullable = false)
   private String phone;
 
+  // 소셜로그인
+  @Column(columnDefinition = "boolean default false")
+  private Boolean social;
+
   // 게시판
   @JsonIgnore
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
