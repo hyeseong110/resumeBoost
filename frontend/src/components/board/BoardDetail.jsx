@@ -15,7 +15,22 @@ const BoardDetail = (param) => {
   const [totalPages, setTotalPages] = useState(0);
   const [isLoading, setIsLoading] = useState(true);
 
+  // 로컬 스토리지에서 role 정보를 가져옴
+  const [role, setRole] = useState(localStorage.getItem("userRole") || null);
+
+  // 로그인 상태가 변경될 때 로컬 스토리지에 role 정보 저장
+  useEffect(() => {
+    if (isLogin.role && isLogin.role[0]) {
+      localStorage.setItem("userRole", isLogin.role[0]);
+      setRole(isLogin.role[0]);
+    } else {
+      localStorage.removeItem("userRole");
+      setRole(null);
+    }
+  }, [isLogin.role]);
+
   const [boardDetail, setBoardDetail] = useState({
+    id: 0,
     attachFile: 0,
     category: "",
     content: "",
@@ -42,6 +57,7 @@ const BoardDetail = (param) => {
       try {
         const board = await jwtAxios.get(url)
         setBoardDetail({
+          id: board.data.boardDetail.id,
           attachFile: board.data.boardDetail.attachFile,
           memberEntity: board.data.boardDetail.memberEntity,
           category: board.data.boardDetail.category,
@@ -96,6 +112,11 @@ const BoardDetail = (param) => {
     }
   };
 
+  const handleReplyCountChangePl = () => {
+    const replyCount = document.querySelector(".replyCount")
+    replyCount.innerText = `💬 ${boardDetail.replyCount +1}`
+  }
+
   const handleSubmitReply = async () => {    
     if (!content.trim()) {
       alert('댓글 내용을 입력해주세요.');
@@ -110,6 +131,7 @@ const BoardDetail = (param) => {
       });
       setContent('');
       fetchReplies();
+      handleReplyCountChangePl();
     } catch (error) {
       console.log(error);
       alert('댓글 등록에 실패했습니다.');
@@ -167,7 +189,7 @@ const BoardDetail = (param) => {
 
   const deleteReplyFn = async (id) =>{
     const bool = window.confirm("댓글 삭제 하심? 복구 못함")
-    if(bool == true){
+    if(bool === true){
       try {
         await jwtAxios.delete(`http://localhost:8090/reply/delete/${id}`)
         fetchReplies();
@@ -175,6 +197,20 @@ const BoardDetail = (param) => {
       } catch (error) {
         console.log(error);
         alert('댓글 삭제 실패했습니다.');
+      }
+    }
+    return
+  }
+
+  const deleteBoardFn = async (id) =>{
+    const bool = window.confirm("게시글 삭제 하심? 복구 못함")
+    if(bool === true){
+      try {
+        await jwtAxios.delete(`http://localhost:8090/board/delete/${id}`)
+        navigate("/board")
+      } catch (error) {
+        console.log(error);
+        alert('게시글 삭제 실패했습니다.');
       }
     }
     return
@@ -220,10 +256,10 @@ const BoardDetail = (param) => {
                   <span>{boardDetail.memberEntity.age}대</span>
                   <span>{boardDetail.memberEntity.address}</span>
                 </div>
-                {isLogin.userEmail === boardDetail.memberEntity.userEmail && (
+                {(isLogin.userEmail === boardDetail.memberEntity.userEmail || role === "ROLE_ADMIN") && (
                   <div className="detail-bottom-right">
-                    <span>수정</span>
-                    <span>삭제</span>
+                    <span onClick={() => navigate(`/board/update/${boardDetail.id}`, { state: { boardDetail } })}>수정</span>
+                    <span onClick={()=>deleteBoardFn(boardDetail.id)}>삭제</span>
                   </div>
                 )}
               </div>
@@ -316,7 +352,7 @@ const BoardDetail = (param) => {
                       </div>
                       <div className="reply-bottom">
                         <div className="reply-content">{reply.content}</div>
-                        {isLogin.userEmail === reply.memberEntity.userEmail  ?(
+                        {(isLogin.userEmail === reply.memberEntity.userEmail || role === "ROLE_ADMIN")  ?(
                           <div className="reply-delete" onClick={()=>deleteReplyFn(reply.id)}>삭제</div>
                         ):(
                           <></>

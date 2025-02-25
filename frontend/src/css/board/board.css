@@ -219,16 +219,26 @@
   gap: 13px;
 }
 
+.right .right-top .right-top-con h1{
+  margin-right: 10px;
+  font-size: 20px;
+  padding: 6px;
+}
+
 .right .right-top .right-top-con div{
   padding: 10px;
   background-color: #f3f3f3;
   border-radius: 10px;
-  color: rgb(93 93 93);
+  color: rgb(168, 168, 168);
   cursor: pointer;
   transition: all 0.3s;
 }
 
 .right .right-top .right-top-con div:hover{
+  color: black;
+}
+
+.right .right-top .right-top-con div.active{
   color: rgb(17 182 154);
   background-color: rgb(217 252 246);
 }

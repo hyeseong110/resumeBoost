@@ -4,7 +4,7 @@ import loginSlice from "./../../slice/loginSlice"
 import axios from "axios"
 import { useEffect } from "react"
 import jwtAxios from "./../../util/jwtUtils"
-import { useNavigate } from "react-router"
+import { useNavigate } from "react-router-dom"
 
 const MentorList = () => {
   const loginState = useSelector((state) => state.loginSlice)

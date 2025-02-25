@@ -21,6 +21,22 @@
   justify-content: space-between;
 }
 
+.header .header-con .gnb .logo{
+  display: flex;
+  gap: 10px;
+}
+
+.header .header-con .gnb .logo .role{
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  padding: 10px;
+  box-sizing: border-box;
+  font-weight: bold;
+  font-size: medium;
+  color: rgb(128 128 128);
+}
+
 .header .header-con .gnb h1.logo {
   width: 150px;
   height: 60px;

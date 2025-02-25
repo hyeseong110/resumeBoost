@@ -26,4 +26,6 @@ public interface BoardService {
   public void BoardViewCount(Long id);
 
   public BoardDto boardDetail(Long boardId);
+
+  Page<BoardDto> boardMyList(Pageable pageable, Long memberId);
 }

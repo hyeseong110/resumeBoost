@@ -24,7 +24,7 @@ const Index = () => {
           {/* 오른쪽 카드 */}
           <Link to={'/auth/join/mentor'} className="card card-blue">
             <div className="card-content">
-              <p className="card-subtitle-blue">취준 선배로써 or 경력자로써 부수입과 컨설팅을 해주고 싶다면?</p>
+              <p className="card-subtitle-blue">취준 선배로써 or 경력자로써 부수입과 도움을 주고 싶다면?</p>
               <h2 className="card-title-blue">1분만에 멘토가입하고<br />컨설팅 해주기</h2>
             </div>
             <div className="card-footer">

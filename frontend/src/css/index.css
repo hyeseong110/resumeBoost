@@ -24,6 +24,8 @@
 
 /* 카드 전체 컨테이너 */
 .cards-container {
+  max-width: 1200px;
+  min-width: 1000px;
   display: flex;
   justify-content: center;
   gap: 20px;
@@ -31,14 +33,14 @@
 
 /* 카드 공통 스타일 */
 .card {
-  width: 480px;
-  height: 35vh;
+  flex: 1;
   padding: 30px;
   border-radius: 15px;
   text-align: left;
   text-decoration: none;
   color: black;
   display: flex;
+  justify-content: space-between;
   flex-direction: column;
   transition: transform 0.2s ease-in-out;
 }

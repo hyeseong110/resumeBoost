@@ -66,4 +66,6 @@ public interface BoardRepository extends JpaRepository<BoardEntity, Long> {
         @Query("update BoardEntity m set m.replyCount = m.replyCount - 1 where m.id = :id")
         void replyCountDeleteFn(@Param("id") Long boardId);
 
+        Page<BoardEntity> findAllByMemberEntityId(Long memberId, Pageable pageable);
+
 }

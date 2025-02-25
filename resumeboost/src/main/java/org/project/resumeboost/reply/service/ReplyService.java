@@ -1,5 +1,6 @@
 package org.project.resumeboost.reply.service;
 
+import org.project.resumeboost.board.dto.BoardDto;
 import org.project.resumeboost.reply.dto.ReplyDto;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,4 +11,6 @@ public interface ReplyService {
   void replyInsert(ReplyDto replyDto);
 
   void replyDelete(Long replyId);
+
+  Page<ReplyDto> replyMyList(Pageable pageable, Long memberId);
 }

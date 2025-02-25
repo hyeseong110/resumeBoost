@@ -3,6 +3,7 @@ package org.project.resumeboost.reply.controller;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.project.resumeboost.board.dto.BoardDto;
 import org.project.resumeboost.board.service.impl.BoardServiceImpl;
 import org.project.resumeboost.reply.dto.ReplyDto;
 import org.project.resumeboost.reply.service.impl.ReplyServiceImpl;
@@ -39,7 +40,7 @@ public class ReplyController {
   }
 
   @GetMapping("/replyList/{id}")
-  public ResponseEntity<?> BoardReplyList(@PathVariable("id") Long id,
+  public ResponseEntity<?> boardReplyList(@PathVariable("id") Long id,
       @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
 
     Page<ReplyDto> pagingList = replyServiceImpl.boardReply(id, pageable);
@@ -61,6 +62,31 @@ public class ReplyController {
     map.put("startPage", startPage);
     map.put("endPage", endPage);
     map.put("totalElements", pagingList.getTotalElements());
+
+    return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
+  @GetMapping("/replyList/my/{id}")
+  public ResponseEntity<?> replyListMy(
+      @PathVariable("id") Long memberId,
+      @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+    Page<ReplyDto> pagingList = replyServiceImpl.replyMyList(pageable, memberId);
+
+    Map<String, Object> map = new HashMap<>();
+
+    int totalPages = pagingList.getTotalPages(); // 총 페이지수
+    int currentPage = pagingList.getPageable().getPageNumber();
+    int block = 5;
+
+    int startPage = (int) ((Math.floor(currentPage / block) * block) + 1 <= totalPages
+        ? (Math.floor(currentPage / block) * block) + 1
+        : totalPages);
+    int endPage = (startPage + block) - 1 < totalPages ? (startPage + block) - 1 : totalPages;
+
+    map.put("boardList", pagingList);
+    map.put("startPage", startPage);
+    map.put("endPage", endPage);
 
     return ResponseEntity.status(HttpStatus.OK).body(map);
   }

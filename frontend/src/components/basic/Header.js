@@ -1,40 +1,64 @@
-import React, { useState } from "react"
-import { useSelector } from "react-redux"
-import { Link } from "react-router-dom"
-import loginSlice from "./../../slice/loginSlice"
-import useCustomLogin from "../../hook/useCustomLogin"
+import React, { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import useCustomLogin from "../../hook/useCustomLogin";
 
 const Header = () => {
-  const loginState = useSelector((state) => state.loginSlice)
+  const loginState = useSelector((state) => state.loginSlice);
+  const { doLogout, moveToPath } = useCustomLogin();
 
-  let detailUrl = ""
+  // 로컬 스토리지에서 role 정보를 가져옴
+  const [role, setRole] = useState(localStorage.getItem("userRole") || null);
 
-  if (loginState.role && loginState.role[0] === "ROLE_MEMBER") {
-    detailUrl = "/member/memberDetail"
-  } else if (loginState.role && loginState.role[0] === "ROLE_MENTOR") {
-    detailUrl = "/member/mentorDetail"
-  } else if (loginState.role && loginState.role[0] === "ROLE_ADMIN") {
+  // 로그인 상태가 변경될 때 로컬 스토리지에 role 정보 저장
+  useEffect(() => {
+    if (loginState.role && loginState.role[0]) {
+      localStorage.setItem("userRole", loginState.role[0]);
+      setRole(loginState.role[0]);
+    } else {
+      localStorage.removeItem("userRole");
+      setRole(null);
+    }
+  }, [loginState.role]);
+
+  let detailUrl = "";
+
+  if (role === "ROLE_MEMBER") {
+    detailUrl = "/member/memberDetail";
+  } else if (role === "ROLE_MENTOR") {
+    detailUrl = "/member/mentorDetail";
+  } else{
     detailUrl = "/admin"
   }
 
-  const { doLogout, moveToPath } = useCustomLogin()
-
   const handleLogout = () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
-      doLogout()
-      moveToPath("/")
+      doLogout();
+      localStorage.removeItem("userRole"); // 로그아웃 시 role 정보 삭제
+      moveToPath("/");
     }
-  }
+  };
 
   return (
     <div className='header'>
       <div className='header-con'>
         <div className='gnb'>
-          <h1 className='logo'>
-            <Link to={"/main"}>
-              <img src='/images/logo2.jpg' alt='' />
-            </Link>
-          </h1>
+          <div className="logo">
+            <h1 className='logo'>
+              <Link to={"/main"}>
+                <img src='/images/logo2.jpg' alt='' />
+              </Link>
+            </h1>
+            {role === "ROLE_MEMBER" ? (
+              <div className="role">일반 회원</div>
+            ) : role === "ROLE_MENTOR" ? (
+              <div className="role">멘토 회원</div>
+            ) : role === "ROLE_ADMIN" ? (
+              <div className="role">관리자</div>
+            ) : (
+              <></>
+            )}
+          </div>
           <ul>
             <li>
               <Link to={"/member/mentorList"}>멘토 찾기</Link>
@@ -57,27 +81,20 @@ const Header = () => {
                 </li>
               </>
             )}
-            {loginState.role && loginState.role[0] === "ROLE_ADMIN" ? (
+            {role === "ROLE_ADMIN" ? (
               <>
                 <li>
                   <Link to={"/admin"}>관리자 페이지</Link>
                 </li>
               </>
             ) : (
-              <></>
-            )}
-            {loginState.role && loginState.role[0] === "ROLE_ADMIN" ? (
-              <></>
-            ) : (
-              <>
-                <li>문의하기</li>
-              </>
+              <li>문의하기</li>
             )}
           </ul>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Header
+export default Header;

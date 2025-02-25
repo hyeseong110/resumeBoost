@@ -107,6 +107,8 @@
 .detail-container .detail-top .detail-main .detail-board-img{
   width: 100%;
   height: 500px;
+  padding: 10px;
+  box-sizing: border-box;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -144,7 +146,7 @@
 }
 
 .detail-reply-header {
-  margin-bottom: 20px;
+  box-shadow: 0 2px 0 #ddd;
 }
 
 .detail-reply-header textarea {
