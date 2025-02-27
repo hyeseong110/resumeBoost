@@ -11,6 +11,7 @@ import org.project.resumeboost.pay.entity.PayEntity;
 import org.project.resumeboost.reply.entity.ReplyEntity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -27,12 +28,15 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 @Entity
+@ToString(exclude = { "boardEntities", "replyEntities", "itemEntities", "payEntities", "memberImgEntities",
+    "memberPtEntities" })
 @Table(name = "member_tb")
 public class MemberEntity extends BasicTime {
   @Id
@@ -46,11 +50,11 @@ public class MemberEntity extends BasicTime {
   @Column(nullable = false)
   private String userPw;
 
-  // ë‚˜ì´
+  // ?‚˜?´
   @Column(nullable = false)
   private int age;
 
-  // ì§€ì—­
+  // ì§??—­
   @Column(nullable = false)
   private String address;
 
@@ -58,55 +62,55 @@ public class MemberEntity extends BasicTime {
   @Column(nullable = false, unique = true)
   private String nickName;
 
-  // ì‹¤ì œ ì´ë¦„
+  // ?‹¤? œ ?´ë¦?
   @Column(nullable = false)
   private String userName;
 
-  // ìƒì„¸ì„¤ëª… ì œëª©
+  // ?ƒ?„¸?„¤ëª? ? œëª?
   private String detailTitle;
 
-  // ìƒì„¸ì„¤ëª…
+  // ?ƒ?„¸?„¤ëª?
   @Column(length = 5000)
   private String detail;
 
-  // ë¦¬ë·°ìˆ˜
+  // ë¦¬ë·°?ˆ˜
   @Column(nullable = true, columnDefinition = "int default 0")
   private int replyCount;
 
   @Column(nullable = true, columnDefinition = "int default 0")
   private int viewCount;
 
-  // ë‚´ê°€ ì‘ì„±í•œ ëŒ“ê¸€ ìˆ˜
+  // ?‚´ê°? ?‘?„±?•œ ?Œ“ê¸? ?ˆ˜
   @Column(nullable = true, columnDefinition = "int default 0")
   private int myReplyCount;
 
-  // ë‚´ê°€ ì‘ì„±í•œ ê²Œì‹œê¸€ ìˆ˜
+  // ?‚´ê°? ?‘?„±?•œ ê²Œì‹œê¸? ?ˆ˜
   @Column(nullable = true, columnDefinition = "int default 0")
   private int myPostCount;
 
   // ê²½ë ¥
   private String career;
 
-  // ê¶Œí•œ MEMBER(ì¼ë°˜íšŒì›), MENTOR(ë©˜í† íšŒì›), ADMIN
+  // ê¶Œí•œ MEMBER(?¼ë°˜íšŒ?›), MENTOR(ë©˜í† ?šŒ?›), ADMIN
   @Enumerated(EnumType.STRING)
   private Role role;
 
-  // í”„ë¡œí•„ ì‚¬ì§„ ìœ ë¬´
+  // ?”„ë¡œí•„ ?‚¬ì§? ?œ ë¬?
   @Column(nullable = false)
   private int attachFile;
 
-  // í¬íŠ¸í´ë¦¬ì˜¤ ìœ ë¬´
+  // ?¬?Š¸?´ë¦¬ì˜¤ ?œ ë¬?
   @Column(nullable = false)
   private int portfolioFile;
 
   @Column(nullable = false)
   private String phone;
 
-  // ì†Œì…œë¡œê·¸ì¸
+  // ?†Œ?…œë¡œê·¸?¸
   @Column(columnDefinition = "boolean default false")
   private Boolean social;
 
-  // ê²Œì‹œíŒ
+  // ê²Œì‹œ?Œ
   @JsonIgnore
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<BoardEntity> boardEntities;
@@ -116,9 +120,9 @@ public class MemberEntity extends BasicTime {
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<ReplyEntity> replyEntities;
 
-  // ìƒí’ˆ
-  @JsonIgnore
+  // ?ƒ?’ˆ
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+  @JsonIgnore
   private List<ItemEntity> itemEntities;
 
   // ê²°ì œ
@@ -126,12 +130,12 @@ public class MemberEntity extends BasicTime {
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<PayEntity> payEntities;
 
-  // í”„ë¡œí•„ì‚¬ì§„ íŒŒì¼
+  // ?”„ë¡œí•„?‚¬ì§? ?ŒŒ?¼
   @JsonIgnore
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<MemberImgEntity> memberImgEntities;
 
-  // í´íŠ¸í´ë¦¬ì˜¤ íŒŒì¼
+  // ?´?Š¸?´ë¦¬ì˜¤ ?ŒŒ?¼
   @JsonIgnore
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<MemberPtEntity> memberPtEntities;

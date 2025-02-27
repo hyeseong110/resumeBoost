@@ -16,4 +16,6 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 
   Page<ItemEntity> findByMemberEntity(Pageable pageable, MemberEntity memberEntity);
 
+  List<ItemEntity> findByMemberEntity(MemberEntity mentor);
+
 }

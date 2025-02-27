@@ -348,39 +348,44 @@ const Board = () => {
               <p className='no-board'>게시글이 없습니다.</p>
             )}
           </div>
-
-          {/* 페이지네이션 */}
-          <div className="pagination">
-            {/* 이전(왼쪽) 버튼 */}
-            <button
-              onClick={() => setCurrentPage(currentPage - 1)}
-              disabled={currentPage === 0} // 첫 페이지일 때 비활성화
-            >
-              &lt;
-            </button>
-
-            {/* 페이지 번호 버튼 */}
-            {Array.from(
-              { length: endPage - startPage + 1 },
-              (_, i) => startPage + i
-            ).map((page) => (
+          {posts.length > 0 ? (
+          <>
+            {/* 페이지네이션 */}
+            <div className="pagination">
+              {/* 이전(왼쪽) 버튼 */}
               <button
-                key={page}
-                onClick={() => setCurrentPage(page - 1)}
-                className={currentPage === page - 1 ? "active" : ""}
+                onClick={() => setCurrentPage(currentPage - 1)}
+                disabled={currentPage === 0} // 첫 페이지일 때 비활성화
               >
-                {page}
+                &lt;
               </button>
-            ))}
 
-            {/* 다음(오른쪽) 버튼 */}
-            <button
-              onClick={() => setCurrentPage(currentPage + 1)}
-              disabled={currentPage === totalPages - 1} // 마지막 페이지일 때 비활성화
-            >
-              &gt;
-            </button>
-          </div>
+              {/* 페이지 번호 버튼 */}
+              {Array.from(
+                { length: endPage - startPage + 1 },
+                (_, i) => startPage + i
+              ).map((page) => (
+                <button
+                  key={page}
+                  onClick={() => setCurrentPage(page - 1)}
+                  className={currentPage === page - 1 ? "active" : ""}
+                >
+                  {page}
+                </button>
+              ))}
+
+              {/* 다음(오른쪽) 버튼 */}
+              <button
+                onClick={() => setCurrentPage(currentPage + 1)}
+                disabled={currentPage === totalPages - 1} // 마지막 페이지일 때 비활성화
+              >
+                &gt;
+              </button>
+            </div>
+          </>
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </div>

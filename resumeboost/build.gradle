@@ -21,6 +21,7 @@ configurations {
 
 repositories {
 	mavenCentral()
+		maven { url 'https://jitpack.io' }
 }
 
 dependencies {
@@ -46,6 +47,9 @@ dependencies {
 
 	// Gson
 	implementation 'com.google.code.gson:gson:2.10.1'
+
+	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+	implementation 'com.github.shin285:KOMORAN:3.3.4'
 }
 
 tasks.named('test') {

@@ -9,6 +9,7 @@ import toItemRouter from './toItemRouter';
 import toMemberRouter from "./toMemberRouter"
 import toAdminRouter from './toAdminRouter';
 import AdminLayout from '../layouts/admin/AdminLayout';
+import InquiryPage from '../pages/inquiry/InquiryPage';
 
 const MainPage = lazy(() => import("../pages/basic/MainPage"))
 
@@ -85,6 +86,24 @@ const root = createBrowserRouter([
       </Suspense>
     ),
     children: toAdminRouter()
+  },
+  {
+    path: "/inquiry",
+    element: (
+      <Suspense fallback={Loading}>
+        <DefaultLayout />
+      </Suspense>
+    ),
+    children: [
+      {
+        path: "",
+        element: (
+          <Suspense fallback={Loading}>
+            <InquiryPage />
+          </Suspense>
+        )
+      }
+    ]
   }
 
 ])
