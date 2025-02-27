@@ -1,5 +1,6 @@
 package org.project.resumeboost.member.repository;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.project.resumeboost.basic.common.Role;
@@ -19,7 +20,7 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
 
   Optional<MemberEntity> findByNickName(String nickName);
 
-  // 멘토 조회수
+  // 멘토 조회?��
   @Modifying // JPQL
   @Query("update MemberEntity m set m.viewCount = m.viewCount + 1 where m.id = :id")
   void MentorViewCount(@Param("id") Long id);
@@ -49,4 +50,17 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
   Page<MemberEntity> findByRoleAndNickNameContaining(Pageable pageable, Role mentor, String search);
 
   Page<MemberEntity> findByRoleAndAddressContaining(Pageable pageable, Role mentor, String search);
+
+  List<MemberEntity> findByRole(Role mentor);
+
+  // @Modifying
+  // @Query("SELECT m FROM MemberEntity m WHERE m.role = :role ORDER BY
+  // m.replyCount DESC")
+  Page<MemberEntity> findByRoleOrderByReplyCountDesc(Role role, Pageable pageable);
+
+  // @Modifying
+  // @Query("SELECT m FROM MemberEntity m WHERE m.role = :role ORDER BY
+  // m.viewCount DESC")
+  Page<MemberEntity> findByRoleOrderByViewCountDesc(Role role, Pageable pageable);
+
 }

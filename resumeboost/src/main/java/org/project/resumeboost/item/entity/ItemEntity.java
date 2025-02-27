@@ -6,6 +6,7 @@ import org.project.resumeboost.basic.common.BasicTime;
 import org.project.resumeboost.itemList.entity.ItemListEntity;
 import org.project.resumeboost.member.entity.MemberEntity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.CascadeType;
@@ -23,12 +24,14 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
 @Entity
+@ToString(exclude = "memberEntity")
 @Table(name = "item_tb")
 public class ItemEntity extends BasicTime {
   @Id
@@ -40,7 +43,7 @@ public class ItemEntity extends BasicTime {
   @JoinColumn(name = "member_id")
   private MemberEntity memberEntity;
 
-  @OneToMany(fetch = FetchType.LAZY,mappedBy = "itemEntity",cascade = CascadeType.REMOVE)
+  @OneToMany(fetch = FetchType.LAZY, mappedBy = "itemEntity", cascade = CascadeType.REMOVE)
   @JsonIgnore
   private List<ItemListEntity> itemListEntities;
 

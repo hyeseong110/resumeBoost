@@ -88,7 +88,9 @@ const Header = () => {
                 </li>
               </>
             ) : (
-              <li>문의하기</li>
+              <li>
+                <Link to={"/inquiry"}>고객센터</Link>
+              </li>
             )}
           </ul>
         </div>

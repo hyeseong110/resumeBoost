@@ -13,11 +13,13 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
 @Builder
+@ToString(exclude = "memberEntity")
 @Entity
 @Table(name = "member_img_tb")
 public class MemberImgEntity {
