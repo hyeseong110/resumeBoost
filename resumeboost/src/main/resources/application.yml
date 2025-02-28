@@ -35,7 +35,7 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 
-file.path: "E:/saveFiles/"
+file.path:  "\\\\192.168.23.211\\손경락\\saveFiles\\"
 
 
 kakaopay:
