@@ -49,10 +49,10 @@ public class JWTCheckFilter extends OncePerRequestFilter { // OncePerRequestFilt
     if (path.contains("/board/boardList")) {
       return true;
     }
-    if (path.contains("jpg") || path.contains("png") || path.contains("pdf")) {
+    if (path.contains("/member/mentorList")) {
       return true;
     }
-    if (path.contains("/")) {
+    if (path.contains("jpg") || path.contains("png") || path.contains("pdf")) {
       return true;
     }
 

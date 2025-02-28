@@ -35,8 +35,6 @@ public class CustomSecurityConfig { // security 설정
     http.csrf(cs -> cs.disable());
 
     http.authorizeHttpRequests(authorize -> authorize
-        .requestMatchers("/admin").hasAnyRole("ADMIN")
-        // .requestMatchers("/member/join").hasAnyRole("ADMIN")
         .anyRequest().permitAll());
 
     http.sessionManagement(sessionConfig -> sessionConfig.sessionCreationPolicy(SessionCreationPolicy.STATELESS));
@@ -52,8 +50,7 @@ public class CustomSecurityConfig { // security 설정
         .loginProcessingUrl("/member/login")
         .successHandler(customAuthenticationSuccessHandler())
         .failureHandler(customAuthenticationFailureHandler())
-
-    );
+        .failureUrl("/main"));
 
     http.addFilterBefore(new JWTCheckFilter(), UsernamePasswordAuthenticationFilter.class); // JWT 체크
 

@@ -12,7 +12,7 @@ const KakaoLogin = () => {
           className='text-3xl text-center m-6 text-white font-extrabold w-3/4
       bg-yellow-500 shadow-sm rounded p-2'
         >
-          <Link to={link}>KAKAO LOGIN</Link>
+          <Link to={link}><img src="/images/kakao.png" alt="" /></Link>
         </div>
       </div>
     </div>

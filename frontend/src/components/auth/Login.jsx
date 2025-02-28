@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { useNavigate } from "react-router-dom"
 import useCustomLogin from "./../../hook/useCustomLogin"
-import { useDispatch } from "react-redux"
 import KakaoLogin from "./KakaoLogin"
 
 const initState = {
@@ -11,8 +10,8 @@ const initState = {
 
 const Login = () => {
   const [loginParam, setLoginParam] = useState({ ...initState })
+  const [errorMessage, setErrorMessage] = useState("") // 에러 메시지 상태 추가
   const { doLogin, moveToPath } = useCustomLogin()
-  const dispatch = useDispatch()
   const navigate = useNavigate()
 
   const handleChange = (e) => {
@@ -22,64 +21,79 @@ const Login = () => {
 
   const handleClickLogin = (e) => {
     doLogin(loginParam).then((data) => {
-      console.log(data)
       if (data.error) {
-        alert("이메일과 비밀번호를 확인해주세요")
+        setErrorMessage("이메일과 비밀번호를 확인해주세요") // 에러 메시지 설정
       } else {
-        alert("로그인 성공")
+        setErrorMessage("") // 성공 시 에러 메시지 초기화
         moveToPath("/main")
       }
     })
   }
 
+  // 엔터 키 입력 처리
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter") {
+      handleClickLogin(e) // 엔터 키로 로그인 실행
+    }
+  };
+
   return (
-    <>
-      <div className='login'>
-        <div className='login-header'>
-          <h1>
-            <img src='/images/logo2.jpg' alt='' />
-          </h1>
-          <h3>로그인</h3>
-          <button
-            type='button'
-            onClick={() => navigate(-1)}
-            className='back-button'
-          >
-            〈
-          </button>
-        </div>
-        <div className='login-con'>
-          <div className='login-container'>
-            <div>
-              <label>이메일</label>
-              <input
-                type='email'
-                name='userEmail'
-                required
-                onChange={handleChange}
-                value={loginParam.userEmail}
-              />
-            </div>
-            <div>
-              <label>비밀번호</label>
-              <input
-                type='password'
-                name='userPw'
-                required
-                onChange={handleChange}
-                value={loginParam.userPw}
-              />
-            </div>
-          </div>
-          <button className='login-footer' onClick={handleClickLogin}>
-            로그인
-          </button>
-          <button className='login-footer'>
-            <KakaoLogin />
-          </button>
-        </div>
+    <div className='login'>
+      <div className='login-header'>
+        <h1>
+          <img src='/images/logo2.jpg' alt='' onClick={()=>navigate("/main")}/>
+        </h1>
+        <h3>로그인</h3>
+        <button
+          type='button'
+          onClick={() => navigate(-1)}
+          className='back-button'
+        >
+          〈
+        </button>
       </div>
-    </>
+      <div className='login-con'>
+        <div className='login-container'>
+          <div>
+            <label>이메일</label>
+            <input
+              type='email'
+              name='userEmail'
+              required
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              value={loginParam.userEmail}
+            />
+          </div>
+          <div>
+            <label>비밀번호</label>
+            <input
+              type='password'
+              name='userPw'
+              required
+              onChange={handleChange}
+              onKeyDown={handleKeyDown}
+              value={loginParam.userPw}
+            />
+          </div>
+        </div>
+        {errorMessage && (
+          <div className="error-message">
+            <span>{errorMessage}</span> {/* 에러 메시지 출력 */}
+          </div>
+        )}
+        <button className='login-footer' onClick={handleClickLogin}>
+          로그인
+        </button>
+        <button className='login-footer-kakao'>
+          <KakaoLogin />
+        </button>
+      </div>
+      <div className="join-navigate">
+        <span>회원가입이 필요하신가요?</span>
+        <span className="join-navigate-span" onClick={() => navigate("/auth/join")}>회원가입</span>
+      </div>
+    </div>
   )
 }
 
