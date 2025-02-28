@@ -75,10 +75,7 @@ public class KomoranService {
       // 2차분석 메서드
       AnswerDto answer = analyzeToken(next, result).toAnswerDTO();
 
-      if (token.contains("안녕")) {
-        DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
-        messageDto.today(today.format(dateFormatter));// 처음 접속할때만 날짜표기
-      } else if (token.contains("멘토 추천") || token.contains("멘토") || token.contains("리뷰")) {
+      if (token.contains("멘토 추천") || token.contains("멘토") || token.contains("리뷰")) {
         DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern("yyyy년 MM월 dd일");
         messageDto.today(today.format(dateFormatter));// 처음 접속할때만 날짜표기
         System.out.println(token + " 멘토 추천  token");
@@ -114,7 +111,13 @@ public class KomoranService {
     } else {
       // "기타" 의도가 데이터베이스에 없는 경우 기본 응답 생성
       AnswerDto fallbackAnswer = AnswerDto.builder()
-          .content("죄송합니다. 이해하지 못했습니다. 다른 질문을 해보세요.")
+          .content("죄송합니다.\\n 이해하지 못했습니다.\\n 다른 질문을 해보세요! \\n" +
+              " \\n" +
+              "\"조회수 높은 멘토 추천\"\\n" +
+              " \"리뷰 많은 멘토 추천\" \\n" +
+              "\"멘토 정보 검색\"\\n" +
+              "\\n" +
+              "이러한 항목에 도움을 줄 수 있어요!")
           .build();
       messageDto.answer(fallbackAnswer);
     }

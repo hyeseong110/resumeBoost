@@ -12,8 +12,8 @@ const Join = () => {
     userPw: '',
     userName: '',
     nickName: '',
-    address: '',
-    age: 0,
+    address: '서울',
+    age: 10,
     phone: ''
   });
 
@@ -22,6 +22,7 @@ const Join = () => {
   const [isEmailChecked, setIsEmailChecked] = useState(false); // 이메일 중복 확인 상태
   const [isNickNameChecked, setIsNickNameChecked] = useState(false); // 닉네임 중복 확인 상태
   const [phoneStatus, setPhoneStatus] = useState(''); // 전화번호 상태 추가
+  const [careerStatus, setCareerStatus] = useState(''); // 경력 상태 추가
 
   useEffect(() => {
     setIsMentor(location.pathname.includes('/mentor'));
@@ -56,6 +57,16 @@ const Join = () => {
         setPhoneStatus('');
       }
     }
+
+    // 경력 입력에 대한 유효성 검사
+    if (name === 'career') {
+      const careerRegex = /^(?:[1-5]?\d|60)년$/;
+      if (!careerRegex.test(value)) {
+        setCareerStatus('경력은 "숫자 + 년" 형식이어야 하며, 최대 60년까지 입력할 수 있습니다. (예: 10년)');
+      } else {
+        setCareerStatus('');
+      }
+    }
   };
 
   const toggleUserType = () => {
@@ -67,6 +78,18 @@ const Join = () => {
   };
 
   const handleEmailCheck = async () => {
+    if (!formData.userEmail) {
+      setEmailStatus('이메일을 입력해 주세요.');
+      setIsEmailChecked(false);
+      return; // 이메일이 비어있으면 함수 종료
+    }
+    // 이메일 형식이 올바른지 확인
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+    if (!emailRegex.test(formData.userEmail)) {
+      setEmailStatus('올바른 이메일 형식이 아닙니다. (예: example@example.com)');
+      setIsEmailChecked(false);
+      return; // 이메일 형식이 잘못되었으면 함수 종료
+    }
     try {
       const response = await axios.post('http://localhost:8090/member/checkEmail', formData);
       if (response.data.exists) {
@@ -82,6 +105,11 @@ const Join = () => {
   };
 
   const handleNickNameCheck = async () => {
+    if (!formData.nickName) {
+      setNickNameStatus('닉네임을 입력해 주세요.');
+      setIsNickNameChecked(false);
+      return; // 닉네임이 비어있으면 함수 종료
+    }
     try {
       const response = await axios.post('http://localhost:8090/member/checkNickName', formData);
       if (response.data.exists) {
@@ -127,15 +155,24 @@ const Join = () => {
     }
   };
 
+  const handleKeyDown = (e) => {
+    if(e.key === "Enter"){
+      handleEmailCheck(e)
+    }
+  }
+
+  const nickHandleKeyDown = (e) =>{
+    if(e.key === "Enter"){
+      handleNickNameCheck(e)
+    }
+  }
+
   return (
     <div className="join">
       <div className="join-header">
         <h1>
-          <img src="/images/logo2.jpg" alt="" />
+          <img src="/images/logo2.jpg" alt="" onClick={()=>navigate("/main")}/>
         </h1>
-        <h3 className="join-choice">
-          {isMentor ? '멘토 회원가입' : '일반 회원가입'}
-        </h3>
         <button 
           type='button'
           onClick={()=>navigate(-1)}
@@ -160,6 +197,7 @@ const Join = () => {
                 name="userEmail"
                 value={formData.userEmail}
                 onChange={handleInputChange}
+                onKeyDown={handleKeyDown}
                 required
               />
               <div className="status">
@@ -196,6 +234,7 @@ const Join = () => {
                 name="nickName"
                 value={formData.nickName}
                 onChange={handleInputChange}
+                onKeyDown={nickHandleKeyDown}
                 required
               />
               <div className="status">
@@ -206,14 +245,24 @@ const Join = () => {
               </div>
             </div>
             <div>
-              <label>주소</label>
-              <input
-                type="text"
+              <label>지역</label>
+              <select
                 name="address"
                 value={formData.address}
                 onChange={handleInputChange}
                 required
-              />
+              >
+                <option value="서울">서울</option>
+                <option value="경기도">경기도</option>
+                <option value="강원도">강원도</option>
+                <option value="충청북도">충청북도</option>
+                <option value="충청남도">충청남도</option>
+                <option value="경상북도">경상북도</option>
+                <option value="경상남도">경상남도</option>
+                <option value="전라남도">전라남도</option>
+                <option value="전라남도">전라남도</option>
+                <option value="제주도">제주도</option>
+              </select>
             </div>
             <div>
               <label>나이</label>
@@ -250,8 +299,11 @@ const Join = () => {
                   value={formData.career}
                   onChange={handleInputChange}
                   required
-                  placeholder="경력을 입력해주세요"
+                  placeholder="경력을 입력해주세요."
                 />
+                <div className="status-message">
+                  {careerStatus && <span>{careerStatus}</span>}
+                </div>
               </div>
             )}
             <button
@@ -259,10 +311,14 @@ const Join = () => {
               className='join-footer'
               disabled={!isEmailChecked || !isNickNameChecked} // 이메일과 닉네임 중복 확인이 완료되어야만 버튼 활성화
             >
-              회원가입
+              {isMentor ? '멘토 회원가입' : '일반 회원가입'}
             </button>
           </div>
         </form>
+      </div>
+      <div className="join-navigate">
+        <span>이미 회원이신가요?</span>
+        <span className="join-navigate-span" onClick={()=>navigate("/auth/login")}>로그인</span>
       </div>
     </div>
   );

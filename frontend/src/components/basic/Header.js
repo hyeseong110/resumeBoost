@@ -33,7 +33,7 @@ const Header = () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       doLogout()
       localStorage.removeItem("userRole") // 로그아웃 시 role 정보 삭제
-      moveToPath("/")
+      moveToPath("/main")
     }
   }
 

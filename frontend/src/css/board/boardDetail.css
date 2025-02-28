@@ -42,13 +42,14 @@
 .detail-container .detail-top .detail-profile .detail-profile-left{
   height: 80px;
   max-width: 120px;
+  background-color: #f5f5f5;
+  border-radius: 20%;
 }
 
 .detail-container .detail-top .detail-profile .detail-profile-left img{
   height: 100%;
   max-width: 100%;
   display: block;
-  border-radius: 20%;
 }
 
 .detail-container .detail-top .detail-profile .detail-profile-right{

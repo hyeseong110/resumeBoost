@@ -4,7 +4,6 @@ import kr.co.shineware.nlp.komoran.constant.DEFAULT_MODEL;
 import kr.co.shineware.nlp.komoran.core.Komoran;
 
 import org.project.resumeboost.basic.common.Role;
-import org.project.resumeboost.item.entity.ItemEntity;
 import org.project.resumeboost.item.repository.ItemRepository;
 import org.project.resumeboost.member.entity.MemberEntity;
 import org.project.resumeboost.member.repository.MemberRepository;
@@ -87,6 +86,7 @@ public class KomoranConfig {
     keys.add("검색");
     keys.add("닉네임");
     keys.add("안녕");
+    keys.add("바보");
 
     // 저장된 명단을 고유명사로 파일에 등록
     try {

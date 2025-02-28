@@ -42,11 +42,7 @@ const MentorList = () => {
   }
 
   const mentorDetailFn = (id) => {
-    if (!loginState.role) {
-      window.confirm("로그인하세요")
-    } else {
       navigate(`/member/mentorDetail/${id}`)
-    }
   }
 
   const searchFn = () => {

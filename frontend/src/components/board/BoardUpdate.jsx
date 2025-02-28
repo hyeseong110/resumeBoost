@@ -76,7 +76,7 @@ const BoardUpdate = ({ params, boardDetail }) => {
     if (previewURL) {
       return previewURL; // 새로 선택한 이미지 미리보기
     } else if (boardDetail?.newImgName) {
-      return `http://localhost:8090/board/${boardDetail.newImgName}`; // 서버 이미지
+      return `http://localhost:8090/board/img/${boardDetail.newImgName}`; // 서버 이미지
     } else {
       return null; // 이미지 없음
     }

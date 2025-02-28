@@ -1,5 +1,5 @@
 import React, { lazy, Suspense } from 'react'
-import {createBrowserRouter} from "react-router-dom";
+import {createBrowserRouter, Navigate, redirect} from "react-router-dom";
 import DefaultLayout from '../layouts/basic/DefaultLayout';
 import IndexPage from '../pages/IndexPage';
 import toBoardRouter from './toBoardRouter';
@@ -10,10 +10,27 @@ import toMemberRouter from "./toMemberRouter"
 import toAdminRouter from './toAdminRouter';
 import AdminLayout from '../layouts/admin/AdminLayout';
 import InquiryPage from '../pages/inquiry/InquiryPage';
+import { useSelector } from 'react-redux';
 
 const MainPage = lazy(() => import("../pages/basic/MainPage"))
 
 const Loading = <div className='loading'>Loading...</div>
+
+const ProtectedRoute = ({ children, requiredRole }) => {
+  const isLogin = useSelector((state) => state.loginSlice);
+
+  // 인증되지 않은 사용자일 경우 로그인 페이지로 리디렉션
+  if (!isLogin.id) {
+    return <Navigate to="/auth/login" replace />;
+  }
+
+  // 역할이 requiredRole과 일치하지 않으면 접근 불가
+  if (requiredRole && isLogin.role[0] !== requiredRole) {
+    return <Navigate to="/main" replace />;
+  }
+
+  return children;
+};
 
 const root = createBrowserRouter([
   {
@@ -63,9 +80,11 @@ const root = createBrowserRouter([
   {
     path: "/item",
     element: (
-      <Suspense fallback={Loading}>
-        <DefaultLayout />
-      </Suspense>
+      <ProtectedRoute>
+        <Suspense fallback={Loading}>
+          <DefaultLayout />
+        </Suspense>
+      </ProtectedRoute>
     ),
     children: toItemRouter(),
   },
@@ -81,9 +100,11 @@ const root = createBrowserRouter([
   {
     path: '/admin',
     element: (
-      <Suspense fallback={Loading}>
-        <AdminLayout/>
-      </Suspense>
+      <ProtectedRoute requiredRole="ROLE_ADMIN">
+        <Suspense fallback={Loading}>
+          <AdminLayout/>
+        </Suspense>
+      </ProtectedRoute>
     ),
     children: toAdminRouter()
   },
