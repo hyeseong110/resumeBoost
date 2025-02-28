@@ -1,0 +1,197 @@
+.admin-cart {
+  flex: 1;
+  height: calc(100vh - 80px);
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-cart .admin-cart-con {
+  flex: 0 1 1400px;
+  height: inherit;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  gap: 30px;
+
+  /* border: 1px solid #f00; */
+
+ 
+
+
+  position: relative;
+}
+
+
+.admin-cart .admin-cart-con span.admin-cart-insert {
+  /* border: 1px solid #f00; */
+
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+
+  background-color: #50db7a;
+  color: #fff;
+
+  font-size: 20px;
+
+  cursor: pointer;
+
+  position: absolute;
+  left: 0;
+  top: 5vh;
+}
+
+
+
+.admin-cart .admin-cart-con .admin-cart-list {
+  /* border: 1px solid #0f0; */
+
+  width: 100%;
+  height: 600px;
+
+
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(2, 1fr);
+  grid-auto-rows: auto;
+  gap: 20px;
+
+
+}
+
+.admin-cart .admin-cart-con .admin-cart-list .item-pocket {
+
+
+  box-shadow: inset -1px -1px 2px rgb(75, 72, 72);
+
+  padding: 10px;
+  border-radius: 10px;
+  box-sizing: border-box;
+
+  cursor: pointer;
+
+}
+
+
+
+
+
+/* 모달 창 */
+.admin-cart-modal {
+
+  width: 100%;
+  height: 100vh;
+
+
+  position: fixed;
+  top: 0;
+  left: 0;
+
+
+  z-index: 999;
+
+  /* background-color: rgba(243, 41, 41, 0.692); */
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-cart-modal-con {
+  background-color: #fff;
+  
+  flex: 0 1 1200px;
+ 
+
+  position: relative;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+
+  border: 5px solid #51e0a4;
+ 
+  padding: 40px 0;
+  border-radius: 10px;
+  box-sizing: border-box;
+
+  overflow: hidden;
+}
+
+
+.admin-cart-modal-con > .admin-cart-modal-wrap {
+  width: 100%;
+  height: 600px;
+  
+  display: flex;
+  justify-content: space-between;
+
+  border: 1px solid #f00;
+}
+
+.admin-cart-modal-con > .admin-cart-modal-wrap .item-select {
+  flex: 1;
+  height: inherit;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.admin-cart-modal-con > .admin-cart-modal-wrap .item-select > ul {
+  border: 1px solid #f00;
+
+  height: 300px;
+
+  overflow: auto;
+}
+
+.admin-cart-modal-con > .admin-cart-modal-wrap .item-select > ul > li.admin-cart-modal-pocket {
+  /* height: 50px; */
+
+  border: 1px solid #00f;
+
+  padding: 5px;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+
+.admin-cart-modal-con > .admin-cart-modal-wrap .item-select > ul > li.admin-cart-modal-pocket > ul {
+  display: flex;
+  gap: 5px;
+}
+
+.admin-cart-modal-con > .admin-cart-modal-wrap .item-select > ul > li.admin-cart-modal-pocket > ul > li {
+
+}
+
+.admin-cart-modal-con > .admin-cart-modal-wrap .cart-insert {
+  flex: 1;
+
+  border: 1px solid salmon;
+}
+
+
+.close {
+  position: absolute;
+  top: 0;
+  right: 0;
+
+  background-color: #f00;
+  color: #fff;
+
+  padding: 10px 15px;
+  box-sizing: border-box;
+
+  cursor: pointer;
+}
+
+

@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 
+
 const LeftBar = () => {
+
+  
+
   return (
     <>
       <div className="left-bar">
@@ -25,22 +29,19 @@ const LeftBar = () => {
                 <Link to={'/admin/member'}>회원목록</Link>
               </li>
               <li>
+                <Link to={'/admin/board'}>게시판목록</Link>
+              </li>
+              <li>
                 <Link to={'/admin/item'}>상품목록</Link>
+              </li>
+              <li>
+                <Link to={'/admin/cart'}>장바구니목록</Link>
               </li>
               <li>
                 <Link to={'/admin/payment'}>결제목록</Link>
               </li>
               <li>
-                <Link to={'/admin/post'}>주문처목록</Link>
-              </li>
-              <li>
                 <Link to={'/admin/info'}>공지목록</Link>
-              </li>
-              <li>
-                <Link to={'/admin/board'}>게시판목록</Link>
-              </li>
-              <li>
-                <Link to={'/admin/cart'}>장바구니목록</Link>
               </li>
             </ul>
           </div>

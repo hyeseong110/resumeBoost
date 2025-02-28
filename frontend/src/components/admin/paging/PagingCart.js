@@ -4,8 +4,8 @@ import jwtAxios from '../../../util/jwtUtils'
 
 
 
-// member paging 
-const Paging = ({startPage, endPage, currentPage, totalPages, setPageData}) => {
+// cart paging 
+const PagingCart = ({startPage, endPage, currentPage, totalPages, setPageData}) => {
 
   
   let arr = []
@@ -25,14 +25,14 @@ const Paging = ({startPage, endPage, currentPage, totalPages, setPageData}) => {
 
     console.log("paging!!->" + realNum)
 
-    const res = await jwtAxios.get(`http://localhost:8090/admin/member?page=${realNum}`)
+    const res = await jwtAxios.get(`http://localhost:8090/admin/cart?page=${realNum}`)
 
     const data = res.data.member
 
     const newCurrentPage = data.number;
     const totalPages = data.totalPages;
     const blockNum = 3;
-    const memberList = data.content;
+    const cartList = data.content;
     const startPage = ((Math.floor(newCurrentPage/blockNum) * blockNum) + 1 <= totalPages ? (Math.floor(newCurrentPage/blockNum) * blockNum) + 1 : totalPages);
     const endPage = (startPage + blockNum) - 1 < totalPages ? (startPage + blockNum) - 1 : totalPages;
 
@@ -40,7 +40,7 @@ const Paging = ({startPage, endPage, currentPage, totalPages, setPageData}) => {
     setPageData({
       startPage: startPage,
       endPage: endPage,
-      memberList: memberList,
+      cartList: cartList,
       currentPage: newCurrentPage,
       totalPages: totalPages
     })
@@ -64,4 +64,4 @@ const Paging = ({startPage, endPage, currentPage, totalPages, setPageData}) => {
   )
 }
 
-export default Paging
+export default PagingCart

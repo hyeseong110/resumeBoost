@@ -4,8 +4,11 @@ import jwtAxios from '../../../util/jwtUtils'
 
 
 
-// member paging 
-const Paging = ({startPage, endPage, currentPage, totalPages, setPageData}) => {
+
+
+
+
+const PagingItem = ({startPage, endPage, currentPage, totalPages, setPageData, pageData}) => {
 
   
   let arr = []
@@ -25,14 +28,14 @@ const Paging = ({startPage, endPage, currentPage, totalPages, setPageData}) => {
 
     console.log("paging!!->" + realNum)
 
-    const res = await jwtAxios.get(`http://localhost:8090/admin/member?page=${realNum}`)
+    const res = await jwtAxios.get(`http://localhost:8090/admin/member/mentorList?page=${realNum}`)
 
-    const data = res.data.member
-
+    const data = res.data.mentor
+    console.log(data)
     const newCurrentPage = data.number;
     const totalPages = data.totalPages;
     const blockNum = 3;
-    const memberList = data.content;
+    const mentorList = data.content;
     const startPage = ((Math.floor(newCurrentPage/blockNum) * blockNum) + 1 <= totalPages ? (Math.floor(newCurrentPage/blockNum) * blockNum) + 1 : totalPages);
     const endPage = (startPage + blockNum) - 1 < totalPages ? (startPage + blockNum) - 1 : totalPages;
 
@@ -40,14 +43,14 @@ const Paging = ({startPage, endPage, currentPage, totalPages, setPageData}) => {
     setPageData({
       startPage: startPage,
       endPage: endPage,
-      memberList: memberList,
+      mentorList: mentorList,
       currentPage: newCurrentPage,
       totalPages: totalPages
     })
 
   }
 
-
+  console.log(pageData)
 
   return (
     <>
@@ -64,4 +67,4 @@ const Paging = ({startPage, endPage, currentPage, totalPages, setPageData}) => {
   )
 }
 
-export default Paging
+export default PagingItem
