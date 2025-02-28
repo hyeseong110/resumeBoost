@@ -1,7 +1,21 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
+import { getCookie } from '../../util/cookieUtil';
 
 const Header = () => {
+
+  const [nickName, setNickName] = useState('');
+
+  useEffect(() => {
+    const cookie = getCookie("member");
+    const cookieData = cookie.NickName;
+
+    setNickName(cookieData);
+    
+
+  }, [])
+
+
   return (
     <>
       <div className="admin-header">
@@ -16,7 +30,7 @@ const Header = () => {
             <Link to={'/'}>임시C</Link>
           </li>
           <li>
-            <Link to={'/'}>관리자님</Link>
+            <Link to={'/'}>{nickName}</Link>
           </li>
         </ul>
       </div>

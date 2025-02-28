@@ -8,22 +8,22 @@ const MemberModalA = ({memberId, setIsModal}) => {
 
   const [update, setUpdate] = useState({})
 
+  const memberDetail = async () => {
+    const res = await jwtAxios.get(`http://localhost:8090/admin/member/detail/${memberId}`);
+
+    const data = res.data.member;
+
+    console.log(data)
+
+    setModal(data)
+
+    setUpdate(data)
+  }    
+
+
   useEffect(()=> { // 페이지 접속 시 모달 창에 데이터 setting
 
-    const memberDetail = async () => {
-      const res = await jwtAxios.get(`http://localhost:8090/admin/member/detail/${memberId}`);
-
-      const data = res.data.member;
-
-      console.log(data)
-
-      setModal(data)
-
-      setUpdate(data)
-    }    
-
     memberDetail()
-
 
   },[])
 
@@ -92,12 +92,16 @@ const MemberModalA = ({memberId, setIsModal}) => {
       }
     }
 
+
+    // 할 거 board
+    // 서칭
+    // UI
+
     // 수정한 항목
-    //yml
+    //yml)
     //-username
     //-url
-    //-file.path
-    //member.js - img
+    // file.path
     
 
     const body = new URLSearchParams(update) // 객체를 FormData 로 바꿔 줌
@@ -124,6 +128,9 @@ const MemberModalA = ({memberId, setIsModal}) => {
         "Content-Type": "multipart/form-data"
       }
     });
+
+    memberDetail(); // 수정 후 다시 get
+
     // await jwtAxios.put(`http://localhost:8090/admin/member/update`, update, header);
 
   }
