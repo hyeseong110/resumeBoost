@@ -10,6 +10,7 @@ import org.project.resumeboost.member.dto.MemberDto;
 import org.project.resumeboost.member.service.impl.MemberServiceImpl;
 import org.project.resumeboost.util.JWTUtil;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +21,7 @@ public class SocialController {
   private final MemberServiceImpl memberService;
 
   @GetMapping("/api/member/kakao")
-  public Map<String, Object> getMemberFromKakao(String accessToken) {
+  public Map<String, Object> getMemberFromKakao(@RequestParam("accessToken") String accessToken) {
     MemberDto memberDto = memberService.getKakaoMember(accessToken);
 
     Collection<String> collectRoles = new ArrayList<>();

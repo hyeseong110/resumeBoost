@@ -1,7 +1,8 @@
-import React, { Suspense } from "react";
-import ItemPage from "./../pages/item/ItemPage";
+import React, { Suspense } from "react"
+import ItemPage from "./../pages/item/ItemPage"
+import ItemInsertPage from "../pages/item/ItemInsertPage"
 
-const Loading = <div className="loading">Loading...</div>;
+const Loading = <div className='loading'>Loading...</div>
 
 const toItemRouter = () => {
   return [
@@ -13,7 +14,15 @@ const toItemRouter = () => {
         </Suspense>
       ),
     },
-  ];
-};
+    {
+      path: "insert",
+      element: (
+        <Suspense fallback={Loading}>
+          <ItemInsertPage />
+        </Suspense>
+      ),
+    },
+  ]
+}
 
-export default toItemRouter;
+export default toItemRouter

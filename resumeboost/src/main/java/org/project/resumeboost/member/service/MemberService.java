@@ -19,5 +19,8 @@ public interface MemberService {
 
   public MemberDto getKakaoMember(String accessToken);
 
-  public void modifyOk(MemberDto memberDto);
+  public void modifyOk(MemberDto memberDto) throws IOException;
+
+  // 회원정보 수정시 디테일 가져오기
+  public MemberDto modifyMyDetail(Long myId);
 }

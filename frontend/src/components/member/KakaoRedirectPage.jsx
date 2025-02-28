@@ -1,5 +1,5 @@
 import React, { useEffect } from "react"
-import { useSearchParams } from "react-router"
+import { useSearchParams } from "react-router-dom"
 import { getAccessToken, getMemberWithAccessToken } from "../../util/kakaoApi"
 import { useDispatch } from "react-redux"
 import { login } from "./../../slice/loginSlice"
