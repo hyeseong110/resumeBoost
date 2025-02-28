@@ -5,6 +5,7 @@ import Index from "../components/member/Index"
 import MentorListPage from "./../pages/member/MentorListPage"
 import KakaoRedirectPage from "../components/member/KakaoRedirectPage"
 import KakaoModify from "../components/member/KakaoModify"
+import ModifyDetailPage from "../pages/member/ModifyDetailPage"
 
 const Loading = <div className='loading'>Loading...</div>
 
@@ -19,7 +20,7 @@ const toMemberRouter = () => {
       ),
     },
     {
-      path: "memberDetail",
+      path: "memberDetail/:id",
       element: (
         <Suspense fallback={Loading}>
           <MemberDetailPage />
@@ -55,6 +56,14 @@ const toMemberRouter = () => {
       element: (
         <Suspense fallback={Loading}>
           <KakaoModify />
+        </Suspense>
+      ),
+    },
+    {
+      path: "modifyDetail/:id",
+      element: (
+        <Suspense fallback={Loading}>
+          <ModifyDetailPage />
         </Suspense>
       ),
     },

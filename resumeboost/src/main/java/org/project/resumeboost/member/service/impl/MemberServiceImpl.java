@@ -2,7 +2,6 @@ package org.project.resumeboost.member.service.impl;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Member;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Optional;
@@ -11,6 +10,7 @@ import java.util.UUID;
 import org.project.resumeboost.basic.common.Role;
 import org.project.resumeboost.member.dto.MemberDto;
 import org.project.resumeboost.member.entity.MemberEntity;
+import org.project.resumeboost.member.entity.MemberImgEntity;
 import org.project.resumeboost.member.repository.MemberImgRepository;
 import org.project.resumeboost.member.repository.MemberPtRepository;
 import org.project.resumeboost.member.repository.MemberRepository;
@@ -26,6 +26,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -68,6 +69,7 @@ public class MemberServiceImpl implements MemberService {
         .attachFile(0) // 이미지는 회원정보 수정에서 추가
         .portfolioFile(0)
         .nickName(memberDto.getNickName())
+        .social(false)
         .build());
 
   }
@@ -188,23 +190,93 @@ public class MemberServiceImpl implements MemberService {
   }
 
   @Override
-  public void modifyOk(MemberDto memberDto) {
+  public void modifyOk(MemberDto memberDto) throws IOException {
     Optional<MemberEntity> meOptional = memberRepository.findByUserEmail(memberDto.getUserEmail());
 
-    memberRepository.save(MemberEntity.builder()
-        .id(meOptional.get().getId())
-        .userEmail(memberDto.getUserEmail())
-        .userPw(passwordEncoder.encode(memberDto.getUserPw()))
-        .userName(memberDto.getUserName())
-        .address(memberDto.getAddress())
-        .age(memberDto.getAge())
-        .role(memberDto.getRole())
-        .phone(memberDto.getPhone())
-        .career(memberDto.getCareer())
-        .attachFile(0) // 이미지는 회원정보 수정에서 추가
-        .portfolioFile(0)
-        .nickName(memberDto.getNickName())
-        .social(false)
-        .build());
+    Optional<MemberImgEntity> optionalMemImg = memberImgRepository.findByMemberEntity(meOptional.get());
+
+    MultipartFile memberImgFile = memberDto.getProfileFile();
+    String existImg = memberDto.getNewImgName();
+
+    if ((memberImgFile == null || memberImgFile.isEmpty()) && existImg != null) {
+      memberRepository.save(MemberEntity.builder()
+          .id(meOptional.get().getId())
+          .userEmail(memberDto.getUserEmail())
+          .userPw(passwordEncoder.encode(memberDto.getUserPw()))
+          .userName(memberDto.getUserName())
+          .address(memberDto.getAddress())
+          .age(memberDto.getAge())
+          .role(memberDto.getRole())
+          .phone(memberDto.getPhone())
+          .career(memberDto.getCareer())
+          .attachFile(1) // 이미지는 회원정보 수정에서 추가
+          .portfolioFile(0)
+          .nickName(memberDto.getNickName())
+          .social(false)
+          .build());
+    } else if ((memberImgFile == null || memberImgFile.isEmpty()) && existImg == null) {
+      memberRepository.save(MemberEntity.builder()
+          .id(meOptional.get().getId())
+          .userEmail(memberDto.getUserEmail())
+          .userPw(passwordEncoder.encode(memberDto.getUserPw()))
+          .userName(memberDto.getUserName())
+          .address(memberDto.getAddress())
+          .age(memberDto.getAge())
+          .role(memberDto.getRole())
+          .phone(memberDto.getPhone())
+          .career(memberDto.getCareer())
+          .attachFile(0) // 이미지는 회원정보 수정에서 추가
+          .portfolioFile(0)
+          .nickName(memberDto.getNickName())
+          .social(false)
+          .build());
+    } else {
+      if (optionalMemImg.isPresent()) {
+        String newImg = optionalMemImg.get().getNewImgName();
+        String imgPath = saveFile + "member/profile/" + newImg;
+        File deleteFile = new File(imgPath);
+        if (deleteFile.exists()) {
+          deleteFile.delete();
+        }
+        memberImgRepository.deleteById(optionalMemImg.get().getId());
+      }
+      String oldImgName = memberImgFile.getOriginalFilename();
+
+      UUID uuid = UUID.randomUUID();
+      String newImgName = uuid + "_" + oldImgName;
+      String saveFilePath = saveFile + "member/profile/" + newImgName;
+      memberImgFile.transferTo(new File(saveFilePath));
+
+      Long memberId = memberRepository.save(MemberEntity.builder()
+          .id(meOptional.get().getId())
+          .userEmail(memberDto.getUserEmail())
+          .userPw(passwordEncoder.encode(memberDto.getUserPw()))
+          .userName(memberDto.getUserName())
+          .address(memberDto.getAddress())
+          .age(memberDto.getAge())
+          .role(memberDto.getRole())
+          .phone(memberDto.getPhone())
+          .career(memberDto.getCareer())
+          .attachFile(1) // 이미지는 회원정보 수정에서 추가
+          .portfolioFile(0)
+          .nickName(memberDto.getNickName())
+          .social(false)
+          .build()).getId();
+
+      MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);
+
+      memberImgRepository.save(MemberImgEntity.builder()
+          .newImgName(newImgName)
+          .oldImgName(oldImgName)
+          .memberEntity(memberEntity)
+          .build());
+    }
+
+  }
+
+  @Override
+  public MemberDto modifyMyDetail(Long myId) {
+    MemberEntity memberEntity = memberRepository.findById(myId).orElseThrow(IllegalArgumentException::new);
+    return MemberDto.toMemberDto(memberEntity);
   }
 }

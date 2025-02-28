@@ -92,12 +92,52 @@
   display: flex;
   justify-content: center;
   flex-direction: column;
-  gap: 5px;
+  gap: 7px;
 }
 .mentorList .mentorList-con .mentor-list .mentor .right span.mentor-nickName {
   font-weight: bolder;
 }
+.mentorList .mentorList-con .mentor-list .mentor .right .mentor-career {
+  display: flex;
+  font-size: 15px;
+  gap: 2px;
+}
+.mentorList .mentorList-con .mentor-list .mentor .right .mentor-career img {
+  width: 20px;
+  display: block;
+}
 .mentorList .mentorList-con .mentor-list .mentor .right .category {
   font-size: 13px;
   color: #808080;
+}
+.mentorList .mentorList-con .mentor-list .mentor .right .howPay {
+  display: flex;
+  font-size: 14px;
+  gap: 5px;
+}
+.mentorList .mentorList-con .mentor-list .mentor .right .howPay .cardPay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.mentorList .mentorList-con .mentor-list .mentor .right .howPay .cardPay span {
+  background-color: #f5f5f5;
+  padding: 2px;
+  border-radius: 3px;
+}
+.mentorList .mentorList-con .mentor-list .mentor .right .howPay .cardPay img {
+  height: 20px;
+  width: 20px;
+  display: block;
+}
+.mentorList .mentorList-con .mentor-list .mentor .right .howPay .kakaoPay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.mentorList .mentorList-con .mentor-list .mentor .right .howPay .kakaoPay img {
+  width: 40px;
+  height: 18px;
+  display: block;
 }

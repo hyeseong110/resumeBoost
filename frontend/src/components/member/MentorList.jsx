@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { useSelector } from "react-redux"
-import loginSlice from "./../../slice/loginSlice"
 import axios from "axios"
 import { useEffect } from "react"
 import jwtAxios from "./../../util/jwtUtils"
@@ -43,7 +42,7 @@ const MentorList = () => {
   }
 
   const mentorDetailFn = (id) => {
-    if (loginState.role === null) {
+    if (!loginState.role) {
       window.confirm("로그인하세요")
     } else {
       navigate(`/member/mentorDetail/${id}`)
@@ -91,29 +90,47 @@ const MentorList = () => {
         </div>
         <div className='mentor-list'>
           {members.length > 0 ? (
-            members
-              .filter((e) => e.role === "MENTOR")
-              .map((member) => (
-                <div
-                  key={member.id}
-                  className='mentor'
-                  onClick={() => mentorDetailFn(member.id)}
-                >
-                  <div className='left'>
-                    <img src='/images/profile.png' alt='profile' />
+            members.map((member) => (
+              <div
+                key={member.id}
+                className='mentor'
+                onClick={() => mentorDetailFn(member.id)}
+              >
+                <div className='left'>
+                  <img
+                    src={
+                      member.attachFile === 1
+                        ? `http://localhost:8090/member/profile/${member.newImgName}`
+                        : "/images/profile.png"
+                    }
+                    alt='profile'
+                  />
+                </div>
+                <div className='right'>
+                  <span className='mentor-nickName'>{member.nickName}</span>
+                  <div className='mentor-career'>
+                    <img src='/images/star.png' alt='star' />
+                    <span> 5.0 ·</span>
+                    <span>경력 {member.career}</span>
                   </div>
-                  <div className='right'>
-                    <span className='mentor-nickName'>{member.nickName}</span>
-                    <span className='mentor-career'>{member.career}</span>
-                    <div className='category'>
-                      <span>분야 : </span>
-                      {member.itemEntities.map((e) => (
-                        <span key={e.id}>{e.category} </span>
-                      ))}
+                  <div className='category'>
+                    <span>전문 분야 : </span>
+                    {member.itemEntities.map((e) => (
+                      <span key={e.id}>{e.category} </span>
+                    ))}
+                  </div>
+                  <div className='howPay'>
+                    <div className='cardPay'>
+                      <img src='/images/card.png' alt='card' />
+                      <span>카드 결제</span>
+                    </div>
+                    <div className='kakaoPay'>
+                      <img src='/images/kakaoPay.png' alt='kakaoPay' />
                     </div>
                   </div>
                 </div>
-              ))
+              </div>
+            ))
           ) : (
             <></>
           )}

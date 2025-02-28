@@ -159,7 +159,7 @@ public class MemberController {
   }
 
   @PostMapping("/modify")
-  public ResponseEntity<?> modify(@RequestBody MemberDto memberDto) {
+  public ResponseEntity<?> modify(MemberDto memberDto) throws IOException {
 
     Map<String, String> map = new HashMap<>();
 
@@ -173,7 +173,7 @@ public class MemberController {
   }
 
   @PostMapping("/modify/mentor")
-  public ResponseEntity<?> modifyT(@RequestBody MemberDto memberDto) {
+  public ResponseEntity<?> modifyT(MemberDto memberDto) throws IOException {
 
     Map<String, String> map = new HashMap<>();
 
@@ -186,4 +186,14 @@ public class MemberController {
     return ResponseEntity.status(HttpStatus.OK).body(map);
   }
 
+  @GetMapping("/myDetail/{id}")
+  public ResponseEntity<?> myDetail(@PathVariable("id") Long id) {
+    Map<String, Object> map = new HashMap<>();
+
+    MemberDto memberDto = memberServiceImpl.modifyMyDetail(id);
+
+    map.put("member", memberDto);
+
+    return ResponseEntity.ok().body(map);
+  }
 }
