@@ -209,6 +209,8 @@ public class MemberServiceImpl implements MemberService {
           .role(memberDto.getRole())
           .phone(memberDto.getPhone())
           .career(memberDto.getCareer())
+          .myPostCount(memberDto.getMyPostCount())
+          .myReplyCount(memberDto.getMyReplyCount())
           .attachFile(1) // 이미지는 회원정보 수정에서 추가
           .portfolioFile(0)
           .nickName(memberDto.getNickName())
@@ -221,6 +223,8 @@ public class MemberServiceImpl implements MemberService {
           .userPw(passwordEncoder.encode(memberDto.getUserPw()))
           .userName(memberDto.getUserName())
           .address(memberDto.getAddress())
+          .myPostCount(memberDto.getMyPostCount())
+          .myReplyCount(memberDto.getMyReplyCount())
           .age(memberDto.getAge())
           .role(memberDto.getRole())
           .phone(memberDto.getPhone())
@@ -256,6 +260,8 @@ public class MemberServiceImpl implements MemberService {
           .age(memberDto.getAge())
           .role(memberDto.getRole())
           .phone(memberDto.getPhone())
+          .myPostCount(memberDto.getMyPostCount())
+          .myReplyCount(memberDto.getMyReplyCount())
           .career(memberDto.getCareer())
           .attachFile(1) // 이미지는 회원정보 수정에서 추가
           .portfolioFile(0)

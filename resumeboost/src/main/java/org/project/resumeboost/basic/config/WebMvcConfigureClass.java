@@ -15,7 +15,7 @@ public class WebMvcConfigureClass implements WebMvcConfigurer {
 				.addResourceLocations("file://192.168.23.211/손경락/saveFiles/member/profile/");
 		registry.addResourceHandler("/member/portfolio/**")
 				.addResourceLocations("file://192.168.23.211/손경락/saveFiles/member/portfolio/");
-		registry.addResourceHandler("/board/**")
+		registry.addResourceHandler("/board/img/**")
 				.addResourceLocations("file://192.168.23.211/손경락/saveFiles/board/");
 	}
 }

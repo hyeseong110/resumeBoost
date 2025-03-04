@@ -182,7 +182,7 @@ const Member = () => {
               <img
                 src={
                   member.attachFile === 1
-                    ? `http://192.168.23.224:8090/member/profile/${member.newImgName}`
+                    ? `http://localhost:8090/member/profile/${member.newImgName}`
                     : "/images/profile.png"
                 }
                 alt='profile'

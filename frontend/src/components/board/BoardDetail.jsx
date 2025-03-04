@@ -17,6 +17,7 @@ const BoardDetail = (param) => {
 
   // 로컬 스토리지에서 role 정보를 가져옴
   const [role, setRole] = useState(localStorage.getItem("userRole") || null);
+  console.log(role)
 
   // 로그인 상태가 변경될 때 로컬 스토리지에 role 정보 저장
   useEffect(() => {
@@ -215,6 +216,8 @@ const BoardDetail = (param) => {
     }
     return
   }
+
+  let isOwnerOrAdmin = isLogin.userEmail === boardDetail.memberEntity.userEmail || role === "ROLE_ADMIN";
   
   return (
     <div className="board-container">
@@ -258,12 +261,18 @@ const BoardDetail = (param) => {
                   <span>{boardDetail.memberEntity.age}대</span>
                   <span>{boardDetail.memberEntity.address}</span>
                 </div>
-                {(isLogin.userEmail === boardDetail.memberEntity.userEmail || role === "ROLE_ADMIN") && (
-                  <div className="detail-bottom-right">
+                <div className="detail-bottom-right">
+                {(isLogin.userEmail === boardDetail.memberEntity.userEmail) && (
+                  <>
+                    {/* 수정 버튼: 본인만 보이게 */}
                     <span onClick={() => navigate(`/board/update/${boardDetail.id}`, { state: { boardDetail } })}>수정</span>
-                    <span onClick={()=>deleteBoardFn(boardDetail.id)}>삭제</span>
-                  </div>
+                  </>
                 )}
+                {/* 삭제 버튼: 본인 또는 ADMIN 역할을 가진 사람만 보이게 */}
+                {isOwnerOrAdmin && (
+                  <span onClick={() => deleteBoardFn(boardDetail.id)}>삭제</span>
+                )}
+                </div>
               </div>
             </div>
           </div>
