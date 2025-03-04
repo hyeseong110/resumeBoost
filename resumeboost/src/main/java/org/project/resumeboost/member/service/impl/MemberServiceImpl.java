@@ -198,11 +198,19 @@ public class MemberServiceImpl implements MemberService {
     MultipartFile memberImgFile = memberDto.getProfileFile();
     String existImg = memberDto.getNewImgName();
 
+    String encodedPassword = null;
+
+    if (memberDto.getUserPw().equals(meOptional.get().getUserPw())) {
+      encodedPassword = memberDto.getUserPw();
+    } else {
+      encodedPassword = passwordEncoder.encode(memberDto.getUserPw());
+    }
+
     if ((memberImgFile == null || memberImgFile.isEmpty()) && existImg != null) {
       memberRepository.save(MemberEntity.builder()
           .id(meOptional.get().getId())
           .userEmail(memberDto.getUserEmail())
-          .userPw(passwordEncoder.encode(memberDto.getUserPw()))
+          .userPw(encodedPassword)
           .userName(memberDto.getUserName())
           .address(memberDto.getAddress())
           .age(memberDto.getAge())
@@ -215,12 +223,22 @@ public class MemberServiceImpl implements MemberService {
           .portfolioFile(0)
           .nickName(memberDto.getNickName())
           .social(false)
+          .detail(memberDto.getDetail())
+          .detailTitle(memberDto.getDetailTitle())
+          .replyCount(memberDto.getReplyCount())
+          .viewCount(memberDto.getViewCount())
+          .boardEntities(memberDto.getBoardEntities())
+          .itemEntities(memberDto.getItemEntities())
+          .payEntities(memberDto.getPayEntities())
+          .memberPtEntities(memberDto.getMemberPtEntities())
+          .memberImgEntities(memberDto.getMemberImgEntities())
+          .replyEntities(memberDto.getReplyEntities())
           .build());
     } else if ((memberImgFile == null || memberImgFile.isEmpty()) && existImg == null) {
       memberRepository.save(MemberEntity.builder()
           .id(meOptional.get().getId())
           .userEmail(memberDto.getUserEmail())
-          .userPw(passwordEncoder.encode(memberDto.getUserPw()))
+          .userPw(encodedPassword)
           .userName(memberDto.getUserName())
           .address(memberDto.getAddress())
           .myPostCount(memberDto.getMyPostCount())
@@ -233,6 +251,15 @@ public class MemberServiceImpl implements MemberService {
           .portfolioFile(0)
           .nickName(memberDto.getNickName())
           .social(false)
+          .detail(memberDto.getDetail())
+          .detailTitle(memberDto.getDetailTitle())
+          .replyCount(memberDto.getReplyCount())
+          .viewCount(memberDto.getViewCount())
+          .boardEntities(memberDto.getBoardEntities())
+          .itemEntities(memberDto.getItemEntities())
+          .payEntities(memberDto.getPayEntities())
+          .memberPtEntities(memberDto.getMemberPtEntities())
+          .replyEntities(memberDto.getReplyEntities())
           .build());
     } else {
       if (optionalMemImg.isPresent()) {
@@ -254,7 +281,7 @@ public class MemberServiceImpl implements MemberService {
       Long memberId = memberRepository.save(MemberEntity.builder()
           .id(meOptional.get().getId())
           .userEmail(memberDto.getUserEmail())
-          .userPw(passwordEncoder.encode(memberDto.getUserPw()))
+          .userPw(encodedPassword)
           .userName(memberDto.getUserName())
           .address(memberDto.getAddress())
           .age(memberDto.getAge())
@@ -267,6 +294,15 @@ public class MemberServiceImpl implements MemberService {
           .portfolioFile(0)
           .nickName(memberDto.getNickName())
           .social(false)
+          .detail(memberDto.getDetail())
+          .detailTitle(memberDto.getDetailTitle())
+          .replyCount(memberDto.getReplyCount())
+          .viewCount(memberDto.getViewCount())
+          .boardEntities(memberDto.getBoardEntities())
+          .itemEntities(memberDto.getItemEntities())
+          .payEntities(memberDto.getPayEntities())
+          .memberPtEntities(memberDto.getMemberPtEntities())
+          .replyEntities(memberDto.getReplyEntities())
           .build()).getId();
 
       MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);

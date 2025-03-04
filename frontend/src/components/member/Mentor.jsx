@@ -81,6 +81,27 @@ const Mentor = () => {
     }
   }
 
+  const addCartFn = async (itemId) => {
+    if (!window.confirm("장바구니에 추가하시겠습니까?")) return
+    try {
+      const response = await jwtAxios.post(
+        `http://localhost:8090/cart/addCart/memberId/${loginState.id}/id/${itemId}`
+      )
+      console.log(response)
+      alert("장바구니에 추가되었습니다.")
+    } catch (error) {
+      console.log(error)
+      alert("장바구니 추가 실패")
+    }
+  }
+
+  const myCartFn = async () => {
+    try {
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   useEffect(() => {
     mentorAxiosFn(mentorId)
     itemAxiosFn(mentorId)
@@ -154,14 +175,15 @@ const Mentor = () => {
               <h2>멘토의 상품</h2>
               <ul className='myItemList'>
                 {items.map((item) => (
-                  <li
-                    key={item.id}
-                    onClick={() => console.log(`상품 ID: ${item.id}`)}
-                  >
-                    <p>
-                      <span>카테고리:</span> {item.category}
-                    </p>
-                    <p>{item.itemPrice}원</p>
+                  <li key={item.id} onClick={() => addCartFn(item.id)}>
+                    <div>
+                      <p>
+                        <span>카테고리 :</span> {item.category}
+                      </p>
+                      <p>
+                        <span>상품가격 :</span> {item.itemPrice}원
+                      </p>
+                    </div>
                   </li>
                 ))}
               </ul>
