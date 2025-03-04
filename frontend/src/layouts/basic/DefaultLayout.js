@@ -140,9 +140,13 @@ const DefaultLayout = () => {
                   <span>조회: ${mentor.viewCount}</span>
                 </div>
                 <div class='message-mentor-item'>
-                  <span>멘토의 등록 상품</span>
-                  ${mentor.itemEntities.map(el => `
-                    <div>
+                    ${mentor.itemEntities.length === 0 ? (
+                      ``
+                    ):(
+                      `<span>멘토의 등록 상품</span>`
+                    )}
+                  ${mentor.itemEntities.map(el => 
+                    `<div>
                       <span>${el.category}:</span>
                       <span>${el.itemPrice}원</span>
                     </div>
