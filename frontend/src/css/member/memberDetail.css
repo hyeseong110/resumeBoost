@@ -280,7 +280,8 @@ input[type="file"] {
 }
 
 /* 입력 필드 스타일 */
-.personalInfoForm .form-group input {
+.personalInfoForm .form-group input,
+.personalInfoForm .form-group select {
   padding: 10px;
   font-size: 14px;
   border: 1px solid #ddd;
@@ -289,7 +290,8 @@ input[type="file"] {
 }
 
 /* 입력 필드 포커스 효과 */
-.personalInfoForm .form-group input:focus {
+.personalInfoForm .form-group input:focus,
+.personalInfoForm .form-group select:focus {
   border-color: #00c7ae;
   outline: none;
   box-shadow: 0 0 5px rgba(0, 199, 174, 0.5);

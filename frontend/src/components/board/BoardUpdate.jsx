@@ -92,13 +92,15 @@ const BoardUpdate = ({ params, boardDetail }) => {
     }
   };
 
+  const formattedContent = content.replace(/\n/g, '<br />'); // 엔터를 <br />로 변환
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('id', boardId); // 수정할 게시글 ID 추가
     formData.append('memberId', isLogin.id);
     formData.append('title', title);
-    formData.append('content', content);
+    formData.append('content', formattedContent);
     formData.append('category', selectedCategory);
     formData.append('writer', isLogin.NickName);
     if (file) {

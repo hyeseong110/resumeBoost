@@ -51,12 +51,14 @@ const BoardWrite = () => {
 
   const isLogin = useSelector((state) => state.loginSlice);
 
+  const formattedContent = content.replace(/\n/g, '<br />'); // 엔터를 <br />로 변환
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const formData = new FormData();
     formData.append('memberId',isLogin.id);
     formData.append('title', title);
-    formData.append('content', content);
+    formData.append('content', formattedContent);
     formData.append('category', selectedCategory);
     formData.append('writer', isLogin.NickName);
     if (file) formData.append('boardImgFile', file);
