@@ -135,6 +135,8 @@ public class MemberDto {
           .userName(memberEntity.getUserName())
           .viewCount(memberEntity.getViewCount())
           .social(memberEntity.getSocial())
+          .userPw(memberEntity.getUserPw())
+          .boardEntities(memberEntity.getBoardEntities())
           .build();
     } else if (memberEntity.getAttachFile() == 1) {
       return MemberDto.builder()
@@ -162,6 +164,8 @@ public class MemberDto {
           .userName(memberEntity.getUserName())
           .viewCount(memberEntity.getViewCount())
           .social(memberEntity.getSocial())
+          .userPw(memberEntity.getUserPw())
+          .boardEntities(memberEntity.getBoardEntities())
           .build();
     } else if (memberEntity.getPortfolioFile() == 1) {
       return MemberDto.builder()
@@ -189,6 +193,8 @@ public class MemberDto {
           .userName(memberEntity.getUserName())
           .viewCount(memberEntity.getViewCount())
           .social(memberEntity.getSocial())
+          .userPw(memberEntity.getUserPw())
+          .boardEntities(memberEntity.getBoardEntities())
           .build();
     } else {
       return MemberDto.builder()
@@ -213,6 +219,8 @@ public class MemberDto {
           .userName(memberEntity.getUserName())
           .viewCount(memberEntity.getViewCount())
           .social(memberEntity.getSocial())
+          .userPw(memberEntity.getUserPw())
+          .boardEntities(memberEntity.getBoardEntities())
           .build();
     }
   }

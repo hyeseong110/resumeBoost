@@ -15,20 +15,24 @@ const MyBoard = ({ boardList, setCategory, category }) => {
   return (
     <div className='myBoardCon'>
       <div className='myBoardHead'>
-        <ul>
-          <li
-            className={category === "myBoard" ? "active" : ""}
-            onClick={() => setCategory("myBoard")}
-          >
-            게시글
-          </li>
-          <li
-            className={category === "myReply" ? "active" : ""}
-            onClick={() => setCategory("myReply")}
-          >
-            덧글
-          </li>
-        </ul>
+        {boardList.length > 0 ? (
+          <ul>
+            <li
+              className={category === "myBoard" ? "active" : ""}
+              onClick={() => setCategory("myBoard")}
+            >
+              게시글
+            </li>
+            <li
+              className={category === "myReply" ? "active" : ""}
+              onClick={() => setCategory("myReply")}
+            >
+              덧글
+            </li>
+          </ul>
+        ) : (
+          <></>
+        )}
       </div>
       <div className='myBoardList'>
         {boardList.length > 0 ? (

@@ -103,7 +103,7 @@ public class ItemController {
 
   // item 수정
   @PostMapping("/update")
-  public ResponseEntity<?> itemUpdate(ItemDto itemDto) {
+  public ResponseEntity<?> itemUpdate(@RequestBody ItemDto itemDto) {
     itemServiceImpl.itemUpdate(itemDto);
 
     return ResponseEntity.status(HttpStatus.OK).body("save");

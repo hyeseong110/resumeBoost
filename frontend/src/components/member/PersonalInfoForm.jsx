@@ -7,6 +7,7 @@ const PersonalInfoForm = ({
   handleFile,
   imgPreview,
 }) => {
+  console.log(member)
   /** 🔹 입력 값 변경 핸들러 */
   const handleChange = (e) => {
     const { name, value } = e.target
@@ -54,6 +55,7 @@ const PersonalInfoForm = ({
           name='userPw'
           value={member.userPw || ""}
           onChange={handleChange}
+          readOnly
         />
       </div>
 

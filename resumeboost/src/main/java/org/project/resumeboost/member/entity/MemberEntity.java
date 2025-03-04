@@ -50,11 +50,11 @@ public class MemberEntity extends BasicTime {
   @Column(nullable = false)
   private String userPw;
 
-  // ?‚˜?´
+  // ?ï¿½ï¿½?ï¿½ï¿½
   @Column(nullable = false)
   private int age;
 
-  // ì§??—­
+  // ï¿½??ï¿½ï¿½
   @Column(nullable = false)
   private String address;
 
@@ -62,55 +62,55 @@ public class MemberEntity extends BasicTime {
   @Column(nullable = false, unique = true)
   private String nickName;
 
-  // ?‹¤? œ ?´ë¦?
+  // ?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½?
   @Column(nullable = false)
   private String userName;
 
-  // ?ƒ?„¸?„¤ëª? ? œëª?
+  // ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½? ?ï¿½ï¿½ï¿½?
   private String detailTitle;
 
-  // ?ƒ?„¸?„¤ëª?
+  // ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ï¿½?
   @Column(length = 5000)
   private String detail;
 
-  // ë¦¬ë·°?ˆ˜
+  // ë¦¬ë·°?ï¿½ï¿½
   @Column(nullable = true, columnDefinition = "int default 0")
   private int replyCount;
 
   @Column(nullable = true, columnDefinition = "int default 0")
   private int viewCount;
 
-  // ?‚´ê°? ?‘?„±?•œ ?Œ“ê¸? ?ˆ˜
+  // ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½
   @Column(nullable = true, columnDefinition = "int default 0")
   private int myReplyCount;
 
-  // ?‚´ê°? ?‘?„±?•œ ê²Œì‹œê¸? ?ˆ˜
+  // ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ ê²Œì‹œï¿½? ?ï¿½ï¿½
   @Column(nullable = true, columnDefinition = "int default 0")
   private int myPostCount;
 
   // ê²½ë ¥
   private String career;
 
-  // ê¶Œí•œ MEMBER(?¼ë°˜íšŒ?›), MENTOR(ë©˜í† ?šŒ?›), ADMIN
+  // ê¶Œí•œ MEMBER(?ï¿½ï¿½ë°˜íšŒ?ï¿½ï¿½), MENTOR(ë©˜í† ?ï¿½ï¿½?ï¿½ï¿½), ADMIN
   @Enumerated(EnumType.STRING)
   private Role role;
 
-  // ?”„ë¡œí•„ ?‚¬ì§? ?œ ë¬?
+  // ?ï¿½ï¿½ë¡œí•„ ?ï¿½ï¿½ï¿½? ?ï¿½ï¿½ï¿½?
   @Column(nullable = false)
   private int attachFile;
 
-  // ?¬?Š¸?´ë¦¬ì˜¤ ?œ ë¬?
+  // ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ë¦¬ì˜¤ ?ï¿½ï¿½ï¿½?
   @Column(nullable = false)
   private int portfolioFile;
 
   @Column(nullable = false)
   private String phone;
 
-  // ?†Œ?…œë¡œê·¸?¸
+  // ?ï¿½ï¿½?ï¿½ï¿½ë¡œê·¸?ï¿½ï¿½
   @Column(columnDefinition = "boolean default false")
   private Boolean social;
 
-  // ê²Œì‹œ?Œ
+  // ê²Œì‹œ?ï¿½ï¿½
   @JsonIgnore
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<BoardEntity> boardEntities;
@@ -118,9 +118,9 @@ public class MemberEntity extends BasicTime {
   // ë¦¬ë·°
   @JsonIgnore
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
-  private List<ReplyEntity> replyEntities;
+  private List<ReplyEntity> replyEntities;//
 
-  // ?ƒ?’ˆ
+  // ?ï¿½ï¿½?ï¿½ï¿½
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   @JsonIgnore
   private List<ItemEntity> itemEntities;
@@ -130,12 +130,12 @@ public class MemberEntity extends BasicTime {
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<PayEntity> payEntities;
 
-  // ?”„ë¡œí•„?‚¬ì§? ?ŒŒ?¼
+  // ?ï¿½ï¿½ë¡œí•„?ï¿½ï¿½ï¿½? ?ï¿½ï¿½?ï¿½ï¿½
   @JsonIgnore
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<MemberImgEntity> memberImgEntities;
 
-  // ?´?Š¸?´ë¦¬ì˜¤ ?ŒŒ?¼
+  // ?ï¿½ï¿½?ï¿½ï¿½?ï¿½ï¿½ë¦¬ì˜¤ ?ï¿½ï¿½?ï¿½ï¿½
   @JsonIgnore
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<MemberPtEntity> memberPtEntities;

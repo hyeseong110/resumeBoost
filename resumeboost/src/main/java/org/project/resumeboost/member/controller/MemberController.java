@@ -159,7 +159,7 @@ public class MemberController {
   }
 
   @PostMapping("/modify")
-  public ResponseEntity<?> modify(MemberDto memberDto) throws IOException {
+  public ResponseEntity<?> modify(@RequestBody MemberDto memberDto) throws IOException {
 
     Map<String, String> map = new HashMap<>();
 
@@ -173,7 +173,7 @@ public class MemberController {
   }
 
   @PostMapping("/modify/mentor")
-  public ResponseEntity<?> modifyT(MemberDto memberDto) throws IOException {
+  public ResponseEntity<?> modifyT(@RequestBody MemberDto memberDto) throws IOException {
 
     Map<String, String> map = new HashMap<>();
 

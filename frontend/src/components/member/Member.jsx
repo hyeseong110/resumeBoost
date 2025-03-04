@@ -38,6 +38,9 @@ const Member = () => {
         `http://localhost:8090/member/myDetail/${myId}`
       )
       setMember(result.data.member)
+      setImgPreview(
+        `http://localhost:8090/member/profile/${result.data.member.newImgName}`
+      )
     } catch (err) {
       console.log(err)
     }
@@ -100,7 +103,13 @@ const Member = () => {
           />
         )
       case "내 상품":
-        return role === "ROLE_MENTOR" ? <MyItems items={items} /> : null
+        return role === "ROLE_MENTOR" ? (
+          <MyItems
+            items={items}
+            itemAxiosFn={itemAxiosFn}
+            setItems={setItems}
+          />
+        ) : null
       case "구매 내역":
         return role !== "ROLE_MENTOR" ? <p>구매 내역 목록</p> : null
       case "문의 내역":
@@ -128,8 +137,6 @@ const Member = () => {
         setImgPreview(fileReader.result)
       }
       fileReader.readAsDataURL(insertFile)
-    } else {
-      setImgPreview(null)
     }
   }
 
@@ -141,31 +148,31 @@ const Member = () => {
         ? "http://localhost:8090/member/modify"
         : "http://localhost:8090/member/modify/mentor"
 
-    const formData = new FormData()
-    formData.append("memberId", loginState.id)
-    formData.append("userEmail", member.userEmail || "")
-    formData.append("userPw", member.userPw || "")
-    formData.append("userName", member.userName || "")
-    formData.append("nickName", member.nickName || "")
-    formData.append("address", member.address || "")
-    formData.append("age", member.age || "")
-    formData.append("phone", member.phone || "")
+    // const formData = new FormData()
+    // Object.keys(member).forEach((key) => {
+    //   if (member[key] !== undefined && key !== "profileFile") {
+    //     // 리스트 타입인 필드만 JSON.stringify() 사용
+    //     if (Array.isArray(member[key])) {
+    //       formData.append(key, JSON.stringify(member[key]))
+    //     } else {
+    //       formData.append(key, member[key])
+    //     }
+    //   }
+    // })
     if (file) {
-      formData.append("profileFile", file)
-    }
-    if (role === "ROLE_MENTOR") {
-      formData.append("career", member.career)
-    }
-    if (member?.newImgName) {
-      formData.append("newImgName", member.newImgName)
+      // formData.append("profileFile", file)
+      setMember((prev) => ({ ...prev, profileFile: file }))
     }
 
     try {
-      await jwtAxios.post(postUrl, formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
+      await jwtAxios.post(
+        postUrl,
+        member
+        // , {
+        // headers: {
+        // "Content-Type": "multipart/form-data",
+        // },}
+      )
       alert("수정 성공")
       detailAxiosFn() // 수정 후 회원 정보 다시 불러오기
     } catch (err) {
