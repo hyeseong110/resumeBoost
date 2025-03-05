@@ -10,8 +10,6 @@
 
 .header .header-con {
   flex: 0 1 1200px;
- 
-
 }
 
 .header .header-con .gnb {
@@ -21,12 +19,12 @@
   justify-content: space-between;
 }
 
-.header .header-con .gnb .logo{
+.header .header-con .gnb .logo {
   display: flex;
   gap: 10px;
 }
 
-.header .header-con .gnb .logo .role{
+.header .header-con .gnb .logo .role {
   display: flex;
   justify-content: center;
   align-items: flex-end;
@@ -65,4 +63,26 @@
 
 .header .header-con .gnb > ul > li:hover {
   color: #000;
+}
+.cart-icon {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cart-icon .cart-count {
+  position: absolute;
+  top: 7px; /* 아이콘과 겹치지 않도록 조정 */
+  right: -10px;
+  background-color: red;
+  color: white;
+  font-size: 12px;
+  font-weight: bold;
+  border-radius: 50%;
+  padding: 4px 6px;
+  min-width: 18px; /* 숫자가 한 자리여도 동그랗게 유지 */
+  height: 18px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

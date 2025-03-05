@@ -1,8 +1,8 @@
-import axios from "axios";
-import { getCookie, setCookie } from "./cookieUtil";
+import axios from "axios"
+import { getCookie, setCookie } from "./cookieUtil"
 
 // axios 대신 jwtAxios 사용해서 토큰검증 후 서버에 요청,응답 처리
-const jwtAxios = axios.create();
+const jwtAxios = axios.create()
 
 const host = "http://localhost:8090"
 
@@ -13,8 +13,6 @@ const refreshJWT = async (accessToken, refreshToken) => {
     `${host}/api/member/refresh?refreshToken=${refreshToken}`,
     header
   )
-
-  console.log(res.data)
 
   return res.data
 }
@@ -82,4 +80,4 @@ const responseFail = (err) => {
 jwtAxios.interceptors.request.use(beforeReq, requestFail)
 jwtAxios.interceptors.response.use(beforeRes, responseFail)
 
-export default jwtAxios;
+export default jwtAxios

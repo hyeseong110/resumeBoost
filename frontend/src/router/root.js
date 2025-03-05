@@ -1,36 +1,37 @@
-import React, { lazy, Suspense } from 'react'
-import {createBrowserRouter, Navigate, redirect} from "react-router-dom";
-import DefaultLayout from '../layouts/basic/DefaultLayout';
-import IndexPage from '../pages/IndexPage';
-import toBoardRouter from './toBoardRouter';
-import toAuthRouter from './toAuthRouter';
-import AuthLayout from '../layouts/auth/AuthLayout';
-import toItemRouter from './toItemRouter';
+import React, { lazy, Suspense } from "react"
+import { createBrowserRouter, Navigate, redirect } from "react-router-dom"
+import DefaultLayout from "../layouts/basic/DefaultLayout"
+import IndexPage from "../pages/IndexPage"
+import toBoardRouter from "./toBoardRouter"
+import toAuthRouter from "./toAuthRouter"
+import AuthLayout from "../layouts/auth/AuthLayout"
+import toItemRouter from "./toItemRouter"
 import toMemberRouter from "./toMemberRouter"
-import toAdminRouter from './toAdminRouter';
-import AdminLayout from '../layouts/admin/AdminLayout';
-import InquiryPage from '../pages/inquiry/InquiryPage';
-import { useSelector } from 'react-redux';
+import toAdminRouter from "./toAdminRouter"
+import AdminLayout from "../layouts/admin/AdminLayout"
+import InquiryPage from "../pages/inquiry/InquiryPage"
+import { useSelector } from "react-redux"
+import toCartRouter from "./toCartRouter"
 
 const MainPage = lazy(() => import("../pages/basic/MainPage"))
 
 const Loading = <div className='loading'>Loading...</div>
 
 const ProtectedRoute = ({ children, requiredRole }) => {
-  const isLogin = useSelector((state) => state.loginSlice);
+  const isLogin = useSelector((state) => state.loginSlice)
 
   // 인증되지 않은 사용자일 경우 로그인 페이지로 리디렉션
   if (!isLogin.id) {
-    return <Navigate to="/auth/login" replace />;
+    return <Navigate to='/auth/login' replace />
   }
 
   // 역할이 requiredRole과 일치하지 않으면 접근 불가
   if (requiredRole && isLogin.role[0] !== requiredRole) {
-    return <Navigate to="/main" replace />;
+    return <Navigate to='/main' replace />
   }
 
-  return children;
-};
+  return children
+}
 
 const root = createBrowserRouter([
   {
@@ -98,15 +99,15 @@ const root = createBrowserRouter([
     children: toMemberRouter(),
   },
   {
-    path: '/admin',
+    path: "/admin",
     element: (
-      <ProtectedRoute requiredRole="ROLE_ADMIN">
+      <ProtectedRoute requiredRole='ROLE_ADMIN'>
         <Suspense fallback={Loading}>
-          <AdminLayout/>
+          <AdminLayout />
         </Suspense>
       </ProtectedRoute>
     ),
-    children: toAdminRouter()
+    children: toAdminRouter(),
   },
   {
     path: "/inquiry",
@@ -122,11 +123,21 @@ const root = createBrowserRouter([
           <Suspense fallback={Loading}>
             <InquiryPage />
           </Suspense>
-        )
-      }
-    ]
-  }
-
+        ),
+      },
+    ],
+  },
+  {
+    path: "/cart",
+    element: (
+      <ProtectedRoute>
+        <Suspense fallback={Loading}>
+          <DefaultLayout />
+        </Suspense>
+      </ProtectedRoute>
+    ),
+    children: toCartRouter(),
+  },
 ])
 
 export default root

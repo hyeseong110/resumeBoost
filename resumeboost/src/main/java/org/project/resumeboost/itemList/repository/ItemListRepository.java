@@ -7,10 +7,12 @@ import org.project.resumeboost.item.entity.ItemEntity;
 import org.project.resumeboost.itemList.entity.ItemListEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ItemListRepository extends JpaRepository<ItemListEntity,Long>{
+public interface ItemListRepository extends JpaRepository<ItemListEntity, Long> {
 
   List<ItemListEntity> findByCartEntityAndItemEntity(CartEntity cartEntity, ItemEntity itemEntity);
 
   List<ItemListEntity> findAllByCartEntityId(Long cartId);
-  
+
+  void deleteAllByCartEntityAndItemEntity(CartEntity cartEntity, ItemEntity itemEntity);
+
 }
