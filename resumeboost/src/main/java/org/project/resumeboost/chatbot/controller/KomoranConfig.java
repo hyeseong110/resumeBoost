@@ -33,7 +33,7 @@ public class KomoranConfig {
   // .dic : 각종 사전(Dictionary) 파일
   // private String DEPT_DIC="dept.dic";
   // private String DIC_DIR="static/files/";
-  private String USER_DIC = "resumeboost/dic.user";
+  private String USER_DIC = "dic.user";
 
   @Autowired
   MemberRepository memberRepository;

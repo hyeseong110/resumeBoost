@@ -9,6 +9,7 @@ import org.project.resumeboost.item.entity.ItemEntity;
 import org.project.resumeboost.member.dto.MemberDto;
 import org.project.resumeboost.pay.entity.PayEntity;
 import org.project.resumeboost.reply.entity.ReplyEntity;
+import org.project.resumeboost.review.entity.ReviewEntity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -139,4 +140,8 @@ public class MemberEntity extends BasicTime {
   @JsonIgnore
   @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
   private List<MemberPtEntity> memberPtEntities;
+
+  @JsonIgnore
+  @OneToMany(mappedBy = "memberEntity", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
+  private List<ReviewEntity> reviewEntities;
 }

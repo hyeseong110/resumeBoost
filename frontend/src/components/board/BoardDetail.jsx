@@ -56,7 +56,7 @@ const BoardDetail = (param) => {
       const url = `http://localhost:8090/board/detail/${boardId}`
       try {
         const board = await jwtAxios.get(url)
-        console.log(board.data.boardDetail);
+        // console.log(board.data.boardDetail);
 
         const memberRes = await jwtAxios.get(`http://localhost:8090/member/memberDetail/${board.data.boardDetail.memberEntity.id}`);
         
@@ -91,7 +91,7 @@ const BoardDetail = (param) => {
     try {
       const response = await jwtAxios.get(url)
       if (response.data && response.data.content) {
-        console.log(response.data.content);
+        // console.log(response.data.content);
         const updatedReplies = await Promise.all(response.data.content.map(async (reply) => {
           try {
             const memberRes = await jwtAxios.get(`http://localhost:8090/member/memberDetail/${reply.memberEntity.id}`);

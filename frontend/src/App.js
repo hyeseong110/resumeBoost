@@ -4,6 +4,7 @@ import root from "./router/root"
 import { Provider } from "react-redux"
 import { PersistGate } from "redux-persist/integration/react"
 import store, { persistor } from "./store/store"
+import ScrollTop from "./util/ScrollTop"
 
 function App() {
   return (

@@ -4,6 +4,7 @@ import Footer from '../../components/basic/Footer';
 import { useState, useEffect, useRef } from 'react'; // useRef 추가
 import { useSelector } from 'react-redux';
 import jwtAxios from '../../util/jwtUtils';
+import ScrollTop from '../../util/ScrollTop';
 
 const DefaultLayout = () => {
   const [chatbotModal, setChatbotModal] = useState(false);
@@ -195,6 +196,7 @@ const DefaultLayout = () => {
   return (
     <div className='wrapper'>
       <Header />
+      <ScrollTop />
       <div className='default-layout'>
         <div className='default-layout-con'>
           <Outlet />
