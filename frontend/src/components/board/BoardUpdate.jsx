@@ -4,8 +4,8 @@ import jwtAxios from '../../util/jwtUtils';
 import { useSelector } from 'react-redux';
 
 const BoardUpdate = ({ params, boardDetail }) => {
-  console.log('ID:', params.id);
-  console.log('Board Detail:', boardDetail);
+  // console.log('ID:', params.id);
+  // console.log('Board Detail:', boardDetail);
 
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);

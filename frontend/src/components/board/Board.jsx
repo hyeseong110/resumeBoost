@@ -27,7 +27,7 @@ const Board = () => {
     attachFile: 0,
   })
 
-  console.log(isLogin);
+  // console.log(isLogin);
   
 
   // 게시글 목록 조회 함수
@@ -62,7 +62,7 @@ const Board = () => {
           search: searchParams.search,
         },
       })
-      console.log(response.data.boardList);
+      // console.log(response.data.boardList);
 
       const { boardList, startPage: start, endPage: end } = response.data
       setPosts(boardList.content)
@@ -92,7 +92,7 @@ const Board = () => {
   const fetchMemberInfo = async (id) => {
     try {
       const member = await jwtAxios.get(`http://localhost:8090/member/memberDetail/${id}`)
-      console.log(member.data.member);
+      // console.log(member.data.member);
       setMemberInfo({
         nickName: member.data.member.nickName,
         age: member.data.member.age,
@@ -167,7 +167,7 @@ const Board = () => {
     navigate(`/board/detail/${id}`)
   }
 
-  console.log(posts);
+  // console.log(posts);
   
 
   return (

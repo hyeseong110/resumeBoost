@@ -9,6 +9,7 @@ import org.project.resumeboost.util.JWTUtil;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
@@ -18,7 +19,8 @@ import lombok.RequiredArgsConstructor;
 public class APIRefreshController {
 
   @RequestMapping("/api/member/refresh")
-  public Map<String, Object> refresh(@RequestHeader("Authorization") String authHeader, String refreshToken) {
+  public Map<String, Object> refresh(@RequestHeader("Authorization") String authHeader,
+      @RequestParam("refreshToken") String refreshToken) {
     System.out.println("authHeader >>>>>>>>>>" + authHeader);
     System.out.println("refreshToken >>>>>>>>>>" + refreshToken);
 

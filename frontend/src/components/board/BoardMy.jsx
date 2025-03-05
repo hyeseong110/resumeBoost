@@ -241,9 +241,21 @@ const BoardMy = () => {
                       </div>
                       <div className="post-title">{post.title}</div>
                       <div className="post-content">
-                        {post.content.length > 100
-                          ? `${post.content.slice(0, 100)}....`
-                          : post.content}
+                      {post.content.length > 100
+                        ? (
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: `${post.content.slice(0, 100).replace(/<br\s*\/?>/g, ' ')}....`,
+                              }}
+                            />
+                          )
+                        : (
+                            <span
+                              dangerouslySetInnerHTML={{
+                                __html: post.content.replace(/<br\s*\/?>/g, ' '),
+                              }}
+                            />
+                          )}
                       </div>
                       {post.content.length > 100 && (
                         <div className="post-readmore">전체보기</div>

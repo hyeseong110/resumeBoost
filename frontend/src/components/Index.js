@@ -6,7 +6,7 @@ const Index = () => {
     <>
       <div className="index-container">
         <h1 className="index-title">
-          이제, 1분 만에 회원가입하고 <br /> 내게 딱 맞는 취업 멘토를 만나보세요!
+          이제, 1분만에 회원가입하고 <br /> 내게 딱 맞는 취업 멘토를 만나보세요!
         </h1>
         <div className="cards-container">
           {/* 왼쪽 카드 */}
