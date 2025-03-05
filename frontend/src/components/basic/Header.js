@@ -2,11 +2,12 @@ import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import useCustomLogin from "../../hook/useCustomLogin"
+import { FaShoppingCart } from "react-icons/fa"
 
 const Header = () => {
   const loginState = useSelector((state) => state.loginSlice)
   const { doLogout, moveToPath } = useCustomLogin()
-
+  const items = useSelector((state) => state.cartSlice.items)
   // 로컬 스토리지에서 role 정보를 가져옴
   const [role, setRole] = useState(localStorage.getItem("userRole") || null)
 
@@ -69,6 +70,14 @@ const Header = () => {
                 <li>
                   <Link to={detailUrl}>{loginState.NickName}님</Link>
                 </li>
+                {items.length > 0 && (
+                  <li className='cart-icon'>
+                    <Link to={`/cart/myCartList/${loginState.id}`}>
+                      <FaShoppingCart size={22} />
+                      <span className='cart-count'>{items.length}</span>
+                    </Link>
+                  </li>
+                )}
                 <li onClick={handleLogout}>로그아웃</li>
               </>
             ) : (

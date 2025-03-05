@@ -1,7 +1,8 @@
 import React, { useEffect, useState, useRef } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import jwtAxios from "./../../util/jwtUtils"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
+import { addItemCart } from "../../slice/cartSlice"
 
 const Mentor = () => {
   const { id: mentorId } = useParams()
@@ -12,6 +13,8 @@ const Mentor = () => {
   const [imgUrl, setImgUrl] = useState("/images/mentor.jpg")
   const [activeIndex, setActiveIndex] = useState(0)
   const sectionRefs = useRef([])
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
   useEffect(() => {
     const observerOptions = {
@@ -81,24 +84,19 @@ const Mentor = () => {
     }
   }
 
-  const addCartFn = async (itemId) => {
+  const addCartFn = async (item) => {
+    console.log(item)
     if (!window.confirm("장바구니에 추가하시겠습니까?")) return
     try {
       const response = await jwtAxios.post(
-        `http://localhost:8090/cart/addCart/memberId/${loginState.id}/id/${itemId}`
+        `http://localhost:8090/cart/addCart/memberId/${loginState.id}/id/${item.id}`
       )
-      console.log(response)
+      dispatch(addItemCart(item))
+
       alert("장바구니에 추가되었습니다.")
     } catch (error) {
       console.log(error)
       alert("장바구니 추가 실패")
-    }
-  }
-
-  const myCartFn = async () => {
-    try {
-    } catch (error) {
-      console.log(error)
     }
   }
 
@@ -175,7 +173,7 @@ const Mentor = () => {
               <h2>멘토의 상품</h2>
               <ul className='myItemList'>
                 {items.map((item) => (
-                  <li key={item.id} onClick={() => addCartFn(item.id)}>
+                  <li key={item.id} onClick={() => addCartFn(item)}>
                     <div>
                       <p>
                         <span>카테고리 :</span> {item.category}
@@ -213,7 +211,12 @@ const Mentor = () => {
         </div>
         <div className='mentor-pay'>
           <div className='mentor-btn1'>상담 요청하기</div>
-          <div className='mentor-btn2'>장바구니 담기</div>
+          <div
+            className='mentor-btn2'
+            onClick={() => navigate(`/cart/myCartList/${loginState.id}`)}
+          >
+            장바구니 보기
+          </div>
         </div>
       </div>
     </div>

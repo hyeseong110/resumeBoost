@@ -94,6 +94,12 @@ public class MemberServiceImpl implements MemberService {
   }
 
   @Override
+  public MemberDto modifyMyDetail(Long myId) {
+    MemberEntity memberEntity = memberRepository.findById(myId).orElseThrow(IllegalArgumentException::new);
+    return MemberDto.toMemberDto(memberEntity);
+  }
+
+  @Override
   public Page<MemberDto> memberList(Pageable pageable, String subject, String search) {
     Page<MemberEntity> memberPage = null;
 
@@ -314,11 +320,5 @@ public class MemberServiceImpl implements MemberService {
           .build());
     }
 
-  }
-
-  @Override
-  public MemberDto modifyMyDetail(Long myId) {
-    MemberEntity memberEntity = memberRepository.findById(myId).orElseThrow(IllegalArgumentException::new);
-    return MemberDto.toMemberDto(memberEntity);
   }
 }
