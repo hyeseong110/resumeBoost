@@ -19,7 +19,7 @@ const refreshJWT = async (accessToken, refreshToken) => {
 
 //before request
 const beforeReq = (config) => {
-  console.log("before request...")
+  // console.log("before request...")
 
   const memberInfo = getCookie("member")
   if (!memberInfo) {
@@ -43,7 +43,7 @@ const requestFail = (err) => {
 
 //before return response
 const beforeRes = async (res) => {
-  console.log("before return response...")
+  // console.log("before return response...")
 
   const data = res.data
 
