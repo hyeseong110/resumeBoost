@@ -1,6 +1,7 @@
 package org.project.resumeboost.reply.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.project.resumeboost.board.dto.BoardDto;
@@ -23,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequestMapping("/reply")
@@ -96,6 +98,16 @@ public class ReplyController {
     Map<String, String> map = new HashMap<>();
     replyServiceImpl.replyDelete(replyId);
     map.put("replyDelete", "성공");
+    return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
+  @GetMapping("/replyList")
+  public ResponseEntity<?> replyList() {
+    Map<String, List<ReplyDto>> map = new HashMap<>();
+
+    List<ReplyDto> replyDtos = replyServiceImpl.replyList();
+
+    map.put("replyList", replyDtos);
     return ResponseEntity.status(HttpStatus.OK).body(map);
   }
 

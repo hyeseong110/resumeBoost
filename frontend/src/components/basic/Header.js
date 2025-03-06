@@ -65,6 +65,9 @@ const Header = () => {
             <li>
               <Link to={"/board"}>커뮤니티</Link>
             </li>
+            <li>
+              <Link to={"/saramin"}>채용공고</Link>
+            </li>
             {loginState.userEmail ? (
               <>
                 <li>

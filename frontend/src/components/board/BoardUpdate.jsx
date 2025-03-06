@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwtAxios from '../../util/jwtUtils';
 import { useSelector } from 'react-redux';
+import { S3URL } from '../../util/constant';
 
 const BoardUpdate = ({ params, boardDetail }) => {
   // console.log('ID:', params.id);
@@ -76,7 +77,7 @@ const BoardUpdate = ({ params, boardDetail }) => {
     if (previewURL) {
       return previewURL; // 새로 선택한 이미지 미리보기
     } else if (boardDetail?.newImgName) {
-      return `http://localhost:8090/board/img/${boardDetail.newImgName}`; // 서버 이미지
+      return `${S3URL}${boardDetail.newImgName}`; // 서버 이미지
     } else {
       return null; // 이미지 없음
     }

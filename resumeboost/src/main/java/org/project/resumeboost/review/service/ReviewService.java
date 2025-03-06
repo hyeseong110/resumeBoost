@@ -1,5 +1,9 @@
 package org.project.resumeboost.review.service;
 
-public interface ReviewService {
+import java.util.List;
 
+import org.project.resumeboost.review.dto.ReviewDto;
+
+public interface ReviewService {
+  List<ReviewDto> reviewList();
 }

@@ -1,9 +1,52 @@
-import React from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
+import jwtAxios from '../../util/jwtUtils';
+import { S3URL } from '../../util/constant';
 
 const Main = () => {
   const isLogin = useSelector((state) => state.loginSlice);
+
+  const [reviews, setReviews] = useState([]);
+
+  console.log(reviews);
+  
+  useEffect(()=>{
+    const reviewFn = async () =>{
+      try {
+        const url = "http://localhost:8090/review/reviewList"
+        const res = await axios.get(url);
+        console.log(res);
+        
+        if (res.data && res.data.reviewList) {
+          const updatedReplies = await Promise.all(res.data.reviewList.map(async (review) => {
+            try {
+              const memberRes = await axios.get(`http://localhost:8090/member/memberDetail/${review.memberId}`);
+              
+              return { ...review, memberEntity: memberRes.data.member };  // 기존 reply에 상세 member 정보 추가
+            } catch (error) {
+              console.error("멤버 정보를 가져오는 중 오류 발생:", error);
+              return review; // 오류 발생 시 원래 데이터 유지
+            }
+          }));
+          setReviews(updatedReplies);
+        } else {
+          setReviews([]);
+        }
+      } catch (error) {
+        console.error("데이터 불러오기 실패:", error);
+      }
+    };
+    reviewFn();
+  },[])
+
+  const navigate = useNavigate();
+
+  const mentorDetailFn = (mentorId) =>{
+    // navigate(`/member/mentorDetail/${mentorId}`)
+    navigate(`/member/mentorDetail/${mentorId}`)
+  }
 
   return (
     <>
@@ -63,27 +106,55 @@ const Main = () => {
                 </span>
               </div>
               <div className="section2-mid">
-                <div className="review-container">
-                  <div className="review-list">
-                    {/* {reviews.concat(reviews).map((review, index) => (
-                      <div key={index} className="review-item">
-                        <div className="review-header">
-                          <img src="https://via.placeholder.com/50" alt="프로필" className="profile-img" />
-                          <div className="review-info">
-                            <span className="review-author">사용자 {review.id}</span>
-                            <span className="review-location">서울</span>
-                          </div>
-                        </div>
-                        <div className="review-content">
-                          <p>{review.text}</p>
+                <div className="review-list">
+                  {[...reviews, ...reviews].map((review, index) => (
+                    <div key={index} className="review-item" onClick={()=>mentorDetailFn(review.mentorId)}>
+                      <div className="review-header">
+                        {review.memberEntity.attachFile==1?(
+                            <img 
+                            src={`${S3URL}${review.memberEntity.newImgName}`} 
+                            alt="프로필"
+                            className="profile-img" />
+                          ):( 
+                            <img
+                            src="/images/profile.png"
+                            alt="프로필 사진"
+                            className="profile"
+                            />
+                          )}
+                        <div className="review-info">
+                          <span className="review-author">{review.memberEntity.nickName}</span> <span className='line'>| </span>
+                          <span className="review-location">{review.memberEntity.address}</span>
                         </div>
                       </div>
-                    ))} */}
-                  </div>
+                      <div className="review-mentor">
+                        <p>{review.mentorNickName}님의 리뷰</p>
+                      </div>
+                      <div className="review-content">
+                        {review.content.length > 250?(
+                          <>
+                            <span dangerouslySetInnerHTML={{
+                              __html: `${review.content.slice(0, 250).replace(/<br\s*\/?>/g, ' ')} ...`,
+                            }} />
+                            <div className='post-readmore'>멘토보기</div>
+                          </>
+                        ):(
+                          <>
+                            <span 
+                              dangerouslySetInnerHTML={{
+                                __html: review.content.replace(/<br\s*\/?>/g, ' '),
+                              }}
+                            />
+                            <div className='post-readmore'>멘토보기</div>
+                          </>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
               <div className="section2-bottom">
-                <span><img src="/images/!!!.png" alt="" /> 후기는 랜덤으로 노출됩니다!</span>
+                <span><img src="/images/!!!.png" alt="" /> 후기는 최신순으로 노출됩니다!</span>
               </div>
             </div>
           </div>
@@ -100,7 +171,7 @@ const Main = () => {
                     <h2 className="card-title-green">1분만에 나에게 맞는 <br />멘토 찾아보기</h2>
                   </div>
                   <div className="card-footer">
-                    <div className="arrow-button-green">〉</div>
+                    <div className="arrow-button-green"><span style={{color: '#E0F8E0'}}>-</span>〉</div>
                     <img src="/images/index1.png" alt="paper plane" className="card-icon" />
                   </div>
                 </Link>
@@ -112,7 +183,7 @@ const Main = () => {
                     <h2 className="card-title-blue">RESUMEBOOST<br /> 커뮤니티 둘러보기</h2>
                   </div>
                   <div className="card-footer">
-                    <div className="arrow-button-blue">〉</div>
+                    <div className="arrow-button-blue"><span style={{color: '#E0F0FF'}}>-</span>〉</div>
                     <img src="/images/index2.png" alt="user folder" className="card-icon" />
                   </div>
                 </Link>

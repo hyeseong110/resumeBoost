@@ -225,18 +225,16 @@
   width: 100%;
   display: flex;
   align-items: center;
-  padding: 20px 250px;
+  padding: 20px 0;
   box-sizing: border-box;
   border-top: 1px solid #bebebe;
   background-color: rgb(230, 230, 230);
 }
 
-.cert-logo {
-  height: 40px;
-  margin-right: 16px;
-}
-
 .cert-text {
+  min-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
   font-size: 12px;
   color: #999;
   line-height: 1.5;

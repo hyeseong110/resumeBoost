@@ -70,6 +70,24 @@ const root = createBrowserRouter([
     children: toBoardRouter(),
   },
   {
+    path: "/saramin",
+    element: (
+      <Suspense fallback={Loading}>
+        <DefaultLayout />
+      </Suspense>
+    ),
+    children: [
+      {
+        path: "",
+        element: (
+          <Suspense fallback={Loading}>
+            
+          </Suspense>
+        )
+      }
+    ]
+  },
+  {
     path: "/auth",
     element: (
       <Suspense fallback={Loading}>
