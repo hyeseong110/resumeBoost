@@ -35,6 +35,9 @@ public class ReviewEntity extends BasicTime {
   @Column(nullable = false)
   private Long mentorId;
 
+  @Column(nullable = false)
+  private String mentorNickName;
+
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "member_id")
   private MemberEntity memberEntity;

@@ -4,6 +4,7 @@ import jwtAxios from "../../util/jwtUtils"
 import "../../css/cart/mycart.css"
 import { addItemCart, clearCart, removeItemCart } from "../../slice/cartSlice"
 import { useDispatch, useSelector } from "react-redux"
+import { S3URL } from "../../util/constant"
 
 const MyCart = () => {
   const param = useParams()
@@ -125,7 +126,7 @@ const MyCart = () => {
                 <img
                   src={
                     memberInfo[item.memberEntity.id]?.newImgName
-                      ? `http://localhost:8090/member/profile/${
+                      ? `${S3URL}${
                           memberInfo[item.memberEntity.id].newImgName
                         }`
                       : "/images/profile.png"

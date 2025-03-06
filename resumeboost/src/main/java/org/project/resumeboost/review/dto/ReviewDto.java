@@ -19,6 +19,8 @@ public class ReviewDto {
 
   private Long mentorId;
 
+  private String mentorNickName;
+
   private Long memberId;
 
   private MemberEntity memberEntity;

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom'
 import jwtAxios from '../../util/jwtUtils';
+import { S3URL } from '../../util/constant';
 
 const BoardMy = () => {
   const isLogin = useSelector((state) => state.loginSlice);
@@ -169,7 +170,7 @@ const BoardMy = () => {
             <div className="left-con">
               {memberInfo.attachFile==1?(
                 <img
-                  src={`http://localhost:8090/member/profile/${memberInfo.newImgName}`}
+                  src={`${S3URL}${memberInfo.newImgName}`}
                   alt="프로필 사진"
                   className="profile"
                   />

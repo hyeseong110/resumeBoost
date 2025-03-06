@@ -330,7 +330,7 @@ const Board = () => {
                     <div className='post-right'>
                       {post.attachFile === 1 && (
                         <img
-                          src={`http://localhost:8090/board/img/${post.newImgName}`}
+                          src={`${S3URL}${post.newImgName}`}
                           alt='첨부 이미지'
                           onError={(e) => {
                             e.target.style.display = "none"

@@ -1,5 +1,8 @@
 package org.project.resumeboost.reply.service.impl;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import org.project.resumeboost.board.dto.BoardDto;
 import org.project.resumeboost.board.repository.BoardRepository;
 import org.project.resumeboost.member.repository.MemberRepository;
@@ -91,5 +94,21 @@ public class ReplyServiceImpl implements ReplyService {
         .memberEntity(reply.getMemberEntity())
         .memberId(reply.getMemberEntity().getId())
         .build());
+  }
+
+  @Override
+  public List<ReplyDto> replyList() {
+    List<ReplyEntity> replyEntities = replyRepository.findAll();
+
+    if (replyEntities.isEmpty()) {
+      throw new IllegalArgumentException();
+    }
+
+    return replyEntities.stream().map(el -> ReplyDto.builder()
+        .id(el.getId())
+        .memberEntity(el.getMemberEntity())
+        .content(el.getContent())
+        .boardId(el.getBoardEntity().getId())
+        .build()).collect(Collectors.toList());
   }
 }
