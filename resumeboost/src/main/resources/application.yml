@@ -30,13 +30,15 @@ spring:
     serialization:
       fail-on-empty-beans: false
 
+  profiles:
+    include: aws
+
 logging:
   level:
     org.hibernate.SQL: debug
     org.hibernate.type: trace
 
-file.path:  "\\\\192.168.23.211\\손경락\\saveFiles\\"
-
+file.path: "E:/saveFiles"
 
 kakaopay:
   secret-key: DEV253954679F732C951B24C65E73933D731D33D

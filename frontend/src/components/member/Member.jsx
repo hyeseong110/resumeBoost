@@ -5,6 +5,7 @@ import jwtAxios from "./../../util/jwtUtils"
 import MyItems from "./../item/MyItems"
 import PersonalInfoForm from "./PersonalInfoForm"
 import MyBoard from "./MyBoard"
+import { S3URL } from "../../util/constant"
 
 const Member = () => {
   const param = useParams()
@@ -38,9 +39,7 @@ const Member = () => {
         `http://localhost:8090/member/myDetail/${myId}`
       )
       setMember(result.data.member)
-      setImgPreview(
-        `http://localhost:8090/member/profile/${result.data.member.newImgName}`
-      )
+      setImgPreview(`${S3URL}${result.data.member.newImgName}`)
     } catch (err) {
       console.log(err)
     }
@@ -148,31 +147,23 @@ const Member = () => {
         ? "http://localhost:8090/member/modify"
         : "http://localhost:8090/member/modify/mentor"
 
-    // const formData = new FormData()
-    // Object.keys(member).forEach((key) => {
-    //   if (member[key] !== undefined && key !== "profileFile") {
-    //     // 리스트 타입인 필드만 JSON.stringify() 사용
-    //     if (Array.isArray(member[key])) {
-    //       formData.append(key, JSON.stringify(member[key]))
-    //     } else {
-    //       formData.append(key, member[key])
-    //     }
-    //   }
-    // })
+    const formData = new FormData()
+
+    Object.keys(member).forEach((key) => {
+      if (
+        member[key] !== undefined &&
+        member[key] !== null &&
+        !Array.isArray(member[key])
+      ) {
+        formData.append(key, member[key])
+      }
+    })
     if (file) {
-      // formData.append("profileFile", file)
-      setMember((prev) => ({ ...prev, profileFile: file }))
+      formData.append("profileFile", file)
     }
 
     try {
-      await jwtAxios.post(
-        postUrl,
-        member
-        // , {
-        // headers: {
-        // "Content-Type": "multipart/form-data",
-        // },}
-      )
+      await jwtAxios.post(postUrl, formData)
       alert("수정 성공")
       detailAxiosFn() // 수정 후 회원 정보 다시 불러오기
     } catch (err) {
@@ -189,7 +180,7 @@ const Member = () => {
               <img
                 src={
                   member.attachFile === 1
-                    ? `http://localhost:8090/member/profile/${member.newImgName}`
+                    ? `${S3URL}${member.newImgName}`
                     : "/images/profile.png"
                 }
                 alt='profile'

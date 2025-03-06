@@ -3,6 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import jwtAxios from "./../../util/jwtUtils"
 import { useDispatch, useSelector } from "react-redux"
 import { addItemCart } from "../../slice/cartSlice"
+import { S3URL } from "../../util/constant"
 
 const Mentor = () => {
   const { id: mentorId } = useParams()
@@ -64,9 +65,7 @@ const Mentor = () => {
         )
       )
       if (mentorData.attachFile === 1) {
-        setImgUrl(
-          `http://localhost:8090/member/profile/${mentorData.newImgName}`
-        )
+        setImgUrl(`${S3URL}${mentorData.newImgName}`)
       }
     } catch (err) {
       console.log(err)
@@ -114,7 +113,7 @@ const Mentor = () => {
         <img
           src={
             mentor.attachFile === 1
-              ? `http://localhost:8090/member/profile/${mentor.newImgName}`
+              ? `${S3URL}${mentor.newImgName}`
               : "/images/mentor.jpg"
           }
           alt='mentor'
