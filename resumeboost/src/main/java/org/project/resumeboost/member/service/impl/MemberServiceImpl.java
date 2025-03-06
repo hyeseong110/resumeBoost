@@ -1,11 +1,8 @@
 package org.project.resumeboost.member.service.impl;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Optional;
-import java.util.UUID;
 
 import org.project.resumeboost.basic.common.Role;
 import org.project.resumeboost.member.dto.MemberDto;
@@ -101,6 +98,7 @@ public class MemberServiceImpl implements MemberService {
     return MemberDto.toMemberDto(memberEntity);
   }
 
+  @SuppressWarnings("null")
   @Override
   public Page<MemberDto> memberList(Pageable pageable, String subject, String search) {
     Page<MemberEntity> memberPage = null;
@@ -118,6 +116,7 @@ public class MemberServiceImpl implements MemberService {
     return memberPage.map(MemberDto::toMemberDto);
   }
 
+  @SuppressWarnings("null")
   @Override
   public Page<MemberDto> mentorList(Pageable pageable, String subject, String search) {
 
@@ -203,125 +202,128 @@ public class MemberServiceImpl implements MemberService {
     Optional<MemberImgEntity> optionalMemImg = memberImgRepository.findByMemberEntity(meOptional.get());
 
     MultipartFile memberImgFile = memberDto.getProfileFile();
-    System.out.println("imgFile===" + memberImgFile);
     String existImg = memberDto.getNewImgName();
 
-    String encodedPassword = null;
+    String encodedPassword = getEncodedPassword(memberDto, meOptional.get());
 
-    if (memberDto.getUserPw().equals(meOptional.get().getUserPw())) {
-      encodedPassword = memberDto.getUserPw();
+    if (isImageUpdateRequired(memberImgFile, existImg)) {
+      saveMember(memberDto, meOptional, encodedPassword, 1); // 이미지가 있으므로 attachFile 1
+    } else if (isImageNotProvided(memberImgFile, existImg)) {
+      saveMember(memberDto, meOptional, encodedPassword, 0); // 이미지가 없으므로 attachFile 0
     } else {
-      encodedPassword = passwordEncoder.encode(memberDto.getUserPw());
+      handleImageUpdate(memberImgFile, optionalMemImg, memberDto, meOptional, encodedPassword);
+    }
+  }
+
+  private String getEncodedPassword(MemberDto memberDto, MemberEntity existingMember) {
+    if (memberDto.getUserPw().equals(existingMember.getUserPw())) {
+      return memberDto.getUserPw();
+    } else {
+      return passwordEncoder.encode(memberDto.getUserPw());
+    }
+  }
+
+  private boolean isImageUpdateRequired(MultipartFile memberImgFile, String existImg) {
+    return (memberImgFile == null || memberImgFile.isEmpty()) && existImg != null;
+  }
+
+  private boolean isImageNotProvided(MultipartFile memberImgFile, String existImg) {
+    return (memberImgFile == null || memberImgFile.isEmpty()) && existImg == null;
+  }
+
+  private void saveMember(MemberDto memberDto, Optional<MemberEntity> meOptional, String encodedPassword,
+      int attachFile) {
+    memberRepository.save(MemberEntity.builder()
+        .id(meOptional.get().getId())
+        .userEmail(memberDto.getUserEmail())
+        .userPw(encodedPassword)
+        .userName(memberDto.getUserName())
+        .address(memberDto.getAddress())
+        .age(memberDto.getAge())
+        .role(memberDto.getRole())
+        .phone(memberDto.getPhone())
+        .career(memberDto.getCareer())
+        .myPostCount(memberDto.getMyPostCount())
+        .myReplyCount(memberDto.getMyReplyCount())
+        .attachFile(attachFile) // 0 또는 1로 설정
+        .portfolioFile(0)
+        .nickName(memberDto.getNickName())
+        .social(false)
+        .detail(memberDto.getDetail())
+        .detailTitle(memberDto.getDetailTitle())
+        .replyCount(memberDto.getReplyCount())
+        .viewCount(memberDto.getViewCount())
+        .boardEntities(memberDto.getBoardEntities())
+        .itemEntities(memberDto.getItemEntities())
+        .payEntities(memberDto.getPayEntities())
+        .memberPtEntities(memberDto.getMemberPtEntities())
+        .replyEntities(memberDto.getReplyEntities())
+        .build());
+  }
+
+  private void handleImageUpdate(MultipartFile memberImgFile, Optional<MemberImgEntity> optionalMemImg,
+      MemberDto memberDto, Optional<MemberEntity> meOptional, String encodedPassword) throws IOException {
+    // 기존 이미지 삭제
+    if (optionalMemImg.isPresent()) {
+      deleteExistingImage(optionalMemImg.get());
     }
 
-    if ((memberImgFile == null || memberImgFile.isEmpty()) && existImg != null) {
-      memberRepository.save(MemberEntity.builder()
-          .id(meOptional.get().getId())
-          .userEmail(memberDto.getUserEmail())
-          .userPw(encodedPassword)
-          .userName(memberDto.getUserName())
-          .address(memberDto.getAddress())
-          .age(memberDto.getAge())
-          .role(memberDto.getRole())
-          .phone(memberDto.getPhone())
-          .career(memberDto.getCareer())
-          .myPostCount(memberDto.getMyPostCount())
-          .myReplyCount(memberDto.getMyReplyCount())
-          .attachFile(1)
-          .portfolioFile(0)
-          .nickName(memberDto.getNickName())
-          .social(false)
-          .detail(memberDto.getDetail())
-          .detailTitle(memberDto.getDetailTitle())
-          .replyCount(memberDto.getReplyCount())
-          .viewCount(memberDto.getViewCount())
-          .boardEntities(memberDto.getBoardEntities())
-          .itemEntities(memberDto.getItemEntities())
-          .payEntities(memberDto.getPayEntities())
-          .memberPtEntities(memberDto.getMemberPtEntities())
-          .memberImgEntities(memberDto.getMemberImgEntities())
-          .replyEntities(memberDto.getReplyEntities())
-          .build());
-    } else if ((memberImgFile == null || memberImgFile.isEmpty()) && existImg == null) {
-      memberRepository.save(MemberEntity.builder()
-          .id(meOptional.get().getId())
-          .userEmail(memberDto.getUserEmail())
-          .userPw(encodedPassword)
-          .userName(memberDto.getUserName())
-          .address(memberDto.getAddress())
-          .myPostCount(memberDto.getMyPostCount())
-          .myReplyCount(memberDto.getMyReplyCount())
-          .age(memberDto.getAge())
-          .role(memberDto.getRole())
-          .phone(memberDto.getPhone())
-          .career(memberDto.getCareer())
-          .attachFile(0)
-          .portfolioFile(0)
-          .nickName(memberDto.getNickName())
-          .social(false)
-          .detail(memberDto.getDetail())
-          .detailTitle(memberDto.getDetailTitle())
-          .replyCount(memberDto.getReplyCount())
-          .viewCount(memberDto.getViewCount())
-          .boardEntities(memberDto.getBoardEntities())
-          .itemEntities(memberDto.getItemEntities())
-          .payEntities(memberDto.getPayEntities())
-          .memberPtEntities(memberDto.getMemberPtEntities())
-          .replyEntities(memberDto.getReplyEntities())
-          .build());
-    } else {
-      // 기존 이미지 삭제
-      if (optionalMemImg.isPresent()) {
-        String existingImgPath = optionalMemImg.get().getNewImgName();
-        System.out.println("exist-------" + existingImgPath);
-        s3UploadService.delete("images/" + existingImgPath); // S3에서 기존 이미지 삭제
-        memberImgRepository.deleteById(optionalMemImg.get().getId());
-      }
+    // 새로운 이미지 업로드
+    String newImgName = uploadNewImage(memberImgFile);
 
-      // 새로운 이미지 업로드 (S3에만 업로드)
-      String oldImgName = memberImgFile.getOriginalFilename();
-      String uploadedImageUrl = s3UploadService.upload(memberImgFile, "images");
-      String newImgName = uploadedImageUrl.substring(uploadedImageUrl.indexOf("images/") + "images/".length());
+    // 회원 정보 저장
+    saveMemberWithImage(memberDto, meOptional, encodedPassword, newImgName, memberImgFile);
+  }
 
-      System.out.println("Uploaded Image URL: " + uploadedImageUrl);
+  private void deleteExistingImage(MemberImgEntity existingImgEntity) {
+    String existingImgPath = existingImgEntity.getNewImgName();
+    System.out.println("exist-------" + existingImgPath);
+    s3UploadService.delete("images/" + existingImgPath); // S3에서 기존 이미지 삭제
+    memberImgRepository.deleteById(existingImgEntity.getId());
+  }
 
-      // 회원 정보 저장
-      Long memberId = memberRepository.save(MemberEntity.builder()
-          .id(meOptional.get().getId())
-          .userEmail(memberDto.getUserEmail())
-          .userPw(encodedPassword)
-          .userName(memberDto.getUserName())
-          .address(memberDto.getAddress())
-          .age(memberDto.getAge())
-          .role(memberDto.getRole())
-          .phone(memberDto.getPhone())
-          .myPostCount(memberDto.getMyPostCount())
-          .myReplyCount(memberDto.getMyReplyCount())
-          .career(memberDto.getCareer())
-          .attachFile(1) // 이미지가 추가되었으므로 1로 설정
-          .portfolioFile(0)
-          .nickName(memberDto.getNickName())
-          .social(false)
-          .detail(memberDto.getDetail())
-          .detailTitle(memberDto.getDetailTitle())
-          .replyCount(memberDto.getReplyCount())
-          .viewCount(memberDto.getViewCount())
-          .boardEntities(memberDto.getBoardEntities())
-          .itemEntities(memberDto.getItemEntities())
-          .payEntities(memberDto.getPayEntities())
-          .memberPtEntities(memberDto.getMemberPtEntities())
-          .replyEntities(memberDto.getReplyEntities())
-          .build()).getId();
+  private String uploadNewImage(MultipartFile memberImgFile) throws IOException {
+    String uploadedImageUrl = s3UploadService.upload(memberImgFile, "images");
+    return uploadedImageUrl.substring(uploadedImageUrl.indexOf("images/") + "images/".length());
+  }
 
-      MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);
+  private void saveMemberWithImage(MemberDto memberDto, Optional<MemberEntity> meOptional, String encodedPassword,
+      String newImgName, MultipartFile memberImgFile) {
+    Long memberId = memberRepository.save(MemberEntity.builder()
+        .id(meOptional.get().getId())
+        .userEmail(memberDto.getUserEmail())
+        .userPw(encodedPassword)
+        .userName(memberDto.getUserName())
+        .address(memberDto.getAddress())
+        .age(memberDto.getAge())
+        .role(memberDto.getRole())
+        .phone(memberDto.getPhone())
+        .myPostCount(memberDto.getMyPostCount())
+        .myReplyCount(memberDto.getMyReplyCount())
+        .career(memberDto.getCareer())
+        .attachFile(1) // 이미지는 추가되었으므로 1로 설정
+        .portfolioFile(0)
+        .nickName(memberDto.getNickName())
+        .social(false)
+        .detail(memberDto.getDetail())
+        .detailTitle(memberDto.getDetailTitle())
+        .replyCount(memberDto.getReplyCount())
+        .viewCount(memberDto.getViewCount())
+        .boardEntities(memberDto.getBoardEntities())
+        .itemEntities(memberDto.getItemEntities())
+        .payEntities(memberDto.getPayEntities())
+        .memberPtEntities(memberDto.getMemberPtEntities())
+        .replyEntities(memberDto.getReplyEntities())
+        .build()).getId();
 
-      // S3에 업로드된 이미지 정보 저장
-      memberImgRepository.save(MemberImgEntity.builder()
-          .newImgName(newImgName)
-          .oldImgName(oldImgName)
-          .memberEntity(memberEntity)
-          .build());
-    }
+    MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);
+
+    // S3에 업로드된 이미지 정보 저장
+    memberImgRepository.save(MemberImgEntity.builder()
+        .newImgName(newImgName)
+        .oldImgName(memberImgFile.getOriginalFilename())
+        .memberEntity(memberEntity)
+        .build());
   }
 
 }

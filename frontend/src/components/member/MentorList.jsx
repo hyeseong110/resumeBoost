@@ -30,7 +30,6 @@ const MentorList = () => {
           search: search,
         },
       })
-      console.log(result)
 
       setMembers(result.data.mentorList.content)
       setTotalPages(result.data.mentorList.totalPages)

@@ -38,8 +38,13 @@ const Member = () => {
       const result = await jwtAxios.get(
         `http://localhost:8090/member/myDetail/${myId}`
       )
-      setMember(result.data.member)
-      setImgPreview(`${S3URL}${result.data.member.newImgName}`)
+      const memberRes = result.data.member
+      setMember(memberRes)
+      if (memberRes.attachFile === 1) {
+        setImgPreview(`${S3URL}${memberRes.newImgName}`)
+      } else {
+        setImgPreview("")
+      }
     } catch (err) {
       console.log(err)
     }
