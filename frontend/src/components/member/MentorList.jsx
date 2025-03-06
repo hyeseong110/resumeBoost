@@ -4,6 +4,7 @@ import axios from "axios"
 import { useEffect } from "react"
 import jwtAxios from "./../../util/jwtUtils"
 import { useNavigate } from "react-router-dom"
+import { S3URL } from "./../../util/constant"
 
 const MentorList = () => {
   const loginState = useSelector((state) => state.loginSlice)
@@ -42,7 +43,7 @@ const MentorList = () => {
   }
 
   const mentorDetailFn = (id) => {
-      navigate(`/member/mentorDetail/${id}`)
+    navigate(`/member/mentorDetail/${id}`)
   }
 
   const searchFn = () => {
@@ -96,7 +97,7 @@ const MentorList = () => {
                   <img
                     src={
                       member.attachFile === 1
-                        ? `http://localhost:8090/member/profile/${member.newImgName}`
+                        ? `${S3URL}${member.newImgName}`
                         : "/images/profile.png"
                     }
                     alt='profile'

@@ -15,6 +15,7 @@ import org.project.resumeboost.member.repository.MemberImgRepository;
 import org.project.resumeboost.member.repository.MemberPtRepository;
 import org.project.resumeboost.member.repository.MemberRepository;
 import org.project.resumeboost.member.service.MemberService;
+import org.project.resumeboost.s3.S3UploadService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -41,6 +42,7 @@ public class MemberServiceImpl implements MemberService {
   private final MemberImgRepository memberImgRepository;
   private final MemberPtRepository memberPtRepository;
   private final PasswordEncoder passwordEncoder;
+  private final S3UploadService s3UploadService;
 
   @Value("${file.path}")
   String saveFile;
@@ -198,10 +200,10 @@ public class MemberServiceImpl implements MemberService {
   @Override
   public void modifyOk(MemberDto memberDto) throws IOException {
     Optional<MemberEntity> meOptional = memberRepository.findByUserEmail(memberDto.getUserEmail());
-
     Optional<MemberImgEntity> optionalMemImg = memberImgRepository.findByMemberEntity(meOptional.get());
 
     MultipartFile memberImgFile = memberDto.getProfileFile();
+    System.out.println("imgFile===" + memberImgFile);
     String existImg = memberDto.getNewImgName();
 
     String encodedPassword = null;
@@ -225,7 +227,7 @@ public class MemberServiceImpl implements MemberService {
           .career(memberDto.getCareer())
           .myPostCount(memberDto.getMyPostCount())
           .myReplyCount(memberDto.getMyReplyCount())
-          .attachFile(1) // 이미지는 회원정보 수정에서 추가
+          .attachFile(1)
           .portfolioFile(0)
           .nickName(memberDto.getNickName())
           .social(false)
@@ -253,7 +255,7 @@ public class MemberServiceImpl implements MemberService {
           .role(memberDto.getRole())
           .phone(memberDto.getPhone())
           .career(memberDto.getCareer())
-          .attachFile(0) // 이미지는 회원정보 수정에서 추가
+          .attachFile(0)
           .portfolioFile(0)
           .nickName(memberDto.getNickName())
           .social(false)
@@ -268,22 +270,22 @@ public class MemberServiceImpl implements MemberService {
           .replyEntities(memberDto.getReplyEntities())
           .build());
     } else {
+      // 기존 이미지 삭제
       if (optionalMemImg.isPresent()) {
-        String newImg = optionalMemImg.get().getNewImgName();
-        String imgPath = saveFile + "member/profile/" + newImg;
-        File deleteFile = new File(imgPath);
-        if (deleteFile.exists()) {
-          deleteFile.delete();
-        }
+        String existingImgPath = optionalMemImg.get().getNewImgName();
+        System.out.println("exist-------" + existingImgPath);
+        s3UploadService.delete("images/" + existingImgPath); // S3에서 기존 이미지 삭제
         memberImgRepository.deleteById(optionalMemImg.get().getId());
       }
+
+      // 새로운 이미지 업로드 (S3에만 업로드)
       String oldImgName = memberImgFile.getOriginalFilename();
+      String uploadedImageUrl = s3UploadService.upload(memberImgFile, "images");
+      String newImgName = uploadedImageUrl.substring(uploadedImageUrl.indexOf("images/") + "images/".length());
 
-      UUID uuid = UUID.randomUUID();
-      String newImgName = uuid + "_" + oldImgName;
-      String saveFilePath = saveFile + "member/profile/" + newImgName;
-      memberImgFile.transferTo(new File(saveFilePath));
+      System.out.println("Uploaded Image URL: " + uploadedImageUrl);
 
+      // 회원 정보 저장
       Long memberId = memberRepository.save(MemberEntity.builder()
           .id(meOptional.get().getId())
           .userEmail(memberDto.getUserEmail())
@@ -296,7 +298,7 @@ public class MemberServiceImpl implements MemberService {
           .myPostCount(memberDto.getMyPostCount())
           .myReplyCount(memberDto.getMyReplyCount())
           .career(memberDto.getCareer())
-          .attachFile(1) // 이미지는 회원정보 수정에서 추가
+          .attachFile(1) // 이미지가 추가되었으므로 1로 설정
           .portfolioFile(0)
           .nickName(memberDto.getNickName())
           .social(false)
@@ -313,12 +315,13 @@ public class MemberServiceImpl implements MemberService {
 
       MemberEntity memberEntity = memberRepository.findById(memberId).orElseThrow(IllegalArgumentException::new);
 
+      // S3에 업로드된 이미지 정보 저장
       memberImgRepository.save(MemberImgEntity.builder()
           .newImgName(newImgName)
           .oldImgName(oldImgName)
           .memberEntity(memberEntity)
           .build());
     }
-
   }
+
 }
