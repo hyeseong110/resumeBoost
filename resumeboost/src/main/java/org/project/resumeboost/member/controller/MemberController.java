@@ -2,7 +2,6 @@ package org.project.resumeboost.member.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -131,6 +130,7 @@ public class MemberController {
     return ResponseEntity.status(HttpStatus.OK).body(map);
   }
 
+  // 멘토 리스트
   @GetMapping("/mentorList")
   public ResponseEntity<?> mentorList(
       @PageableDefault(page = 0, size = 5, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,

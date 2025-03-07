@@ -277,7 +277,6 @@ public class MemberServiceImpl implements MemberService {
 
   private void deleteExistingImage(MemberImgEntity existingImgEntity) {
     String existingImgPath = existingImgEntity.getNewImgName();
-    System.out.println("exist-------" + existingImgPath);
     s3UploadService.delete("images/" + existingImgPath); // S3에서 기존 이미지 삭제
     memberImgRepository.deleteById(existingImgEntity.getId());
   }
