@@ -9,12 +9,13 @@ const persistConfig = {
   storage,
 }
 
-const persistedReducer = persistReducer(persistConfig, loginSlice)
+const persistedLoginReducer = persistReducer(persistConfig, loginSlice)
+const persistedCartReducer = persistReducer(persistConfig, cartSlice)
 
 const store = configureStore({
   reducer: {
-    loginSlice: persistedReducer,
-    cartSlice: cartSlice,
+    loginSlice: persistedLoginReducer,
+    cartSlice: persistedCartReducer,
   },
 })
 

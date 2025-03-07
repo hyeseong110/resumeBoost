@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import jwtAxios from "../../util/jwtUtils"
 import "../../css/cart/mycart.css"
 import { addItemCart, clearCart, removeItemCart } from "../../slice/cartSlice"
@@ -11,9 +11,11 @@ const MyCart = () => {
   const id = param.id
   // const [myItems, setMyItems] = useState([])
   const [memberInfo, setMemberInfo] = useState([])
+  const [cartId, setCartId] = useState("")
   const intervalRef = useRef(null)
   const dispatch = useDispatch()
   const items = useSelector((state) => state.cartSlice.items)
+  const navigate = useNavigate()
 
   const fetchMemberInfo = async (memberIds) => {
     try {
@@ -36,8 +38,6 @@ const MyCart = () => {
     try {
       const res = await jwtAxios.get(`http://localhost:8090/cart/myCart/${id}`)
       const cartitems = res.data.cart.itemListEntities
-      // setMyItems(cartitems)
-
       cartitems.forEach((item) => {
         dispatch(addItemCart(item.itemEntity))
       })
@@ -46,6 +46,7 @@ const MyCart = () => {
         ...new Set(cartitems.map((item) => item.itemEntity.memberEntity.id)),
       ] // 중복 제거
       fetchMemberInfo(memberIds)
+      setCartId(res.data.cart.id)
     } catch (error) {
       console.log(error)
     }
@@ -55,7 +56,7 @@ const MyCart = () => {
     if (!window.confirm("상품을 삭제하시겠습니까?")) return
 
     try {
-      const res = await jwtAxios.get(
+      await jwtAxios.get(
         `http://localhost:8090/cart/deleteCartItem/memberId/${id}/itemId/${itemId}`
       )
 
@@ -85,6 +86,11 @@ const MyCart = () => {
       console.log(error)
       alert("전체 삭제 실패")
     }
+  }
+
+  const goToPayFn = () => {
+    if (!window.confirm("결제하시겠습니까?")) return
+    navigate(`/pay/addPay/${id}?cartId=${cartId}`)
   }
 
   useEffect(() => {
@@ -126,9 +132,7 @@ const MyCart = () => {
                 <img
                   src={
                     memberInfo[item.memberEntity.id]?.newImgName
-                      ? `${S3URL}${
-                          memberInfo[item.memberEntity.id].newImgName
-                        }`
+                      ? `${S3URL}${memberInfo[item.memberEntity.id].newImgName}`
                       : "/images/profile.png"
                   }
                   alt='item'
@@ -164,15 +168,25 @@ const MyCart = () => {
               총 상품 금액:{" "}
               {items.reduce((total, item) => total + item.itemPrice, 0)} 원
             </span>
-            <span>배송비: 3,000 원</span>
+            <span>
+              수수료:{" "}
+              {Math.floor(
+                items.reduce((total, item) => total + item.itemPrice, 0) * 0.05
+              )}{" "}
+              원
+            </span>
             <span>
               총 주문금액:{" "}
-              {items.reduce((total, item) => total + item.itemPrice, 0) + 3000}{" "}
+              {Math.floor(
+                items.reduce((total, item) => total + item.itemPrice, 0) * 1.05
+              )}{" "}
               원
             </span>
           </div>
           <div className='cart-actions'>
-            <button className='cart-order-btn'>주문하기</button>
+            <button className='cart-order-btn' onClick={() => goToPayFn()}>
+              결제하기
+            </button>
             <button
               className='cart-delete-btn'
               onClick={() => deleteAllCartItemFn()}

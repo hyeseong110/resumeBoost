@@ -1,12 +1,14 @@
 import React, { useEffect, useState } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { Link } from "react-router-dom"
 import useCustomLogin from "../../hook/useCustomLogin"
 import { FaShoppingCart } from "react-icons/fa"
+import { clearCart } from "../../slice/cartSlice"
 
 const Header = () => {
   const loginState = useSelector((state) => state.loginSlice)
   const { doLogout, moveToPath } = useCustomLogin()
+  const dispatch = useDispatch()
   const items = useSelector((state) => state.cartSlice.items)
   // 로컬 스토리지에서 role 정보를 가져옴
   const [role, setRole] = useState(localStorage.getItem("userRole") || null)
@@ -33,6 +35,7 @@ const Header = () => {
   const handleLogout = () => {
     if (window.confirm("로그아웃 하시겠습니까?")) {
       doLogout()
+      dispatch(clearCart())
       localStorage.removeItem("userRole") // 로그아웃 시 role 정보 삭제
       moveToPath("/main")
     }

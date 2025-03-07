@@ -13,6 +13,7 @@ import InquiryPage from "../pages/inquiry/InquiryPage"
 import { useSelector } from "react-redux"
 import toCartRouter from "./toCartRouter"
 import Work24Page from "../pages/work24/Work24Page"
+import toPayRouter from "./toPayRouter"
 
 const MainPage = lazy(() => import("../pages/basic/MainPage"))
 
@@ -84,9 +85,9 @@ const root = createBrowserRouter([
           <Suspense fallback={Loading}>
             <Work24Page />
           </Suspense>
-        )
-      }
-    ]
+        ),
+      },
+    ],
   },
   {
     path: "/auth",
@@ -156,6 +157,17 @@ const root = createBrowserRouter([
       </ProtectedRoute>
     ),
     children: toCartRouter(),
+  },
+  {
+    path: "/pay",
+    element: (
+      <ProtectedRoute>
+        <Suspense fallback={Loading}>
+          <DefaultLayout />
+        </Suspense>
+      </ProtectedRoute>
+    ),
+    children: toPayRouter(),
   },
 ])
 

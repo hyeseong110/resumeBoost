@@ -1,8 +1,29 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
+import { getCookie } from "../util/cookieUtil"
+import jwtAxios from "../util/jwtUtils"
 
 const initState = {
   items: [],
 }
+
+export const cartData = createAsyncThunk(
+  "cartData",
+  async (_, { getState }) => {
+    const memberInfo = getCookie("member")
+    const userId = memberInfo?.id
+
+    if (!userId) throw new Error("User not logged in")
+
+    const res = await jwtAxios.get(
+      `http://localhost:8090/cart/myCart/${userId}`
+    )
+    const cartItems = res.data.cart.itemListEntities
+
+    const items = cartItems.map((item) => item.itemEntity)
+    console.log(items)
+    return items
+  }
+)
 
 const cartSlice = createSlice({
   name: "cartSlice",
@@ -22,6 +43,20 @@ const cartSlice = createSlice({
     clearCart: (state) => {
       state.items = []
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(cartData.pending, (state) => {
+        state.status = "loading"
+      })
+      .addCase(cartData.fulfilled, (state, action) => {
+        state.status = "succeeded"
+        state.items = action.payload // 서버에서 가져온 장바구니 정보 저장
+      })
+      .addCase(cartData.rejected, (state, action) => {
+        state.status = "failed"
+        state.error = action.error.message
+      })
   },
 })
 
