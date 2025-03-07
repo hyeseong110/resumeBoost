@@ -40,9 +40,6 @@ public class MemberDto {
   // 실제 이름
   private String userName;
 
-  // 상세설명 제목
-  private String detailTitle;
-
   // 상세설명
   private String detail;
 
@@ -114,7 +111,6 @@ public class MemberDto {
           .attachFile(memberEntity.getAttachFile())
           .career(memberEntity.getCareer())
           .detail(memberEntity.getDetail())
-          .detailTitle(memberEntity.getDetailTitle())
           .itemEntities(memberEntity.getItemEntities())
           .memberImgEntities(memberEntity.getMemberImgEntities())
           .newImgName(memberEntity.getMemberImgEntities().get(0).getNewImgName())
@@ -147,7 +143,6 @@ public class MemberDto {
           .portfolioFile(memberEntity.getPortfolioFile())
           .career(memberEntity.getCareer())
           .detail(memberEntity.getDetail())
-          .detailTitle(memberEntity.getDetailTitle())
           .itemEntities(memberEntity.getItemEntities())
           .memberImgEntities(memberEntity.getMemberImgEntities())
           .newImgName(memberEntity.getMemberImgEntities().get(0).getNewImgName())
@@ -175,7 +170,6 @@ public class MemberDto {
           .attachFile(memberEntity.getAttachFile())
           .career(memberEntity.getCareer())
           .detail(memberEntity.getDetail())
-          .detailTitle(memberEntity.getDetailTitle())
           .itemEntities(memberEntity.getItemEntities())
           .portfolioFile(memberEntity.getPortfolioFile())
           .memberPtEntities(memberEntity.getMemberPtEntities())
@@ -204,7 +198,6 @@ public class MemberDto {
           .attachFile(memberEntity.getAttachFile())
           .career(memberEntity.getCareer())
           .detail(memberEntity.getDetail())
-          .detailTitle(memberEntity.getDetailTitle())
           .itemEntities(memberEntity.getItemEntities())
           .portfolioFile(memberEntity.getPortfolioFile())
           .myPostCount(memberEntity.getMyPostCount())

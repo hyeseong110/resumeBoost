@@ -67,9 +67,6 @@ public class MemberEntity extends BasicTime {
   @Column(nullable = false)
   private String userName;
 
-  // ?��?��?���? ?���?
-  private String detailTitle;
-
   // ?��?��?���?
   @Column(length = 5000)
   private String detail;
