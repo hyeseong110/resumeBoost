@@ -169,17 +169,19 @@ const BoardMy = () => {
           ):(
             <div className="left-con">
               {memberInfo.attachFile==1?(
-                <img
-                  src={`${S3URL}${memberInfo.newImgName}`}
-                  alt="프로필 사진"
-                  className="profile"
-                  />
-                ):( 
+                <div className="profile">
                   <img
-                  src="/images/profile.png"
-                  alt="프로필 사진"
-                  className="profile"
-                  />
+                    src={`${S3URL}${memberInfo.newImgName}`}
+                    alt="프로필 사진"
+                    />
+                </div>
+                ):( 
+                  <div className="profile">
+                    <img
+                    src="/images/profile.png"
+                    alt="프로필 사진"
+                    />
+                  </div>
                 )}
               <h2 className="nickName">{memberInfo.nickName}님</h2>
               <div className="age-address">

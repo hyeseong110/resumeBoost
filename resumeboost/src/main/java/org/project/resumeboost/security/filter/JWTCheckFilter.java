@@ -58,6 +58,9 @@ public class JWTCheckFilter extends OncePerRequestFilter { // OncePerRequestFilt
     if (path.contains("/member/memberDetail")) {
       return true;
     }
+    if (path.contains("/api/work24")) {
+      return true;
+    }
     if (path.startsWith("https://lhsbucket98.s3.ap-northeast-2.amazonaws.com/images/")) {
       return true;
     }

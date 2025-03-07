@@ -137,7 +137,7 @@ const MentorList = () => {
             onClick={() => setCurrentPage(currentPage - 1)}
             disabled={currentPage === 0}
           >
-            이전
+            &lt;
           </button>
           {Array.from(
             { length: endPage - startPage + 1 },
@@ -155,7 +155,7 @@ const MentorList = () => {
             onClick={() => setCurrentPage(currentPage + 1)}
             disabled={currentPage === totalPages - 1}
           >
-            다음
+            &gt;
           </button>
         </div>
       </div>
