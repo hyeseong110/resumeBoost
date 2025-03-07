@@ -13,7 +13,6 @@ const loadMemberCookie = () => {
     memberInfo.userEmail = decodeURIComponent(memberInfo.userEmail)
     memberInfo.role = decodeURIComponent(memberInfo.role)
   }
-  console.log(memberInfo)
   return memberInfo
 }
 
@@ -44,7 +43,6 @@ const loginSlice = createSlice({
         console.log("fulfilled")
 
         const payload = action.payload
-        console.log(payload)
 
         if (!payload.error) {
           setCookie("member", JSON.stringify(payload), 1)
