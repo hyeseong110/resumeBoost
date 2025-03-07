@@ -6,4 +6,6 @@ import org.project.resumeboost.review.dto.ReviewDto;
 
 public interface ReviewService {
   List<ReviewDto> reviewList();
+
+  List<ReviewDto> mentorReview(Long mentorId);
 }

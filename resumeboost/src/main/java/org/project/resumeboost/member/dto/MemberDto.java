@@ -10,6 +10,7 @@ import org.project.resumeboost.member.entity.MemberImgEntity;
 import org.project.resumeboost.member.entity.MemberPtEntity;
 import org.project.resumeboost.pay.entity.PayEntity;
 import org.project.resumeboost.reply.entity.ReplyEntity;
+import org.project.resumeboost.review.entity.ReviewEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import lombok.AllArgsConstructor;
@@ -102,6 +103,8 @@ public class MemberDto {
 
   private String oldPtName;
 
+  private List<ReviewEntity> reviewEntities;
+
   public static MemberDto toMemberDto(MemberEntity memberEntity) {
     if (memberEntity.getAttachFile() == 1 && memberEntity.getPortfolioFile() == 1) {
       return MemberDto.builder()
@@ -133,6 +136,7 @@ public class MemberDto {
           .social(memberEntity.getSocial())
           .userPw(memberEntity.getUserPw())
           .boardEntities(memberEntity.getBoardEntities())
+          .reviewEntities(memberEntity.getReviewEntities())
           .build();
     } else if (memberEntity.getAttachFile() == 1) {
       return MemberDto.builder()
@@ -161,6 +165,7 @@ public class MemberDto {
           .social(memberEntity.getSocial())
           .userPw(memberEntity.getUserPw())
           .boardEntities(memberEntity.getBoardEntities())
+          .reviewEntities(memberEntity.getReviewEntities())
           .build();
     } else if (memberEntity.getPortfolioFile() == 1) {
       return MemberDto.builder()
@@ -189,6 +194,7 @@ public class MemberDto {
           .social(memberEntity.getSocial())
           .userPw(memberEntity.getUserPw())
           .boardEntities(memberEntity.getBoardEntities())
+          .reviewEntities(memberEntity.getReviewEntities())
           .build();
     } else {
       return MemberDto.builder()
@@ -214,6 +220,7 @@ public class MemberDto {
           .social(memberEntity.getSocial())
           .userPw(memberEntity.getUserPw())
           .boardEntities(memberEntity.getBoardEntities())
+          .reviewEntities(memberEntity.getReviewEntities())
           .build();
     }
   }

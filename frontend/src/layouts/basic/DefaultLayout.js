@@ -5,6 +5,7 @@ import { useState, useEffect, useRef } from 'react'; // useRef 추가
 import { useSelector } from 'react-redux';
 import jwtAxios from '../../util/jwtUtils';
 import ScrollTop from '../../util/ScrollTop';
+import { S3URL } from '../../util/constant';
 
 const DefaultLayout = () => {
   const [chatbotModal, setChatbotModal] = useState(false);
@@ -94,7 +95,7 @@ const DefaultLayout = () => {
                             <div class="mentorList-langk-img">
                                 ${el.attachFile === 1 ? (
                                     `<img 
-                                    src="http://localhost:8090/member/profile/${el.newImgName}"
+                                    src="${S3URL}${el.newImgName}"
                                     alt="프로필" class="profile" />`
                                 ) : (
                                     `<img 
@@ -123,15 +124,17 @@ const DefaultLayout = () => {
               <h1>${responseText.content.replace(/\\n/g, "<br>")}</h1>
               <div class='message-mentor'>
                 <div class='message-mentor-top'>
+                    <div class='message-left'>
                     ${mentor.attachFile === 1 ? (
                         `<img 
-                        src="http://localhost:8090/member/profile/${mentor.newImgName}"
+                        src="${S3URL}${mentor.newImgName}"
                         alt="프로필" class="profile" />`
                     ) : (
                         `<img 
                         src="/images/profile.png"
                         alt="프로필" class="profile" />`
                     )}
+                    </div>
                     <div class='message-mentor-nickName'>${mentor.nickName}</div>
                 </div>
                 <div class='message-mentor-body'>

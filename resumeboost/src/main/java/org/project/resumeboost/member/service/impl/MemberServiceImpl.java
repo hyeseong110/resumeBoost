@@ -2,6 +2,7 @@ package org.project.resumeboost.member.service.impl;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Optional;
 
 import org.project.resumeboost.basic.common.Role;
@@ -12,6 +13,8 @@ import org.project.resumeboost.member.repository.MemberImgRepository;
 import org.project.resumeboost.member.repository.MemberPtRepository;
 import org.project.resumeboost.member.repository.MemberRepository;
 import org.project.resumeboost.member.service.MemberService;
+import org.project.resumeboost.review.entity.ReviewEntity;
+import org.project.resumeboost.review.repository.ReviewRepository;
 import org.project.resumeboost.s3.S3UploadService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -40,6 +43,7 @@ public class MemberServiceImpl implements MemberService {
   private final MemberPtRepository memberPtRepository;
   private final PasswordEncoder passwordEncoder;
   private final S3UploadService s3UploadService;
+  private final ReviewRepository reviewRepository;
 
   @Value("${file.path}")
   String saveFile;

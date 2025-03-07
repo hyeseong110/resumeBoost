@@ -14,6 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,7 +23,7 @@ public class ReviewController {
   private final ReviewServiceImpl reviewServiceImpl;
 
   @GetMapping("/reviewList")
-  public ResponseEntity<?> getMethodName() {
+  public ResponseEntity<?> reviewList() {
 
     Map<String, List<ReviewDto>> map = new HashMap<>();
 
@@ -30,6 +31,14 @@ public class ReviewController {
 
     map.put("reviewList", reviewDtos);
 
+    return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
+  @GetMapping("/mentorReview/{id}")
+  public ResponseEntity<?> mentorReview(@PathVariable("id") Long mentorId) {
+    Map<String, List<ReviewDto>> map = new HashMap<>();
+    List<ReviewDto> reviewDtos = reviewServiceImpl.mentorReview(mentorId);
+    map.put("review", reviewDtos);
     return ResponseEntity.status(HttpStatus.OK).body(map);
   }
 
