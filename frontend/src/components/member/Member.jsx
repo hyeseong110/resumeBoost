@@ -194,7 +194,7 @@ const Member = () => {
             <div className='memberName'>
               <h3>{member.userName}</h3>
               <div>
-                <span>{member.age}세 · </span>
+                <span>{member.age}대 · </span>
                 <span>{member.address}</span>
               </div>
             </div>

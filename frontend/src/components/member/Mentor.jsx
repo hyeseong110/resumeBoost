@@ -4,18 +4,22 @@ import jwtAxios from "./../../util/jwtUtils"
 import { useDispatch, useSelector } from "react-redux"
 import { addItemCart } from "../../slice/cartSlice"
 import { S3URL } from "../../util/constant"
+import axios from "axios"
 
 const Mentor = () => {
   const { id: mentorId } = useParams()
   const loginState = useSelector((state) => state.loginSlice)
   const [mentor, setMentor] = useState({})
   const [items, setItems] = useState([])
+  const [reviews, setReviews] = useState([])
   const [category, setCategory] = useState([])
   const [imgUrl, setImgUrl] = useState("/images/mentor.jpg")
   const [activeIndex, setActiveIndex] = useState(0)
   const sectionRefs = useRef([])
   const navigate = useNavigate()
   const dispatch = useDispatch()
+
+  const [detailsExpanded, setDetailsExpanded] = useState(false)
 
   useEffect(() => {
     const observerOptions = {
@@ -99,9 +103,20 @@ const Mentor = () => {
     }
   }
 
+  const reviewFn = async (mentorId) =>{
+    try {
+      const res = await jwtAxios.get(`http://localhost:8090/review/mentorReview/${mentorId}`)
+      setReviews(res.data.review)
+    } catch (error) {
+      console.error(error)
+    }
+  }
+  
+
   useEffect(() => {
     mentorAxiosFn(mentorId)
     itemAxiosFn(mentorId)
+    reviewFn(mentorId)
   }, [mentorId])
 
   return (
@@ -139,7 +154,6 @@ const Mentor = () => {
                 "멘토 정보",
                 "멘토의 상품",
                 "포트폴리오",
-                "사진/동영상",
                 "리뷰",
               ].map((text, index) => (
                 <li
@@ -153,16 +167,50 @@ const Mentor = () => {
             </ul>
 
             {/* ✅ 해당 div만 보이도록 설정 + ref 연결 */}
-            <div
-              ref={(el) => (sectionRefs.current[0] = el)}
-              className='mentorDetails'
-            >
-              <h2>멘토 정보</h2>
-              <ul>
-                <li>이름 : {mentor.userName}</li>
-                <li>나이 : {mentor.age}</li>
-                <li>경력 : {mentor.career}</li>
-              </ul>
+            <div className='mentorDetails'>
+              <div className="details-top"
+              ref={(el) => (sectionRefs.current[0] = el)}>
+                <h2>멘토 정보</h2>
+                <ul>
+                  <li>
+                    <p>이름</p>
+                    <span>{mentor.userName}</span>
+                  </li>
+                  <li>
+                    <p>나이</p>
+                    <span>{mentor.age}대</span>
+                  </li>
+                  <li>
+                    <p>경력</p>
+                    <span>{mentor.career}</span>
+                  </li>
+                </ul>
+              </div>
+              <div className="details-bottom">
+                <h2>서비스 상세설명</h2>
+                {mentor.detail === null?(
+                  <span className="nopt">등록된 설명이 없어요...</span>
+                ):(
+                <>
+                  <div>
+                    <span dangerouslySetInnerHTML={{
+                      __html: mentor.detail
+                      ? detailsExpanded
+                      ? mentor.detail
+                      : mentor.detail.slice(0, 500)
+                      : "로딩 중..."
+                      }} />
+                    {!detailsExpanded && <div className="details-show"></div>}
+                  </div>
+                  <button
+                  className="detail-btn"
+                  onClick={() => setDetailsExpanded(!detailsExpanded)}
+                  >
+                    {detailsExpanded ? "간략히 보기 △" : "상세설명 더보기 ▽"}
+                  </button>
+                </>
+                )}
+              </div>
             </div>
 
             <div
@@ -170,20 +218,24 @@ const Mentor = () => {
               className='mentorItems'
             >
               <h2>멘토의 상품</h2>
-              <ul className='myItemList'>
-                {items.map((item) => (
-                  <li key={item.id} onClick={() => addCartFn(item)}>
-                    <div>
-                      <p>
-                        <span>카테고리 :</span> {item.category}
-                      </p>
-                      <p>
-                        <span>상품가격 :</span> {item.itemPrice}원
-                      </p>
-                    </div>
-                  </li>
-                ))}
-              </ul>
+              {items === null?(
+                <div className="nopt">등록된 상품이 없어요...</div>
+              ):(
+                <ul className='myItemList'>
+                  {items.map((item) => (
+                    <li key={item.id} onClick={() => addCartFn(item)}>
+                      <div>
+                        <p>
+                          <span>카테고리 :</span> {item.category}
+                        </p>
+                        <p>
+                          <span>상품가격 :</span> {item.itemPrice}원
+                        </p>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              )}
             </div>
 
             <div
@@ -191,24 +243,34 @@ const Mentor = () => {
               className='mentorPortfolios'
             >
               <h2>포트폴리오</h2>
+              {mentor.newPtName === null ? (
+                <span className="nopt">등록된 파일이 없어요... /(ㄒoㄒ)/~~</span>
+              ):(
+                <img src={`${S3URL}${mentor.newPtName}`} alt="ptimg" />
+              )}
             </div>
 
             <div
               ref={(el) => (sectionRefs.current[3] = el)}
-              className='mentorImg'
-            >
-              <h2>이미지</h2>
-            </div>
-
-            <div
-              ref={(el) => (sectionRefs.current[4] = el)}
               className='mentorReview'
             >
               <h2>리뷰/후기</h2>
+              {reviews.length === 0?(
+                <div className="nopt">등록된 리뷰가 없어요...</div>
+              ):(
+                <div className="review">
+                  {reviews.map(el=>(
+                    <span>{el.content}</span>
+                  ))}
+                </div>
+              )}
             </div>
           </div>
         </div>
         <div className='mentor-pay'>
+          <div className="mentor-text">
+            {mentor.nickName} 님에게 원하는 서비스의 견적을 받아보세요
+          </div>
           <div className='mentor-btn1'>상담 요청하기</div>
           <div
             className='mentor-btn2'

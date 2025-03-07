@@ -85,6 +85,20 @@
   gap: 15px;
 }
 
+.mentorDetail-con .mentor-pay .mentor-text{
+  font-size: 1rem;
+  font-weight: 500;
+  line-height: 1.63;
+  color: #293341;
+  letter-spacing: -.01875rem;
+  word-break: break-word;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 /* 버튼 스타일 */
 .mentorDetail-con .mentor-pay .mentor-btn1,
 .mentorDetail-con .mentor-pay .mentor-btn2 {
@@ -147,4 +161,102 @@ ul.info li.active {
   min-height: 500px;
   border-bottom: 1px solid #ddd;
   padding: 30px 0;
+}
+
+.mentorDetail-con .mentor-detail .mentorInfo .mentorDetails .details-top{
+  width: 100%;
+  margin-bottom: 30px;
+}
+
+.mentorDetail-con .mentor-detail .mentorInfo .mentorDetails .details-top ul{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 5.5rem;
+  margin-top: 1.625rem;
+  background-color: #f6f7f9;
+  border-radius: 8px;
+}
+
+.mentorDetail-con .mentor-detail .mentorInfo .mentorDetails .details-top ul li{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  color: #293341;
+}
+
+.mentorDetail-con .mentor-detail .mentorInfo .mentorDetails .details-top ul li p{
+  display: flex;
+  align-items: center;
+  font-size: .875rem;
+}
+
+.mentorDetail-con .mentor-detail .mentorInfo .mentorDetails .details-top ul li span{
+  display: flex;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.mentorDetail-con .mentor-detail .mentorInfo .mentorDetails .details-bottom{
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.mentorDetail-con .mentor-detail .mentorInfo .mentorDetails .details-bottom h2{
+  margin-bottom: 1.625rem;
+}
+
+.mentorDetail-con .mentor-detail .mentorInfo .mentorDetails .details-bottom div{
+  position: relative;
+  z-index: -99;
+}
+
+.mentorDetail-con .mentor-detail .mentorInfo .mentorDetails .details-bottom div span{
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: #6a7685;
+  letter-spacing: -.0125rem;
+  white-space: pre-line;
+}
+
+.mentorDetail-con .mentor-detail .mentorInfo .mentorDetails .details-bottom .details-show{
+  position: absolute;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  z-index: 99;
+  display: block;
+  height: 3.125rem;
+  background-image: linear-gradient(to bottom, #fff0, #ffffffe6 70%, #fff 99%);
+}
+
+.mentorDetail-con .mentor-detail .mentorInfo .mentorDetails .details-bottom button{
+  margin-top: 1.5rem;
+  border: 0;
+  background-color: white;
+  cursor: pointer;
+  color: #693bf2;
+  font-size: .875rem;
+  padding: 0;
+  margin: 0 auto;
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.nopt{
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  color: #6a7685;
 }

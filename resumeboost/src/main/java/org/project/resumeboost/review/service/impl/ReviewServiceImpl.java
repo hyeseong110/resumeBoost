@@ -36,4 +36,18 @@ public class ReviewServiceImpl implements ReviewService {
         .build()).collect(Collectors.toList());
   }
 
+  @Override
+  public List<ReviewDto> mentorReview(Long mentorId) {
+    List<ReviewEntity> reviewEntities = reviewRepository.findByMentorId(mentorId);
+
+    return reviewEntities.stream().map(el -> ReviewDto.builder()
+        .content(el.getContent())
+        .memberEntity(el.getMemberEntity())
+        .id(el.getId())
+        .memberId(el.getMemberEntity().getId())
+        .mentorId(el.getMentorId())
+        .mentorNickName(el.getMentorNickName())
+        .build()).collect(Collectors.toList());
+  }
+
 }
