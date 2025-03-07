@@ -35,19 +35,20 @@
 
 /* 프로필 썸네일 */
 .mentorDetail .imgThum {
-  width: 100%;
+  width: 1200px;
   height: 1px;
 }
 
 .mentorDetail .imgThum img {
   width: 130px;
   height: 130px;
+  object-fit: cover;
   display: block;
   border-radius: 15px;
   border: 1px solid white;
   background-color: white;
   position: relative;
-  left: 420px;
+  left: 60px;
   top: -140px;
 }
 

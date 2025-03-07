@@ -12,6 +12,7 @@ import AdminLayout from "../layouts/admin/AdminLayout"
 import InquiryPage from "../pages/inquiry/InquiryPage"
 import { useSelector } from "react-redux"
 import toCartRouter from "./toCartRouter"
+import Work24Page from "../pages/work24/Work24Page"
 
 const MainPage = lazy(() => import("../pages/basic/MainPage"))
 
@@ -70,7 +71,7 @@ const root = createBrowserRouter([
     children: toBoardRouter(),
   },
   {
-    path: "/saramin",
+    path: "/work24",
     element: (
       <Suspense fallback={Loading}>
         <DefaultLayout />
@@ -81,7 +82,7 @@ const root = createBrowserRouter([
         path: "",
         element: (
           <Suspense fallback={Loading}>
-            
+            <Work24Page />
           </Suspense>
         )
       }

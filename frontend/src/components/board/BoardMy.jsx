@@ -168,26 +168,26 @@ const BoardMy = () => {
                 <Link to={"/auth/join"}>회원가입</Link>
               </div>
             </div>
-          ) : (
-            <div className='left-con'>
-              {memberInfo.attachFile == 1 ? (
+          ):(
+            <div className="left-con">
+              {memberInfo.attachFile==1?(
                 <img
                   src={`${S3URL}${memberInfo.newImgName}`}
-                  alt='프로필 사진'
-                  className='profile'
-                />
-              ) : (
-                <img
-                  src='/images/profile.png'
-                  alt='프로필 사진'
-                  className='profile'
-                />
-              )}
-              <h2 className='nickName'>{memberInfo.nickName}님</h2>
-              <div className='age-address'>
-                <div className='age'>{memberInfo.age}대</div>
-                <span className='vertical1'></span>
-                <div className='address'>{memberInfo.address}</div>
+                  alt="프로필 사진"
+                  className="profile"
+                  />
+                ):( 
+                  <img
+                  src="/images/profile.png"
+                  alt="프로필 사진"
+                  className="profile"
+                  />
+                )}
+              <h2 className="nickName">{memberInfo.nickName}님</h2>
+              <div className="age-address">
+                <div className="age">{memberInfo.age}대</div>
+                <span className="vertical1"></span>
+                <div className="address">{memberInfo.address}</div>
               </div>
 
               <div className='count'>
