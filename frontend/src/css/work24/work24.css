@@ -36,7 +36,7 @@
 }
 
 .work24-con .work24-body{
-  width: 100%;
+  min-width: 1200px;
   margin-top: 20px;
 }
 
