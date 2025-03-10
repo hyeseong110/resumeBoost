@@ -4,9 +4,9 @@ import lombok.Data;
 
 @Data
 public class KakaoApproveResponse {
-  private String aid;
-  private String tid;
-  private String cid;
+  private String aid; // 요청 고유 번호
+  private String tid; // 결제 고유번호
+  private String cid; // 가맹정 코드
   private String sid;
   private String partner_order_id;
   private String partner_user_id;

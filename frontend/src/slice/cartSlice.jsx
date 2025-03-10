@@ -9,19 +9,23 @@ const initState = {
 export const cartData = createAsyncThunk(
   "cartData",
   async (_, { getState }) => {
-    const memberInfo = getCookie("member")
-    const userId = memberInfo?.id
+    try {
+      const memberInfo = getCookie("member")
+      const userId = memberInfo?.id
 
-    if (!userId) throw new Error("User not logged in")
+      if (!userId) throw new Error("User not logged in")
 
-    const res = await jwtAxios.get(
-      `http://localhost:8090/cart/myCart/${userId}`
-    )
-    const cartItems = res.data.cart.itemListEntities
+      const res = await jwtAxios.get(
+        `http://localhost:8090/cart/myCart/${userId}`
+      )
+      const cartItems = res.data.cart.itemListEntities
 
-    const items = cartItems.map((item) => item.itemEntity)
-    console.log(items)
-    return items
+      const items = cartItems.map((item) => item.itemEntity)
+      console.log(items)
+      return items
+    } catch (error) {
+      throw new Error(error.message || "Failed to fetch cart data")
+    }
   }
 )
 
@@ -34,7 +38,7 @@ const cartSlice = createSlice({
         (item) => item.id === action.payload.id
       )
       if (!existingItem) {
-        state.items.push(action.payload)
+        state.items = [...state.items, action.payload]
       }
     },
     removeItemCart: (state, action) => {

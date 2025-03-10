@@ -7,6 +7,7 @@ import cartSlice from "./../slice/cartSlice"
 const persistConfig = {
   key: "root",
   storage,
+  whitelist: ["loginSlice", "cartSlice"],
 }
 
 const persistedLoginReducer = persistReducer(persistConfig, loginSlice)
@@ -17,6 +18,12 @@ const store = configureStore({
     loginSlice: persistedLoginReducer,
     cartSlice: persistedCartReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ["persist/PERSIST"],
+      },
+    }),
 })
 
 export const persistor = persistStore(store)

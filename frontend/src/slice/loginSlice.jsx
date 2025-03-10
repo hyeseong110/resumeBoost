@@ -10,29 +10,38 @@ const loadMemberCookie = () => {
   const memberInfo = getCookie("member")
 
   if (memberInfo && memberInfo.userEmail) {
-    memberInfo.userEmail = decodeURIComponent(memberInfo.userEmail)
-    memberInfo.role = decodeURIComponent(memberInfo.role)
+    return {
+      ...memberInfo,
+      userEmail: decodeURIComponent(memberInfo.userEmail),
+      role: decodeURIComponent(memberInfo.role),
+    }
   }
-  return memberInfo
+  return null
 }
 
-export const loginPostAsync = createAsyncThunk("loginPostAsync", (param) => {
-  return loginPost(param)
-})
+export const loginPostAsync = createAsyncThunk(
+  "loginPostAsync",
+  async (param) => {
+    try {
+      const response = await loginPost(param)
+      return response
+    } catch (error) {
+      return Promise.reject(error.message) // 에러 메시지 반환
+    }
+  }
+)
 
 const loginSlice = createSlice({
   name: "LoginSlice",
   initialState: loadMemberCookie() || initState,
   reducers: {
     login: (state, action) => {
-      console.log("login.....")
       const payload = action.payload
 
       setCookie("member", JSON.stringify(payload), 1)
       return payload
     },
     logout: (state, action) => {
-      console.log("logout....")
       removeCookie("member")
       return { ...initState }
     },
@@ -40,8 +49,6 @@ const loginSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(loginPostAsync.fulfilled, (state, action) => {
-        console.log("fulfilled")
-
         const payload = action.payload
 
         if (!payload.error) {

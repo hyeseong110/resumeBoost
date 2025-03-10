@@ -1,8 +1,12 @@
 package org.project.resumeboost.kakaoPay.service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import org.project.resumeboost.kakaoPay.dto.ReadyResponse;
+import org.project.resumeboost.pay.dto.PayDto;
+import org.project.resumeboost.itemList.entity.ItemListEntity;
+import org.project.resumeboost.itemList.repository.ItemListRepository;
 import org.project.resumeboost.kakaoPay.dto.KakaoApproveResponse;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -24,6 +28,7 @@ public class KakaoPayService {
   String cid;
 
   private ReadyResponse kakaoReady;
+  private final ItemListRepository itemListRepository;
 
   // request header
   private HttpHeaders getHeaders() {
@@ -35,17 +40,25 @@ public class KakaoPayService {
   }
 
   // 결제 요청
-  public ReadyResponse kakaoPayReady() {
+  public ReadyResponse kakaoPayReady(PayDto payDto) {
+    List<ItemListEntity> itemListEntities = itemListRepository.findAllByCartEntityId(payDto.getCartId());
     Map<String, Object> parameters = new HashMap<>();
 
     parameters.put("cid", cid);
-    parameters.put("partner_order_id", "1000");
-    parameters.put("partner_user_id", "USER_ID");
-    parameters.put("item_name", "자소서");
-    parameters.put("quantity", "1");
-    parameters.put("total_amount", "2200");
+    parameters.put("partner_order_id", payDto.getCartId()); // 가맹점 주문번호
+    parameters.put("partner_user_id", payDto.getMemberId()); // 회원 ID
+
+    if (itemListEntities.size() > 1) {
+      parameters.put("item_name", "자소서 외" + (itemListEntities.size() - 1));
+      parameters.put("quantity", itemListEntities.size());
+    } else {
+      parameters.put("item_name", itemListEntities.get(0).getItemEntity().getCategory());
+      parameters.put("quantity", "1");
+    }
+    parameters.put("total_amount", payDto.getTotalPrice());
     parameters.put("tax_free_amount", "0");
-    parameters.put("approval_url", "http://localhost:8090/kakao/success");
+    parameters.put("approval_url",
+        "http://localhost:3000/pay/addPay/" + payDto.getMemberId() + "?cartId=" + payDto.getCartId());
     parameters.put("cancel_url", "http://localhost:8090/kakao/cancel");
     parameters.put("fail_url", "http://localhost:8090/kakao/fail");
 
@@ -62,13 +75,13 @@ public class KakaoPayService {
   }
 
   // 결제 승인
-  public KakaoApproveResponse approveResponse(String pgToken) {
+  public KakaoApproveResponse approveResponse(String pgToken, String tid, String cartId, String memberId) {
 
     Map<String, String> parameters = new HashMap<>();
     parameters.put("cid", cid);
-    parameters.put("tid", kakaoReady.getTid());
-    parameters.put("partner_order_id", "1000");
-    parameters.put("partner_user_id", "USER_ID");
+    parameters.put("tid", tid);
+    parameters.put("partner_order_id", cartId);
+    parameters.put("partner_user_id", memberId);
     parameters.put("pg_token", pgToken);
 
     HttpEntity<Map<String, String>> requestEntity = new HttpEntity<>(parameters, getHeaders());
