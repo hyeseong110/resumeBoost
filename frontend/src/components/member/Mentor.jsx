@@ -106,19 +106,53 @@ const Mentor = () => {
   const reviewFn = async (mentorId) =>{
     try {
       const res = await jwtAxios.get(`http://localhost:8090/review/mentorReview/${mentorId}`)
-      setReviews(res.data.review)
+      
+      if( res.data && res.data.review){
+        const updatedReviews = await Promise.all(res.data.review.map(async (review) => {
+          try{
+            const memberRes = await jwtAxios.get(`http://localhost:8090/member/memberDetail/${review.memberEntity.id}`)
+            return { ...review, memberEntity: memberRes.data.member};
+          } catch(err){
+            console.error(err);
+            return review
+          }
+        }))
+        setReviews(updatedReviews)
+      }
     } catch (error) {
       console.error(error)
     }
   }
   
-
   useEffect(() => {
     mentorAxiosFn(mentorId)
     itemAxiosFn(mentorId)
     reviewFn(mentorId)
   }, [mentorId])
 
+  function formatDate(dateString) {
+    const date = new Date(dateString); // 날짜 문자열을 Date 객체로 변환
+    const day = String(date.getDate()).padStart(2, '0'); // 날짜 (일자) 두 자리 숫자로
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월 (1부터 시작하므로 +1)
+    const year = String(date.getFullYear()).slice(2); // 연도는 두 자리로
+  
+    return `${year}.${month}.${day}`; // 원하는 형식으로 리턴
+  }
+
+  const reviewDeleteFn = async (reviewId) =>{
+    const bool = window.confirm("리뷰를 삭제 하시겠습니까? 삭제하시면 복구하지 못합니다.")
+    if(bool === true){
+      try {
+        await axios.delete(`http://localhost:8090/review/delete/${reviewId}`);
+        reviewFn()
+      } catch (error) {
+        console.error(error);
+        alert("리뷰 삭제 실패")
+      }
+    }
+    return
+  }
+  
   return (
     <div className='mentorDetail'>
       <div className='profileDiv' style={{ backgroundImage: `url(${imgUrl})` }}>
@@ -255,15 +289,57 @@ const Mentor = () => {
               className='mentorReview'
             >
               <h2>리뷰/후기</h2>
-              {reviews.length === 0?(
-                <div className="nopt">등록된 리뷰가 없어요...</div>
-              ):(
-                <div className="review">
-                  {reviews.map(el=>(
-                    <span>{el.content}</span>
-                  ))}
-                </div>
-              )}
+              <div className="review">
+                <ul>
+                {reviews.length === 0?(
+                  <div className="nopt">등록된 리뷰가 없어요...</div>
+                ):(
+                  reviews.map((review) => (
+                    <li>
+                      <div className="review-top">
+                        <div className="review-top-left">
+                          <div className="review-profile">
+                            {review.memberEntity?.attachFile === 1 ? (
+                              <img
+                                src={`${S3URL}${review.memberEntity.newImgName}`}
+                                alt="프로필 사진"
+                                className="reply-profile-img"
+                              />
+                            ) : (
+                              <img
+                                src="/images/profile.png"
+                                alt="프로필 사진"
+                                className="reply-profile-img"
+                              />
+                            )}
+                            <span>{review.memberEntity.nickName}</span>
+                            <div className="v"></div>
+                            <span>{review.memberEntity.address}</span>
+                            <div className="v"></div>
+                            <span>{review.memberEntity.age} 대</span>
+                          </div>
+                        </div>
+                        <div className="review-top-right">
+                          {formatDate(`${review.createTime}`)}
+                        </div>
+                      </div>
+                      <div className="review-body">
+                        <span
+                          dangerouslySetInnerHTML={{
+                            __html: review.content,
+                          }}
+                        />
+                        {loginState.NickName === review.memberEntity.nickName?(
+                          <div onClick={()=>reviewDeleteFn(review.id)}>삭제</div>
+                        ):(
+                          <></>
+                        )}
+                      </div>
+                    </li>
+                  ))
+                )}
+                </ul>
+              </div>
             </div>
           </div>
         </div>

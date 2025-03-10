@@ -8,4 +8,8 @@ public interface ReviewService {
   List<ReviewDto> reviewList();
 
   List<ReviewDto> mentorReview(Long mentorId);
+
+  void deleteReview(Long reviewId);
+
+  List<ReviewDto> memberReview(Long memberId);
 }

@@ -1,5 +1,7 @@
 package org.project.resumeboost.review.dto;
 
+import java.time.LocalDateTime;
+
 import org.project.resumeboost.member.entity.MemberEntity;
 
 import lombok.AllArgsConstructor;
@@ -24,5 +26,8 @@ public class ReviewDto {
   private Long memberId;
 
   private MemberEntity memberEntity;
+
+  private LocalDateTime createTime;
+  private LocalDateTime updateTime;
 
 }

@@ -202,7 +202,7 @@ const Main = () => {
                     <h2 className="card-title-green">1분만에 회원가입하고<br />나에게 맞는 멘토 찾아보기</h2>
                   </div>
                   <div className="card-footer">
-                    <div className="arrow-button-green">〉</div>
+                    <div className="arrow-button-green"><span style={{color: '#E0F8E0'}}>-</span>〉</div>
                     <img src="/images/index1.png" alt="paper plane" className="card-icon" />
                   </div>
                 </Link>
@@ -214,7 +214,7 @@ const Main = () => {
                     <h2 className="card-title-blue">1분만에 멘토가입하고<br />컨설팅 해주기</h2>
                   </div>
                   <div className="card-footer">
-                    <div className="arrow-button-blue">〉</div>
+                    <div className="arrow-button-blue"><span style={{color: '#E0F0FF'}}>-</span>〉</div>
                     <img src="/images/index2.png" alt="user folder" className="card-icon" />
                   </div>
                 </Link>

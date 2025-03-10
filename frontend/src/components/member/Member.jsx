@@ -6,6 +6,7 @@ import MyItems from "./../item/MyItems"
 import PersonalInfoForm from "./PersonalInfoForm"
 import MyBoard from "./MyBoard"
 import { S3URL } from "../../util/constant"
+import MyReview from "./MyReview"
 
 const Member = () => {
   const param = useParams()
@@ -116,8 +117,10 @@ const Member = () => {
         ) : null
       case "구매 내역":
         return role !== "ROLE_MENTOR" ? <p>구매 내역 목록</p> : null
-      case "문의 내역":
-        return <p>문의 내역 목록</p>
+      case "리뷰 목록":
+        return (
+          <MyReview />
+        )
       case "작성글/댓글":
         return (
           <MyBoard
@@ -241,10 +244,10 @@ const Member = () => {
                 </li>
               )}
               <li
-                className={selectedMenu === "문의 내역" ? "active" : ""}
-                onClick={() => handleMenuClick("문의 내역")}
+                className={selectedMenu === "리뷰 목록" ? "active" : ""}
+                onClick={() => handleMenuClick("리뷰 목록")}
               >
-                문의 내역
+                리뷰 목록
               </li>
               <li
                 className={selectedMenu === "작성글/댓글" ? "active" : ""}

@@ -47,6 +47,30 @@ public class ReviewServiceImpl implements ReviewService {
         .memberId(el.getMemberEntity().getId())
         .mentorId(el.getMentorId())
         .mentorNickName(el.getMentorNickName())
+        .createTime(el.getCreateTime())
+        .updateTime(el.getUpdateTime())
+        .build()).collect(Collectors.toList());
+  }
+
+  @Override
+  public void deleteReview(Long reviewId) {
+    reviewRepository.findById(reviewId).orElseThrow(IllegalArgumentException::new);
+    reviewRepository.deleteById(reviewId);
+  }
+
+  @Override
+  public List<ReviewDto> memberReview(Long memberId) {
+    List<ReviewEntity> reviewEntities = reviewRepository.findByMemberEntityId(memberId);
+
+    return reviewEntities.stream().map(el -> ReviewDto.builder()
+        .content(el.getContent())
+        .memberEntity(el.getMemberEntity())
+        .id(el.getId())
+        .memberId(el.getMemberEntity().getId())
+        .mentorId(el.getMentorId())
+        .mentorNickName(el.getMentorNickName())
+        .createTime(el.getCreateTime())
+        .updateTime(el.getUpdateTime())
         .build()).collect(Collectors.toList());
   }
 

@@ -182,7 +182,7 @@ input[type="file"] {
 
 .myItemList li {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 10px;
@@ -215,8 +215,7 @@ input[type="file"] {
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 5px;
-  flex-direction: column;
+  gap: 10px;
 }
 .myItemList li .itemB button {
   border: none;
@@ -414,4 +413,8 @@ input[type="file"] {
 .modal-content {
   padding: 20px;
   text-align: center;
+}
+
+.review-click{
+  cursor: pointer;
 }

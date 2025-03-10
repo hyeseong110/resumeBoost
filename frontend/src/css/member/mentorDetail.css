@@ -260,3 +260,71 @@ ul.info li.active {
   font-size: 16px;
   color: #6a7685;
 }
+
+.review {
+ width: 100%;
+ margin-top: 26px;
+}
+
+.review ul{
+  width: 100%;
+}
+
+.review ul li{
+  width: 100%;
+  margin-top: 20px;
+  padding-bottom: 20px;
+}
+
+.review ul li .review-top{
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.review ul li .review-top .review-top-left{
+  width: 100%;
+  font-weight: 500;
+}
+
+.review ul li .review-top .review-top-left .review-profile{
+  display: flex;
+  align-items: center;
+  color: rgb(93 93 93);
+  gap: 10px;
+  font-size: 16px;
+}
+
+.review ul li .review-top .review-top-left .review-profile .v{
+  background-color: rgb(224 224 224);
+  width: .0625rem;
+  height: .625rem;
+}
+
+.review ul li .review-top .review-top-right{
+  color: rgb(170 170 170 );
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.review ul li .review-body{
+  color: rgb(93 93 93 );
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.review ul li .review-body div{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  cursor: pointer;
+  transition: all 0.3s;
+  padding-bottom: 20px;
+  padding-right: 10px;
+}
+
+.review ul li .review-body div:hover{
+  color: red;
+}

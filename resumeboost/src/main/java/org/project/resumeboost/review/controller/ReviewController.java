@@ -13,8 +13,10 @@ import lombok.RequiredArgsConstructor;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RestController
 @RequiredArgsConstructor
@@ -39,6 +41,24 @@ public class ReviewController {
     Map<String, List<ReviewDto>> map = new HashMap<>();
     List<ReviewDto> reviewDtos = reviewServiceImpl.mentorReview(mentorId);
     map.put("review", reviewDtos);
+    return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
+  @DeleteMapping("/delete/{id}")
+  public ResponseEntity<?> reviewDelete(@PathVariable("id") Long reviewId) {
+    reviewServiceImpl.deleteReview(reviewId);
+    return ResponseEntity.status(HttpStatus.OK).body(null);
+  }
+
+  @GetMapping("/memberReview/{id}")
+  public ResponseEntity<?> getMethodName(@PathVariable("id") Long memberId) {
+
+    Map<String, List<ReviewDto>> map = new HashMap<>();
+
+    List<ReviewDto> reviewDtos = reviewServiceImpl.memberReview(memberId);
+
+    map.put("review", reviewDtos);
+
     return ResponseEntity.status(HttpStatus.OK).body(map);
   }
 
