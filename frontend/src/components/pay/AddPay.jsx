@@ -4,6 +4,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom"
 import "../../css/pay/addPay.css"
 import jwtAxios from "../../util/jwtUtils"
 import { clearCart } from "../../slice/cartSlice"
+import { getCookie } from "../../util/cookieUtil"
 
 const AddPay = () => {
   const param = useParams()
@@ -14,13 +15,8 @@ const AddPay = () => {
   const queryParams = new URLSearchParams(location.search) // URL에서 쿼리 파라미터를 가져옵니다.
   const cartId = queryParams.get("cartId")
   const [step, setStep] = useState(1) // 현재 결제 단계
-  const [member, setMember] = useState({})
-  const [userInfo, setUserInfo] = useState({
-    name: "",
-    address: "",
-    phone: "",
-  })
-  const [paymentMethod, setPaymentMethod] = useState("")
+  const [member, setMember] = useState({}) // 사용자 정보
+  const [paymentMethod, setPaymentMethod] = useState("") // 결제 방법
 
   const items = useSelector((state) => state.cartSlice.items)
   const totalPrice = items.reduce((total, item) => total + item.itemPrice, 0)
@@ -53,10 +49,7 @@ const AddPay = () => {
   }
 
   const addPayFn = async () => {
-    let url = ""
-    if (paymentMethod === "카드") {
-      url = `http://localhost:8090/pay/addPay`
-    }
+    const url = `http://localhost:8090/pay/addPay`
     try {
       const res = await jwtAxios.post(url, payData)
       console.log(res)
@@ -69,9 +62,77 @@ const AddPay = () => {
     }
   }
 
+  const addKakaoPayFn = async () => {
+    const url = `http://localhost:8090/kakao/ready`
+    try {
+      const res = await jwtAxios.post(url, payData)
+      console.log(res)
+      if (res.status === 200) {
+        const { tid, next_redirect_pc_url } = res.data // 카카오 결제 페이지 URL과 TID를 받아옵니다.
+        sessionStorage.setItem("kakao_tid", tid) // TID 저장
+        sessionStorage.setItem("partner_order_id", payData.cartId) // 주문번호 저장
+        sessionStorage.setItem("partner_user_id", payData.memberId)
+
+        // 카카오페이 결제 페이지로 리다이렉트
+        window.location.href = next_redirect_pc_url
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const approvePayment = async () => {
+    const pgToken = new URLSearchParams(window.location.search).get("pg_token")
+    if (!pgToken) {
+      return
+    }
+
+    const tid = sessionStorage.getItem("kakao_tid")
+    const partner_order_id = sessionStorage.getItem("partner_order_id")
+    const partner_user_id = sessionStorage.getItem("partner_user_id")
+
+    const approveUrl = `http://localhost:8090/kakao/success`
+    try {
+      const memberInfo = getCookie("member")
+      const { accessToken } = memberInfo
+
+      const response = await jwtAxios.get(approveUrl, {
+        params: {
+          tid,
+          pg_token: pgToken,
+          partner_order_id,
+          partner_user_id,
+        },
+        headers: {
+          Authorization: `Bearer ${accessToken}`, // 여기서 헤더 추가
+        },
+      })
+      console.log(response)
+
+      if (response.status === 200) {
+        handleNextStep() // 결제 완료 후 step 이동
+        setStep(3)
+        setPaymentMethod("카카오페이")
+        dispatch(clearCart())
+      } else {
+        console.log("결제 승인 실패:", response.data)
+      }
+    } catch (error) {
+      console.log("결제 승인 처리 중 오류 발생:", error)
+    }
+  }
+
   useEffect(() => {
     payMemberFn()
   }, [id])
+
+  // 결제 승인 확인
+  useEffect(() => {
+    const pgToken = new URLSearchParams(window.location.search).get("pg_token")
+    if (pgToken) {
+      approvePayment() // 결제 승인 확인을 위한 API 호출
+    }
+  }, [])
 
   return (
     <div className='addPay'>
@@ -82,27 +143,20 @@ const AddPay = () => {
             <input
               type='text'
               placeholder='이름'
-              // value={userInfo.name}
-              value={member.userName}
-              // onChange={(e) =>
-              //   setUserInfo({ ...userInfo, name: e.target.value })
-              // }
+              value={member.userName || ""}
+              readOnly
             />
             <input
               type='text'
               placeholder='전화번호'
-              value={member.phone}
-              // onChange={(e) =>
-              //   setUserInfo({ ...userInfo, phone: e.target.value })
-              // }
+              value={member.phone || ""}
+              readOnly
             />
             <input
               type='text'
               placeholder='이메일'
-              value={member.userEmail}
-              // onChange={(e) =>
-              //   setUserInfo({ ...userInfo, address: e.target.value })
-              // }
+              value={member.userEmail || ""}
+              readOnly
             />
             <button className='next' onClick={handleNextStep}>
               다음
@@ -146,7 +200,7 @@ const AddPay = () => {
               <button onClick={handlePrevStep}>이전</button>
               <button
                 onClick={() => {
-                  addPayFn()
+                  paymentMethod === "카드" ? addPayFn() : addKakaoPayFn()
                 }}
                 disabled={!paymentMethod}
               >
@@ -159,7 +213,7 @@ const AddPay = () => {
         {step === 3 && (
           <div className='step'>
             <h2>🎉 결제 완료!</h2>
-            <p>{userInfo.name}님, 결제가 완료되었습니다!</p>
+            <p>{member.userName}님, 결제가 완료되었습니다!</p>
             <p>결제 방법: {paymentMethod}</p>
             <button
               className='next'
