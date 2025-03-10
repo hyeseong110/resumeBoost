@@ -58,7 +58,12 @@ const MyBoard = ({ boardList, setCategory, category }) => {
                 )}
                 {category === "myBoard" ? (
                   <p>
-                    <span>내용: </span> {board.content}
+                    <span>내용: </span> 
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: board.content.replace(/<br\s*\/?>/g, " "),
+                      }}
+                    />
                   </p>
                 ) : (
                   <p>
