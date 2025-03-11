@@ -9,6 +9,7 @@ import { S3URL } from "../../util/constant"
 import MyReview from "./MyReview"
 import { login } from "../../slice/loginSlice"
 import MyPayList from "./MyPayList"
+import MentorInfo from "./MentorInfo"
 
 const Member = () => {
   const param = useParams()
@@ -141,6 +142,14 @@ const Member = () => {
             setCategory={setCategory}
             category={category}
           />
+        )
+      case "멘토 정보관리":
+        return (
+          <>
+            <MentorInfo 
+              myId={myId}
+            />
+          </>
         )
       default:
         return null
@@ -278,6 +287,16 @@ const Member = () => {
               >
                 작성글/댓글
               </li>
+              {role === "ROLE_MENTOR" ? (
+                <li
+                  className={selectedMenu === "멘토 정보관리" ? "active" : ""}
+                  onClick={() => handleMenuClick("멘토 정보관리")}
+                >
+                  멘토 정보관리
+                </li>
+              ) : (
+                <></>
+              )}
             </ul>
           </div>
 

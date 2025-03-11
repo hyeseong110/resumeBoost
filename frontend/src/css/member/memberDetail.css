@@ -418,3 +418,99 @@ input[type="file"] {
 .review-click{
   cursor: pointer;
 }
+
+.mentorInfo{
+  width: 100%;
+  min-height: 100%;
+}
+
+.mentorInfo .mentorInfo-top{
+  width: 100%;
+}
+
+.mentorInfo .mentorInfo-top form textarea{
+  margin-top: 10px;
+  width: 100%;
+  height: 600px;
+  padding: 10px;
+  box-sizing: border-box;
+  border: 0;
+  border-radius: 10px;
+  font-size: 16px;
+  resize: none;
+}
+
+.mentorInfo .mentorInfo-top form div{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mentorInfo .mentorInfo-top form div button{
+  margin-top: 10px;
+  border: none;
+  padding: 10px 20px;
+  background-color: #00c7ae;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.mentorInfo .mentorInfo-top form div button:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 199, 174, 0.5);
+}
+
+.mentorInfo .mentorInfo-bottom{
+  width: 100%;
+  margin-top: 40px;
+}
+
+.mentorInfo .mentorInfo-bottom form{
+  width: 100%;
+}
+
+.mentorInfo .mentorInfo-bottom form .pt{
+  min-height: 200px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mentorInfo .mentorInfo-bottom form .butt{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.mentorInfo .mentorInfo-bottom form .butt button{
+  margin-top: 10px;
+  border: none;
+  padding: 10px 20px;
+  background-color: #00c7ae;
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.mentorInfo .mentorInfo-bottom form .butt button:hover{
+  transform: translateY(-2px);
+  box-shadow: 0 2px 5px rgba(0, 199, 174, 0.5);
+}
+
+.mentorInfo .mentorInfo-bottom form .pt .ptView{
+  height: 200px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.mentorInfo .mentorInfo-bottom form .pt .ptView img{
+  width: 100%;
+  height: 100%;
+  display: block;
+}
