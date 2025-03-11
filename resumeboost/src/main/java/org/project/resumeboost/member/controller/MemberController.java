@@ -21,6 +21,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -197,7 +198,7 @@ public class MemberController {
   }
 
   // 포트폴리오 파일 추가
-  @PostMapping("/mentorPtFile")
+  @PutMapping("/mentorPtFile")
   public ResponseEntity<?> addPortfolio(MemberDto memberDto) throws IOException {
     Map<String, Object> map = new HashMap<>();
 
@@ -209,11 +210,13 @@ public class MemberController {
   }
 
   // 멘토 디테일 추가
-  @PostMapping("/mentor/detail")
+  @PutMapping("/mentor/detail")
   public ResponseEntity<?> addDetail(MemberDto memberDto) {
     Map<String, Object> map = new HashMap<>();
 
     memberServiceImpl.addDetail(memberDto);
+
+    System.out.println(memberDto.getDetail());
 
     map.put("member", "save");
 

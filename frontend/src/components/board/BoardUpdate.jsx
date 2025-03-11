@@ -12,7 +12,8 @@ const BoardUpdate = ({ params, boardDetail }) => {
   const [isCancelModalOpen, setIsCancelModalOpen] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState(boardDetail?.category || '자유게시판');
   const [title, setTitle] = useState(boardDetail?.title || '');
-  const [content, setContent] = useState(boardDetail?.content || '');
+  const formattedContent1 = boardDetail.content.replace(/<br\s*\/?>/g, '\n');
+  const [content, setContent] = useState(formattedContent1);
   const [file, setFile] = useState(null);
   const [previewURL, setPreviewURL] = useState(null);
   const [errorMessage, setErrorMessage] = useState('');
@@ -26,7 +27,7 @@ const BoardUpdate = ({ params, boardDetail }) => {
     if (boardDetail) {
       setSelectedCategory(boardDetail.category || '자유게시판');
       setTitle(boardDetail.title || '');
-      setContent(boardDetail.content || '');
+      setContent(formattedContent1);
       setBoardId(boardDetail.id || params?.id);
     }
   }, [boardDetail, params]);
@@ -39,7 +40,8 @@ const BoardUpdate = ({ params, boardDetail }) => {
           const fetchedBoardDetail = response.data;
           setSelectedCategory(fetchedBoardDetail.category || '자유게시판');
           setTitle(fetchedBoardDetail.title || '');
-          setContent(fetchedBoardDetail.content || '');
+          const formattedContent = fetchedBoardDetail.content.replace(/<br\s*\/?>/g, '\n');
+          setContent(formattedContent || '');
           setBoardId(fetchedBoardDetail.id);
         })
         .catch(error => {
