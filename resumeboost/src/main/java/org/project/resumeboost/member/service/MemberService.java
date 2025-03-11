@@ -23,4 +23,10 @@ public interface MemberService {
 
   // 회원정보 수정시 디테일 가져오기
   public MemberDto modifyMyDetail(Long myId);
+
+  // 포트폴리오 추가
+  public void addPortFolioFile(MemberDto memberDto) throws IOException;
+
+  // 멘토 디테일 추가
+  public void addDetail(MemberDto memberDto);
 }

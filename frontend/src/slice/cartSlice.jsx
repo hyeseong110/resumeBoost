@@ -21,7 +21,6 @@ export const cartData = createAsyncThunk(
       const cartItems = res.data.cart.itemListEntities
 
       const items = cartItems.map((item) => item.itemEntity)
-      console.log(items)
       return items
     } catch (error) {
       throw new Error(error.message || "Failed to fetch cart data")

@@ -9,6 +9,7 @@ import org.project.resumeboost.basic.common.Role;
 import org.project.resumeboost.member.dto.MemberDto;
 import org.project.resumeboost.member.entity.MemberEntity;
 import org.project.resumeboost.member.entity.MemberImgEntity;
+import org.project.resumeboost.member.entity.MemberPtEntity;
 import org.project.resumeboost.member.repository.MemberImgRepository;
 import org.project.resumeboost.member.repository.MemberPtRepository;
 import org.project.resumeboost.member.repository.MemberRepository;
@@ -250,7 +251,7 @@ public class MemberServiceImpl implements MemberService {
         .myPostCount(memberDto.getMyPostCount())
         .myReplyCount(memberDto.getMyReplyCount())
         .attachFile(attachFile) // 0 또는 1로 설정
-        .portfolioFile(0)
+        .portfolioFile(memberDto.getPortfolioFile())
         .nickName(memberDto.getNickName())
         .social(false)
         .detail(memberDto.getDetail())
@@ -284,6 +285,12 @@ public class MemberServiceImpl implements MemberService {
     memberImgRepository.deleteById(existingImgEntity.getId());
   }
 
+  private void deleteExistingPt(MemberPtEntity existingPtEntity) {
+    String existingImgPath = existingPtEntity.getNewPtName();
+    s3UploadService.delete("images/" + existingImgPath); // S3에서 기존 이미지 삭제
+    memberPtRepository.deleteById(existingPtEntity.getId());
+  }
+
   private String uploadNewImage(MultipartFile memberImgFile) throws IOException {
     String uploadedImageUrl = s3UploadService.upload(memberImgFile, "images");
     return uploadedImageUrl.substring(uploadedImageUrl.indexOf("images/") + "images/".length());
@@ -304,7 +311,7 @@ public class MemberServiceImpl implements MemberService {
         .myReplyCount(memberDto.getMyReplyCount())
         .career(memberDto.getCareer())
         .attachFile(1) // 이미지는 추가되었으므로 1로 설정
-        .portfolioFile(0)
+        .portfolioFile(memberDto.getPortfolioFile())
         .nickName(memberDto.getNickName())
         .social(false)
         .detail(memberDto.getDetail())
@@ -325,6 +332,50 @@ public class MemberServiceImpl implements MemberService {
         .oldImgName(memberImgFile.getOriginalFilename())
         .memberEntity(memberEntity)
         .build());
+  }
+
+  @Override
+  public void addPortFolioFile(MemberDto memberDto) throws IOException {
+    // 1. 기존 회원 정보 조회
+    MemberEntity existingMember = memberRepository.findById(memberDto.getId())
+        .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
+
+    // 2. 기존 포트폴리오 파일 조회
+    Optional<MemberPtEntity> memPtOptional = memberPtRepository.findByMemberEntity(existingMember);
+    String existPt = memPtOptional.isPresent() ? memPtOptional.get().getNewPtName() : null;
+
+    // 3. 새로운 파일 추가 또는 파일 변경
+    MultipartFile memberPtFile = memberDto.getPtFile();
+    if (memberPtFile != null && !memberPtFile.isEmpty()) {
+      if (existPt != null) {
+        // 기존 파일 삭제
+        deleteExistingPt(memPtOptional.get());
+      }
+      String newPtName = uploadNewImage(memberPtFile);
+      saveMemberWithPt(existingMember, newPtName, memberPtFile);
+    }
+  }
+
+  private void saveMemberWithPt(MemberEntity existingMember, String newPtName, MultipartFile memberPtFile) {
+    // 1. 기존 회원 정보 유지하면서 portfolioFile 값만 업데이트
+    existingMember.setPortfolioFile(1);
+    memberRepository.save(existingMember);
+
+    // 2. 새로운 포트폴리오 파일 저장
+    memberPtRepository.save(MemberPtEntity.builder()
+        .newPtName(newPtName)
+        .oldPtName(memberPtFile.getOriginalFilename())
+        .memberEntity(existingMember)
+        .build());
+  }
+
+  @Override
+  public void addDetail(MemberDto memberDto) {
+    MemberEntity existingMember = memberRepository.findById(memberDto.getId())
+        .orElseThrow(() -> new IllegalArgumentException("회원 정보를 찾을 수 없습니다."));
+    existingMember.setDetail(memberDto.getDetail());
+
+    memberRepository.save(existingMember);
   }
 
 }

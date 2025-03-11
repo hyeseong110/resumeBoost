@@ -96,12 +96,12 @@ public class JWTCheckFilter extends OncePerRequestFilter { // OncePerRequestFilt
       // 토큰에 담은 정보를 get
       String userEmail = (String) claims.get("userEmail");
       String userPw = (String) claims.get("userPw");
-      Object role = claims.get("role");
+      String role = (String) claims.get("role");
 
       System.out.println(role);
 
-      System.out.println(role.toString().substring(6, role.toString().length() - 1));
-      String role2 = role.toString().substring(6, role.toString().length() - 1);
+      System.out.println(role.substring(5, role.length()));
+      String role2 = role.substring(5, role.length());
 
       Role role3 = null;
       if (Role.MEMBER.toString().equals(role2)) {

@@ -77,7 +77,6 @@ const MyCart = () => {
       const res = await jwtAxios.get(
         `http://localhost:8090/cart/deleteAllCartItems/${id}`
       )
-      console.log(res.data)
 
       // 모든 아이템 삭제 후 상태 갱신
       // setMyItems([])
