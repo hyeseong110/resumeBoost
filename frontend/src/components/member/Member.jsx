@@ -1,25 +1,29 @@
 import React, { useEffect, useState } from "react"
 import { Link, useParams } from "react-router-dom"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import jwtAxios from "./../../util/jwtUtils"
 import MyItems from "./../item/MyItems"
 import PersonalInfoForm from "./PersonalInfoForm"
 import MyBoard from "./MyBoard"
 import { S3URL } from "../../util/constant"
 import MyReview from "./MyReview"
+import { login } from "../../slice/loginSlice"
+import MyPayList from "./MyPayList"
 
 const Member = () => {
   const param = useParams()
   const myId = param.id
   const [member, setMember] = useState({})
   const loginState = useSelector((state) => state.loginSlice)
-  const [role, setRole] = useState(loginState.role?.[0] || "")
+  const [role, setRole] = useState(loginState.role || "")
   const [selectedMenu, setSelectedMenu] = useState("개인정보") // 기본 선택 값
   const [items, setItems] = useState([])
   const [boardList, setBoardList] = useState([])
   const [category, setCategory] = useState("myBoard")
   const [file, setFile] = useState(null)
   const [imgPreview, setImgPreview] = useState(null)
+  const [myPayList, setMyPayList] = useState([])
+  const dispatch = useDispatch()
 
   const itemAxiosFn = async () => {
     if (items.length > 0) return
@@ -28,7 +32,6 @@ const Member = () => {
       const result = await jwtAxios.get(
         `http://localhost:8090/item/myItemList/${myId}`
       )
-      console.log(result)
       setItems(result.data.itemList.content)
     } catch (err) {
       console.log(err)
@@ -48,6 +51,15 @@ const Member = () => {
       }
     } catch (err) {
       console.log(err)
+    }
+  }
+
+  const myPayFn = async (myId) => {
+    try {
+      const res = await jwtAxios.get(`http://localhost:8090/pay/myPay/${myId}`)
+      setMyPayList(res.data.payList)
+    } catch (error) {
+      console.log(error)
     }
   }
 
@@ -72,7 +84,6 @@ const Member = () => {
         },
       })
       setBoardList(res.data.boardList.content)
-      console.log(boardList)
     } catch (err) {
       console.log(err)
     }
@@ -83,6 +94,8 @@ const Member = () => {
       itemAxiosFn()
     } else if (selectedMenu === "작성글/댓글") {
       myBoardFn()
+    } else if (selectedMenu === "구매 내역") {
+      myPayFn(myId)
     }
   }, [selectedMenu, role, myId, category])
 
@@ -116,11 +129,11 @@ const Member = () => {
           />
         ) : null
       case "구매 내역":
-        return role !== "ROLE_MENTOR" ? <p>구매 내역 목록</p> : null
+        return role !== "ROLE_MENTOR" ? (
+          <MyPayList myPayList={myPayList} />
+        ) : null
       case "리뷰 목록":
-        return (
-          <MyReview />
-        )
+        return <MyReview />
       case "작성글/댓글":
         return (
           <MyBoard
@@ -149,7 +162,6 @@ const Member = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault()
-
     const postUrl =
       role === "ROLE_MEMBER"
         ? "http://localhost:8090/member/modify"
@@ -173,6 +185,17 @@ const Member = () => {
     try {
       await jwtAxios.post(postUrl, formData)
       alert("수정 성공")
+      const updatedMember = {
+        NickName: member.nickName, // member의 nickName
+        id: String(member.id), // member의 id
+        social: member.social, // member의 social
+        userEmail: member.userEmail, // member의 userEmail
+        role: "ROLE_" + member.role, // member의 role
+        accessToken: loginState.accessToken,
+        refreshToken: loginState.refreshToken,
+      }
+      // dispatch를 사용하여 상태 업데이트
+      dispatch(login(updatedMember))
       detailAxiosFn() // 수정 후 회원 정보 다시 불러오기
     } catch (err) {
       alert("수정 실패")

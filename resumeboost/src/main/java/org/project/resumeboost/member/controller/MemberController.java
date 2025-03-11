@@ -195,4 +195,28 @@ public class MemberController {
 
     return ResponseEntity.ok().body(map);
   }
+
+  // 포트폴리오 파일 추가
+  @PostMapping("/mentorPtFile")
+  public ResponseEntity<?> addPortfolio(MemberDto memberDto) throws IOException {
+    Map<String, Object> map = new HashMap<>();
+
+    memberServiceImpl.addPortFolioFile(memberDto);
+
+    map.put("member", "save");
+
+    return ResponseEntity.ok().body(map);
+  }
+
+  // 멘토 디테일 추가
+  @PostMapping("/mentor/detail")
+  public ResponseEntity<?> addDetail(MemberDto memberDto) {
+    Map<String, Object> map = new HashMap<>();
+
+    memberServiceImpl.addDetail(memberDto);
+
+    map.put("member", "save");
+
+    return ResponseEntity.ok().body(map);
+  }
 }

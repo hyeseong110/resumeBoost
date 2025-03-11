@@ -88,7 +88,6 @@ const Mentor = () => {
   }
 
   const addCartFn = async (item) => {
-    console.log(item)
     if (!window.confirm("장바구니에 추가하시겠습니까?")) return
     try {
       const response = await jwtAxios.post(
@@ -103,27 +102,33 @@ const Mentor = () => {
     }
   }
 
-  const reviewFn = async (mentorId) =>{
+  const reviewFn = async (mentorId) => {
     try {
-      const res = await jwtAxios.get(`http://localhost:8090/review/mentorReview/${mentorId}`)
-      
-      if( res.data && res.data.review){
-        const updatedReviews = await Promise.all(res.data.review.map(async (review) => {
-          try{
-            const memberRes = await jwtAxios.get(`http://localhost:8090/member/memberDetail/${review.memberEntity.id}`)
-            return { ...review, memberEntity: memberRes.data.member};
-          } catch(err){
-            console.error(err);
-            return review
-          }
-        }))
+      const res = await jwtAxios.get(
+        `http://localhost:8090/review/mentorReview/${mentorId}`
+      )
+
+      if (res.data && res.data.review) {
+        const updatedReviews = await Promise.all(
+          res.data.review.map(async (review) => {
+            try {
+              const memberRes = await jwtAxios.get(
+                `http://localhost:8090/member/memberDetail/${review.memberEntity.id}`
+              )
+              return { ...review, memberEntity: memberRes.data.member }
+            } catch (err) {
+              console.error(err)
+              return review
+            }
+          })
+        )
         setReviews(updatedReviews)
       }
     } catch (error) {
       console.error(error)
     }
   }
-  
+
   useEffect(() => {
     mentorAxiosFn(mentorId)
     itemAxiosFn(mentorId)
@@ -131,28 +136,30 @@ const Mentor = () => {
   }, [mentorId])
 
   function formatDate(dateString) {
-    const date = new Date(dateString); // 날짜 문자열을 Date 객체로 변환
-    const day = String(date.getDate()).padStart(2, '0'); // 날짜 (일자) 두 자리 숫자로
-    const month = String(date.getMonth() + 1).padStart(2, '0'); // 월 (1부터 시작하므로 +1)
-    const year = String(date.getFullYear()).slice(2); // 연도는 두 자리로
-  
-    return `${year}.${month}.${day}`; // 원하는 형식으로 리턴
+    const date = new Date(dateString) // 날짜 문자열을 Date 객체로 변환
+    const day = String(date.getDate()).padStart(2, "0") // 날짜 (일자) 두 자리 숫자로
+    const month = String(date.getMonth() + 1).padStart(2, "0") // 월 (1부터 시작하므로 +1)
+    const year = String(date.getFullYear()).slice(2) // 연도는 두 자리로
+
+    return `${year}.${month}.${day}` // 원하는 형식으로 리턴
   }
 
-  const reviewDeleteFn = async (reviewId) =>{
-    const bool = window.confirm("리뷰를 삭제 하시겠습니까? 삭제하시면 복구하지 못합니다.")
-    if(bool === true){
+  const reviewDeleteFn = async (reviewId) => {
+    const bool = window.confirm(
+      "리뷰를 삭제 하시겠습니까? 삭제하시면 복구하지 못합니다."
+    )
+    if (bool === true) {
       try {
-        await axios.delete(`http://localhost:8090/review/delete/${reviewId}`);
+        await axios.delete(`http://localhost:8090/review/delete/${reviewId}`)
         reviewFn()
       } catch (error) {
-        console.error(error);
+        console.error(error)
         alert("리뷰 삭제 실패")
       }
     }
     return
   }
-  
+
   return (
     <div className='mentorDetail'>
       <div className='profileDiv' style={{ backgroundImage: `url(${imgUrl})` }}>
@@ -184,26 +191,25 @@ const Mentor = () => {
           {/* ✅ 클릭 시 activeIndex 변경 + 스크롤 이동 */}
           <div className='mentorInfo'>
             <ul className='info'>
-              {[
-                "멘토 정보",
-                "멘토의 상품",
-                "포트폴리오",
-                "리뷰",
-              ].map((text, index) => (
-                <li
-                  key={index}
-                  className={activeIndex === index ? "active" : ""}
-                  onClick={() => handleClick(index)}
-                >
-                  {text}
-                </li>
-              ))}
+              {["멘토 정보", "멘토의 상품", "포트폴리오", "리뷰"].map(
+                (text, index) => (
+                  <li
+                    key={index}
+                    className={activeIndex === index ? "active" : ""}
+                    onClick={() => handleClick(index)}
+                  >
+                    {text}
+                  </li>
+                )
+              )}
             </ul>
 
             {/* ✅ 해당 div만 보이도록 설정 + ref 연결 */}
             <div className='mentorDetails'>
-              <div className="details-top"
-              ref={(el) => (sectionRefs.current[0] = el)}>
+              <div
+                className='details-top'
+                ref={(el) => (sectionRefs.current[0] = el)}
+              >
                 <h2>멘토 정보</h2>
                 <ul>
                   <li>
@@ -220,29 +226,31 @@ const Mentor = () => {
                   </li>
                 </ul>
               </div>
-              <div className="details-bottom">
+              <div className='details-bottom'>
                 <h2>서비스 상세설명</h2>
-                {mentor.detail === null?(
-                  <span className="nopt">등록된 설명이 없어요...</span>
-                ):(
-                <>
-                  <div>
-                    <span dangerouslySetInnerHTML={{
-                      __html: mentor.detail
-                      ? detailsExpanded
-                      ? mentor.detail
-                      : mentor.detail.slice(0, 500)
-                      : "로딩 중..."
-                      }} />
-                    {!detailsExpanded && <div className="details-show"></div>}
-                  </div>
-                  <button
-                  className="detail-btn"
-                  onClick={() => setDetailsExpanded(!detailsExpanded)}
-                  >
-                    {detailsExpanded ? "간략히 보기 △" : "상세설명 더보기 ▽"}
-                  </button>
-                </>
+                {mentor.detail === null ? (
+                  <span className='nopt'>등록된 설명이 없어요...</span>
+                ) : (
+                  <>
+                    <div>
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: mentor.detail
+                            ? detailsExpanded
+                              ? mentor.detail
+                              : mentor.detail.slice(0, 500)
+                            : "로딩 중...",
+                        }}
+                      />
+                      {!detailsExpanded && <div className='details-show'></div>}
+                    </div>
+                    <button
+                      className='detail-btn'
+                      onClick={() => setDetailsExpanded(!detailsExpanded)}
+                    >
+                      {detailsExpanded ? "간략히 보기 △" : "상세설명 더보기 ▽"}
+                    </button>
+                  </>
                 )}
               </div>
             </div>
@@ -252,9 +260,9 @@ const Mentor = () => {
               className='mentorItems'
             >
               <h2>멘토의 상품</h2>
-              {items === null?(
-                <div className="nopt">등록된 상품이 없어요...</div>
-              ):(
+              {items === null ? (
+                <div className='nopt'>등록된 상품이 없어요...</div>
+              ) : (
                 <ul className='myItemList'>
                   {items.map((item) => (
                     <li key={item.id} onClick={() => addCartFn(item)}>
@@ -278,9 +286,11 @@ const Mentor = () => {
             >
               <h2>포트폴리오</h2>
               {mentor.newPtName === null ? (
-                <span className="nopt">등록된 파일이 없어요... /(ㄒoㄒ)/~~</span>
-              ):(
-                <img src={`${S3URL}${mentor.newPtName}`} alt="ptimg" />
+                <span className='nopt'>
+                  등록된 파일이 없어요... /(ㄒoㄒ)/~~
+                </span>
+              ) : (
+                <img src={`${S3URL}${mentor.newPtName}`} alt='ptimg' />
               )}
             </div>
 
@@ -289,62 +299,65 @@ const Mentor = () => {
               className='mentorReview'
             >
               <h2>리뷰/후기</h2>
-              <div className="review">
+              <div className='review'>
                 <ul>
-                {reviews.length === 0?(
-                  <div className="nopt">등록된 리뷰가 없어요...</div>
-                ):(
-                  reviews.map((review) => (
-                    <li>
-                      <div className="review-top">
-                        <div className="review-top-left">
-                          <div className="review-profile">
-                            {review.memberEntity?.attachFile === 1 ? (
-                              <img
-                                src={`${S3URL}${review.memberEntity.newImgName}`}
-                                alt="프로필 사진"
-                                className="reply-profile-img"
-                              />
-                            ) : (
-                              <img
-                                src="/images/profile.png"
-                                alt="프로필 사진"
-                                className="reply-profile-img"
-                              />
-                            )}
-                            <span>{review.memberEntity.nickName}</span>
-                            <div className="v"></div>
-                            <span>{review.memberEntity.address}</span>
-                            <div className="v"></div>
-                            <span>{review.memberEntity.age} 대</span>
+                  {reviews.length === 0 ? (
+                    <div className='nopt'>등록된 리뷰가 없어요...</div>
+                  ) : (
+                    reviews.map((review) => (
+                      <li key={review.id}>
+                        <div className='review-top'>
+                          <div className='review-top-left'>
+                            <div className='review-profile'>
+                              {review.memberEntity?.attachFile === 1 ? (
+                                <img
+                                  src={`${S3URL}${review.memberEntity.newImgName}`}
+                                  alt='프로필 사진'
+                                  className='reply-profile-img'
+                                />
+                              ) : (
+                                <img
+                                  src='/images/profile.png'
+                                  alt='프로필 사진'
+                                  className='reply-profile-img'
+                                />
+                              )}
+                              <span>{review.memberEntity.nickName}</span>
+                              <div className='v'></div>
+                              <span>{review.memberEntity.address}</span>
+                              <div className='v'></div>
+                              <span>{review.memberEntity.age} 대</span>
+                            </div>
+                          </div>
+                          <div className='review-top-right'>
+                            {formatDate(`${review.createTime}`)}
                           </div>
                         </div>
-                        <div className="review-top-right">
-                          {formatDate(`${review.createTime}`)}
+                        <div className='review-body'>
+                          <span
+                            dangerouslySetInnerHTML={{
+                              __html: review.content,
+                            }}
+                          />
+                          {loginState.NickName ===
+                          review.memberEntity.nickName ? (
+                            <div onClick={() => reviewDeleteFn(review.id)}>
+                              삭제
+                            </div>
+                          ) : (
+                            <></>
+                          )}
                         </div>
-                      </div>
-                      <div className="review-body">
-                        <span
-                          dangerouslySetInnerHTML={{
-                            __html: review.content,
-                          }}
-                        />
-                        {loginState.NickName === review.memberEntity.nickName?(
-                          <div onClick={()=>reviewDeleteFn(review.id)}>삭제</div>
-                        ):(
-                          <></>
-                        )}
-                      </div>
-                    </li>
-                  ))
-                )}
+                      </li>
+                    ))
+                  )}
                 </ul>
               </div>
             </div>
           </div>
         </div>
         <div className='mentor-pay'>
-          <div className="mentor-text">
+          <div className='mentor-text'>
             {mentor.nickName} 님에게 원하는 서비스의 견적을 받아보세요
           </div>
           <div className='mentor-btn1'>상담 요청하기</div>

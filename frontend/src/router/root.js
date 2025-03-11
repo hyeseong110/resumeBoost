@@ -28,7 +28,7 @@ const ProtectedRoute = ({ children, requiredRole }) => {
   }
 
   // 역할이 requiredRole과 일치하지 않으면 접근 불가
-  if (requiredRole && isLogin.role[0] !== requiredRole) {
+  if (requiredRole && isLogin.role !== requiredRole) {
     return <Navigate to='/main' replace />
   }
 

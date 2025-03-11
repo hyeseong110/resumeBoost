@@ -10,35 +10,38 @@ import { Navigate, useParams } from "react-router-dom"
 
 const Loading = <div className='loading'>Loading...</div>
 
-const ProtectedRoute = ({ children, requiredId , requiredAdmin }) => {
-  const isLogin = useSelector((state) => state.loginSlice);
+const ProtectedRoute = ({ children, requiredId, requiredAdmin }) => {
+  const isLogin = useSelector((state) => state.loginSlice)
 
   // 인증되지 않은 사용자일 경우 로그인 페이지로 리디렉션
   if (!isLogin.id) {
-    return <Navigate to="/auth/login" replace />;
+    return <Navigate to='/auth/login' replace />
   }
 
-  if ((requiredId && isLogin.id !== requiredId) &&
-      (requiredAdmin && isLogin.role[0] !== requiredAdmin)) {
-    return <Navigate to="/main" replace />;
+  if (
+    requiredId &&
+    isLogin.id !== requiredId &&
+    requiredAdmin &&
+    isLogin.role !== requiredAdmin
+  ) {
+    return <Navigate to='/main' replace />
   }
 
-  return children;
-};
+  return children
+}
 
 // useParams 훅을 사용하는 컴포넌트
 const MemberDetailWrapper = () => {
-  const { id } = useParams();
-  
+  const { id } = useParams()
+
   return (
     <Suspense fallback={Loading}>
       <ProtectedRoute requiredId={id} requiredAdmin={"ROLE_ADMIN"}>
         <MemberDetailPage />
       </ProtectedRoute>
     </Suspense>
-  );
-};
-
+  )
+}
 
 const toMemberRouter = () => {
   return [
@@ -87,7 +90,7 @@ const toMemberRouter = () => {
           <KakaoModify />
         </Suspense>
       ),
-    }
+    },
   ]
 }
 

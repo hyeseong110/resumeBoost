@@ -36,7 +36,14 @@ public class CustomAuthenticationSuccessHandler implements AuthenticationSuccess
     claims.put("NickName", userDetails.getNickName()); // ??
     claims.put("id", userDetails.getMemberId());
     claims.put("social", userDetails.isSocial());
-    claims.put("role", userDetails.getAuthorities().stream().map(el -> el.getAuthority()).collect(Collectors.toList()));
+    String role = userDetails.getAuthorities().stream()
+        .map(el -> el.getAuthority())
+        .findFirst() // 첫 번째 값만 가져옴
+        .orElse(null); // 값이 없을 경우 null 반환
+
+    claims.put("role", role);
+    // claims.put("role", userDetails.getAuthorities().stream().map(el ->
+    // el.getAuthority()).collect(Collectors.toList()));
 
     String accessToken = JWTUtil.generateToken(claims, 1); // 10분
     String refreshToken = JWTUtil.generateToken(claims, 60 * 24); // 24시간

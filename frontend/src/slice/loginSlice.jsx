@@ -13,7 +13,7 @@ const loadMemberCookie = () => {
     return {
       ...memberInfo,
       userEmail: decodeURIComponent(memberInfo.userEmail),
-      role: decodeURIComponent(memberInfo.role),
+      role: memberInfo.role || null, // 단일 값으로 처리
     }
   }
   return null
@@ -37,8 +37,11 @@ const loginSlice = createSlice({
   reducers: {
     login: (state, action) => {
       const payload = action.payload
-
-      setCookie("member", JSON.stringify(payload), 1)
+      const newState = {
+        ...payload,
+        role: payload.role || null,
+      }
+      setCookie("member", JSON.stringify(newState), 1)
       return payload
     },
     logout: (state, action) => {
@@ -52,10 +55,15 @@ const loginSlice = createSlice({
         const payload = action.payload
 
         if (!payload.error) {
-          setCookie("member", JSON.stringify(payload), 1)
+          const newState = {
+            ...payload,
+            role: payload.role || null, // 단일 값으로 처리
+          }
+          setCookie("member", JSON.stringify(newState), 1) // 쿠키 저장
+          return newState
         }
 
-        return payload
+        return state
       })
       .addCase(loginPostAsync.pending, (state, action) => {
         console.log("pending")

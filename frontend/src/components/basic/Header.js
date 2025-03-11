@@ -15,14 +15,14 @@ const Header = () => {
 
   // 로그인 상태가 변경될 때 로컬 스토리지에 role 정보 저장
   useEffect(() => {
-    if (loginState.role && loginState.role[0]) {
-      localStorage.setItem("userRole", loginState.role[0])
-      setRole(loginState.role[0])
+    if (loginState.role && loginState.role) {
+      localStorage.setItem("userRole", loginState.role)
+      setRole(loginState.role)
     } else {
       localStorage.removeItem("userRole")
       setRole(null)
     }
-  }, [loginState.role])
+  }, [loginState])
 
   let detailUrl = ""
 
