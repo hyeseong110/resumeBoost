@@ -79,6 +79,31 @@ public class MemberServiceImpl implements MemberService {
   }
 
   @Override
+  public void kakaoJoin(MemberDto memberDto) {
+    Optional<MemberEntity> optionalMemberEntity = memberRepository.findByUserEmail(memberDto.getUserEmail());
+
+    if (!optionalMemberEntity.isPresent()) {
+      throw new IllegalArgumentException("중복");
+    }
+
+    memberRepository.save(MemberEntity.builder()
+        .id(optionalMemberEntity.get().getId())
+        .userEmail(memberDto.getUserEmail())
+        .userPw(passwordEncoder.encode(memberDto.getUserPw()))
+        .userName(memberDto.getUserName())
+        .address(memberDto.getAddress())
+        .age(memberDto.getAge())
+        .role(memberDto.getRole())
+        .phone(memberDto.getPhone())
+        .career(memberDto.getCareer())
+        .attachFile(0) // 이미지는 회원정보 수정에서 추가
+        .portfolioFile(0)
+        .nickName(memberDto.getNickName())
+        .social(false)
+        .build());
+  }
+
+  @Override
   public MemberDto mentorDetail(Long mentorId, Long myId) {
     if (mentorId != myId) {
       mentorViewCount(mentorId);

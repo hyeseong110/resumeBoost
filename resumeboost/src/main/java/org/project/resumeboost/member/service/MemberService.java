@@ -29,4 +29,7 @@ public interface MemberService {
 
   // 멘토 디테일 추가
   public void addDetail(MemberDto memberDto);
+
+  // 카카오로그인시 회원정보 추가
+  public void kakaoJoin(MemberDto memberDto);
 }

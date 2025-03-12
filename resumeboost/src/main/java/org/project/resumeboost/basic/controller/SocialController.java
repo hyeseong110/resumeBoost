@@ -24,9 +24,9 @@ public class SocialController {
   public Map<String, Object> getMemberFromKakao(@RequestParam("accessToken") String accessToken) {
     MemberDto memberDto = memberService.getKakaoMember(accessToken);
 
-    Collection<String> collectRoles = new ArrayList<>();
-    collectRoles.add(
-        "ROLE_" + memberDto.getRole().toString());
+    // Collection<String> collectRoles = new ArrayList<>();
+    // collectRoles.add(
+    // "ROLE_" + memberDto.getRole().toString());
 
     Map<String, Object> claims = new HashMap<>();
     claims.put("userEmail", memberDto.getUserEmail());
@@ -34,7 +34,7 @@ public class SocialController {
     claims.put("id", memberDto.getId());
     claims.put("social", memberDto.getSocial());
     System.out.println("social: --------" + memberDto.getSocial());
-    claims.put("role", collectRoles.stream().collect(Collectors.toList()));
+    claims.put("role", "ROLE_" + memberDto.getRole().toString());
 
     String JWTaccessToken = JWTUtil.generateToken(claims, 1);
     String JWTrefreshToken = JWTUtil.generateToken(claims, 60 * 24);
