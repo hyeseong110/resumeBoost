@@ -285,12 +285,6 @@ public class MemberServiceImpl implements MemberService {
     memberImgRepository.deleteById(existingImgEntity.getId());
   }
 
-  private void deleteExistingPt(MemberPtEntity existingPtEntity) {
-    String existingImgPath = existingPtEntity.getNewPtName();
-    s3UploadService.delete("images/" + existingImgPath); // S3에서 기존 이미지 삭제
-    memberPtRepository.deleteById(existingPtEntity.getId());
-  }
-
   private String uploadNewImage(MultipartFile memberImgFile) throws IOException {
     String uploadedImageUrl = s3UploadService.upload(memberImgFile, "images");
     return uploadedImageUrl.substring(uploadedImageUrl.indexOf("images/") + "images/".length());
@@ -342,12 +336,12 @@ public class MemberServiceImpl implements MemberService {
 
     // 2. 기존 포트폴리오 파일 조회
     Optional<MemberPtEntity> memPtOptional = memberPtRepository.findByMemberEntity(existingMember);
-    String existPt = memPtOptional.isPresent() ? memPtOptional.get().getNewPtName() : null;
+    String existPt = memberDto.getNewPtName();
 
     // 3. 새로운 파일 추가 또는 파일 변경
     MultipartFile memberPtFile = memberDto.getPtFile();
     if (memberPtFile != null && !memberPtFile.isEmpty()) {
-      if (existPt != null) {
+      if (memPtOptional.isPresent()) {
         // 기존 파일 삭제
         deleteExistingPt(memPtOptional.get());
       }
@@ -367,6 +361,12 @@ public class MemberServiceImpl implements MemberService {
         .oldPtName(memberPtFile.getOriginalFilename())
         .memberEntity(existingMember)
         .build());
+  }
+
+  private void deleteExistingPt(MemberPtEntity existingPtEntity) {
+    String existingImgPath = existingPtEntity.getNewPtName();
+    s3UploadService.delete("images/" + existingImgPath); // S3에서 기존 이미지 삭제
+    memberPtRepository.deleteById(existingPtEntity.getId());
   }
 
   @Override
