@@ -18,6 +18,9 @@ const Mentor = () => {
   const sectionRefs = useRef([])
   const navigate = useNavigate()
   const dispatch = useDispatch()
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달 열림/닫힘 상태
+  const [selectedReview, setSelectedReview] = useState(null); // 수정할 리뷰 정보
+  const [updatedContent, setUpdatedContent] = useState(""); // 수정할 리뷰 내용
 
   const [detailsExpanded, setDetailsExpanded] = useState(false)
 
@@ -144,8 +147,8 @@ const Mentor = () => {
     const bool = window.confirm("리뷰를 삭제 하시겠습니까? 삭제하시면 복구하지 못합니다.")
     if(bool === true){
       try {
-        await axios.delete(`http://localhost:8090/review/delete/${reviewId}`);
-        reviewFn()
+        await jwtAxios.delete(`http://localhost:8090/review/delete/${reviewId}`);
+        reviewFn(mentorId)
       } catch (error) {
         console.error(error);
         alert("리뷰 삭제 실패")
@@ -281,9 +284,53 @@ const Mentor = () => {
               {mentor.newPtName === null ? (
                 <span className="nopt">등록된 파일이 없어요... /(ㄒoㄒ)/~~</span>
               ):(
-                <img src={`${S3URL}${mentor.newPtName}`} alt="ptimg" />
+                <div>
+                  <img src={`${S3URL}${mentor.newPtName}`} alt="ptimg" />
+                </div>
               )}
             </div>
+
+            {/* 리뷰 수정 모달 */}
+            {isModalOpen && (
+              <div className="modal-overlay">
+                <div className="modal-content">
+                  <h3>리뷰 수정</h3>
+                  <textarea
+                    value={updatedContent}
+                    onChange={(e) => setUpdatedContent(e.target.value)}
+                    rows="5"
+                    placeholder="리뷰를 수정하세요..."
+                  />
+                  <div className="modal-actions">
+                    <button
+                      onClick={async () => {
+                        if (updatedContent.trim()) {
+                          // 리뷰 수정 API 호출
+                          try {
+                            const formattedContent = updatedContent.replace(/\n/g, '<br />'); // 엔터를 <br />로 변환
+                            await jwtAxios.put(
+                              `http://localhost:8090/review/update/${selectedReview.id}`,
+                              { content: formattedContent }
+                            );
+                            alert("리뷰가 수정되었습니다.");
+                            setIsModalOpen(false); // 모달 닫기
+                            reviewFn(mentorId); // 리뷰 새로 고침
+                          } catch (err) {
+                            console.error(err);
+                            alert("리뷰 수정에 실패했습니다.");
+                          }
+                        } else {
+                          alert("내용을 입력해주세요.");
+                        }
+                      }}
+                    >
+                      저장
+                    </button>
+                    <button onClick={() => setIsModalOpen(false)}>닫기</button>
+                  </div>
+                </div>
+              </div>
+            )}
 
             <div
               ref={(el) => (sectionRefs.current[3] = el)}
@@ -331,7 +378,18 @@ const Mentor = () => {
                           }}
                         />
                         {loginState.NickName === review.memberEntity.nickName?(
-                          <div onClick={()=>reviewDeleteFn(review.id)}>삭제</div>
+                          <div>
+                            <span
+                              onClick={() => {
+                                setSelectedReview(review);
+                                setUpdatedContent(review.content.replace(/<br\s*\/?>/g, '\n')); // 기존 내용으로 초기화
+                                setIsModalOpen(true); // 모달 열기
+                              }}
+                            >
+                              수정
+                            </span>
+                            <span onClick={()=>reviewDeleteFn(review.id)}>삭제</span>
+                          </div>
                         ):(
                           <></>
                         )}

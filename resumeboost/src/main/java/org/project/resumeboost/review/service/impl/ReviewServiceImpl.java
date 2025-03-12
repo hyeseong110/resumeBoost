@@ -74,4 +74,11 @@ public class ReviewServiceImpl implements ReviewService {
         .build()).collect(Collectors.toList());
   }
 
+  @Override
+  public void updateReview(Long id, ReviewDto reviewDto) {
+    ReviewEntity reviewEntity = reviewRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+    reviewEntity.setContent(reviewDto.getContent());
+    reviewRepository.save(reviewEntity);
+  }
+
 }
