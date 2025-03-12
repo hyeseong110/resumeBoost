@@ -4,8 +4,6 @@ import jwtAxios from '../../util/jwtUtils';
 import axios from 'axios';
 
 const MentorInfo = ({ myId }) => {
-  console.log(myId);
-
   const [member, setMember] = useState(null);
   const [content, setContent] = useState('');
   const [previewURL, setPreviewURL] = useState(null);

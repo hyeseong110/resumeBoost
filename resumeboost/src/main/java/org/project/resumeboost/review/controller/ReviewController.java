@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 @RestController
 @RequiredArgsConstructor
@@ -60,6 +62,12 @@ public class ReviewController {
     map.put("review", reviewDtos);
 
     return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
+  @PutMapping("/update/{id}")
+  public ResponseEntity<?> updateReview(@PathVariable("id") Long id, @RequestBody ReviewDto review) {
+    reviewServiceImpl.updateReview(id, review);
+    return ResponseEntity.status(HttpStatus.OK).body(null);
   }
 
 }

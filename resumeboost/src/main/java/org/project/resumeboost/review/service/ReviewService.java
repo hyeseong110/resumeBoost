@@ -12,4 +12,6 @@ public interface ReviewService {
   void deleteReview(Long reviewId);
 
   List<ReviewDto> memberReview(Long memberId);
+
+  void updateReview(Long id, ReviewDto reviewDto);
 }
