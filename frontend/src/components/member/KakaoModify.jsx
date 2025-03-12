@@ -1,14 +1,14 @@
-import axios from "axios"
 import React, { useState, useEffect } from "react"
-import { useSelector } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { useLocation, useNavigate } from "react-router-dom"
-import loginSlice from "./../../slice/loginSlice"
-import { getCookie } from "../../util/cookieUtil"
+import jwtAxios from "../../util/jwtUtils"
+import { login } from "../../slice/loginSlice"
 
 const KakaoModify = () => {
   const isLogin = useSelector((state) => state.loginSlice)
   const navigate = useNavigate()
   const location = useLocation()
+  const dispatch = useDispatch()
   const [isMentor, setIsMentor] = useState(
     location.pathname.includes("/mentor")
   )
@@ -23,9 +23,7 @@ const KakaoModify = () => {
     phone: "",
   })
 
-  // const [emailStatus, setEmailStatus] = useState("")
   const [nickNameStatus, setNickNameStatus] = useState("")
-  // const [isEmailChecked, setIsEmailChecked] = useState(false) // 이메일 중복 확인 상태
   const [isNickNameChecked, setIsNickNameChecked] = useState(false) // 닉네임 중복 확인 상태
   const [phoneStatus, setPhoneStatus] = useState("") // 전화번호 상태 추가
 
@@ -43,11 +41,6 @@ const KakaoModify = () => {
       ...prev,
       [name]: value,
     }))
-
-    // if (name === "userEmail") {
-    //   setEmailStatus("")
-    //   setIsEmailChecked(false)
-    // }
 
     if (name === "nickName") {
       setNickNameStatus("")
@@ -72,29 +65,9 @@ const KakaoModify = () => {
     }))
   }
 
-  // const handleEmailCheck = async () => {
-  //   try {
-  //     setFormData({ ...formData, userEmail: userEmail.value })
-  //     console.log(formData)
-  //     const response = await axios.post(
-  //       "http://localhost:8090/member/checkEmail",
-  //       formData
-  //     )
-  //     if (response.data.exists) {
-  //       setEmailStatus("이미 존재하는 이메일입니다.")
-  //       setIsEmailChecked(false)
-  //     } else {
-  //       setEmailStatus("사용 가능한 이메일입니다.")
-  //       setIsEmailChecked(true) // 이메일 중복 확인 완료
-  //     }
-  //   } catch (error) {
-  //     console.error("Email check error:", error)
-  //   }
-  // }
-
   const handleNickNameCheck = async () => {
     try {
-      const response = await axios.post(
+      const response = await jwtAxios.post(
         "http://localhost:8090/member/checkNickName",
         formData
       )
@@ -123,17 +96,30 @@ const KakaoModify = () => {
       return
     }
 
-    const endpoint = isMentor
-      ? "http://localhost:8090/member/modify/mentor"
-      : "http://localhost:8090/member/modify"
+    const updatedFormData = {
+      ...formData,
+      role: isMentor ? "MENTOR" : "MEMBER", // isMentor가 true이면 MENTOR, false이면 MEMBER
+    }
+
+    const url = "http://localhost:8090/member/kakaoJoin"
 
     try {
-      console.log("Form Data:", formData)
-      const response = await axios.post(endpoint, formData)
+      console.log("Form Data:", updatedFormData)
+      const response = await jwtAxios.post(url, updatedFormData)
 
       if (response.status === 200) {
         alert("회원수정이 완료되었습니다.")
         navigate("/main")
+        const updatedMember = {
+          NickName: formData.nickName, // member의 nickName
+          id: String(isLogin.id), // member의 id
+          social: false, // member의 social
+          userEmail: formData.userEmail, // member의 userEmail
+          role: "ROLE_" + formData.role, // member의 role
+          accessToken: isLogin.accessToken,
+          refreshToken: isLogin.refreshToken,
+        }
+        dispatch(login(updatedMember))
       }
     } catch (error) {
       alert("회원수정 중 오류가 발생했습니다.")
@@ -144,17 +130,7 @@ const KakaoModify = () => {
   return (
     <div className='modify'>
       <div className='modify-header'>
-        {/* <h1>
-          <img src='/images/logo2.jpg' alt='' />
-        </h1> */}
         <h3 className='join-choice'>회원정보 추가작성</h3>
-        {/* <button
-          type='button'
-          onClick={() => navigate(-1)}
-          className='back-button'
-        >
-          〈
-        </button> */}
         <button
           type='button'
           onClick={toggleUserType}
@@ -177,20 +153,6 @@ const KakaoModify = () => {
                 required
                 readOnly
               />
-              {/* <div className='status'>
-                <div
-                  className={`status-message ${
-                    emailStatus === "사용 가능한 이메일입니다."
-                      ? "success"
-                      : "error"
-                  }`}
-                >
-                  {emailStatus && <span>{emailStatus}</span>}
-                </div>
-                {/* <button type='button' onClick={handleEmailCheck}>
-                  중복 확인
-                </button> 
-              </div> */}
             </div>
             <div>
               <label>비밀번호</label>

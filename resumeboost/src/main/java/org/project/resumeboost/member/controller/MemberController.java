@@ -63,6 +63,18 @@ public class MemberController {
     return ResponseEntity.status(HttpStatus.OK).body(map);
   }
 
+  @PostMapping("/kakaoJoin")
+  public ResponseEntity<?> kakaoJoin(@RequestBody MemberDto memberDto) {
+
+    Map<String, String> map = new HashMap<>();
+
+    memberServiceImpl.kakaoJoin(memberDto);
+
+    map.put("member", "성공");
+
+    return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
   @PostMapping("/checkEmail")
   public ResponseEntity<?> checkEmail(@RequestBody MemberDto memberDto) {
     Optional<MemberEntity> existingEmail = memberRepository.findByUserEmail(memberDto.getUserEmail());
