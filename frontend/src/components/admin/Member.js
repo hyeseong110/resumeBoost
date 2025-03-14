@@ -17,6 +17,12 @@ const Member = () => {
   const [isModal, setIsModal] = useState(false)
   const [memberId, setMemberId] = useState("")
 
+  // search 키워드 값
+  const [searchData, setSearchData] = useState({ 
+    subject: '',
+    search: ''
+  }); 
+
 
   useEffect(()=> {
 
@@ -71,43 +77,145 @@ const Member = () => {
     setIsModal(true)
   }
 
+
+
+  const handleChange = (e) => { // search 키워드 값 저장
+    
+    searchData[e.target.name] = e.target.value
+    console.log(searchData)
+    setSearchData({
+      ...searchData
+    })
+
+  }
+
+
+  const searchFn = async (e) => {
+    e.preventDefault();
+
+    console.log("search!!")
+
+    const url = `http://${EC2_URL}:8090/admin/member?subject=${searchData.subject}&search=${searchData.search}`;
+
+    const res = await jwtAxios.get(url);
+
+    const data = res.data.member; // 받은 모든 데이터
+
+    // 페이징 메서드 
+    const currentPage = data.number;
+    const totalPages = data.totalPages;
+    const blockNum = 3;
+
+    const memberList = data.content;
+    
+    const startPage = ((Math.floor(currentPage/blockNum) * blockNum) + 1 <= totalPages ? (Math.floor(currentPage/blockNum) * blockNum) + 1 : totalPages);
+    const endPage = (startPage + blockNum) - 1 < totalPages ? (startPage + blockNum) - 1 : totalPages;
+
+    setPageData({
+      startPage: startPage,
+      endPage: endPage,
+      memberList: memberList,
+      currentPage: data.number,
+      totalPages: totalPages
+    })
+
+
+  }
+
+
+  const clickSearchFn = async (e) => {
+
+    const role = e.target.getAttribute('name');
+
+    console.log(role)
+
+    const url = `http://${EC2_URL}:8090/admin/member?subject=role&search=${role}`;
+
+    const res = await jwtAxios.get(url);
+
+    const data = res.data.member; // 받은 모든 데이터
+
+    // 페이징 메서드 
+    const currentPage = data.number;
+    const totalPages = data.totalPages;
+    const blockNum = 3;
+
+    const memberList = data.content;
+    
+    const startPage = ((Math.floor(currentPage/blockNum) * blockNum) + 1 <= totalPages ? (Math.floor(currentPage/blockNum) * blockNum) + 1 : totalPages);
+    const endPage = (startPage + blockNum) - 1 < totalPages ? (startPage + blockNum) - 1 : totalPages;
+
+    setPageData({
+      startPage: startPage,
+      endPage: endPage,
+      memberList: memberList,
+      currentPage: data.number,
+      totalPages: totalPages
+    })
+
+
+  }
+
+
+
+
   return (
     <>
       <div className='admin-member'>
         <div className='admin-member-con'>
           {isModal && <MemberModalA memberId={memberId} setIsModal={setIsModal}/>}
 
-          <ul>
-            {pageData.memberList && Object.values(pageData.memberList).map(el => {
-              
+          <div className='admin-member-search'>
+
+            <form action="/noEffect" method="post">
+              <select name="subject" id="subject" onChange={(e) => {handleChange(e)}}>
+                <option value={""}>선택</option>
+
+                <option value={"userName"}>이름</option>
+
+                <option value={"id"}>회원ID</option>
+
+                <option value={"nickName"}>닉네임</option>
+              </select> 
+              <input type='text' name='search' id='search' placeholder='검색어 입력' onChange={(e) => {handleChange(e)}}></input>
+              <button onClick={(e) => {searchFn(e)}}>검색</button>
+            </form>
+
+          </div>
+
+          <div className='admin-member-click-search'>
+            <span onClick={(e)=>{clickSearchFn(e)}} name='MEMBER'>일반회원</span>
+            <span onClick={(e)=>{clickSearchFn(e)}} name='MENTOR'>멘토</span>
+            <span onClick={(e)=>{clickSearchFn(e)}} name='ADMIN'>관리자</span>
+          </div>
+
+
+          <div className='admin-member-list'>
+            {pageData.memberList && Object.values(pageData.memberList).map((el, idx) => {
               return(
-                <li>
-                  <div className='member-pocket'>
-
-                    <div className='member-pocket-top'>
-                      <h1 className='member-pocket-name'>{el.userName}</h1>
-                    </div>
-
-                    <div className='member-pocket-bottom'>
-                      <h1 className='member-pocket-img'>
-                        {el.attachFile ? 
-                          <div onClick={() => {memberDetail(el.id)}}>
-                            <img src={`http://${EC2_URL}:8090/member/profile/${el.newImgName}`} alt='image'></img>
-                            {/* <img src={`http://192.168.23.231:8090/member/profile/${el.newImgName}`} alt='image'></img> */}
-                          </div> :
-                          <div onClick={() => {memberDetail(el.id)}}>
-                            <img src={`https://place-hold.it/300x300/666/fff/000?text= no Image`}></img>
-                          </div>
-                        }
-                      </h1>
-                    </div>
+                <div className='member-pocket' key={idx} onClick={()=>{memberDetail(el.id)}}>
+                  <div>
+                    {el.attachFile ? 
+                      <div className='member-img'>
+                        <img src={`http://${EC2_URL}:8090/member/profile/${el.newImgName}`} alt='image'></img>
+                      </div> :
+                      <div className='member-img'>
+                        <img src={`https://place-hold.it/100x100/666/fff/000?text= no Image`}></img>
+                      </div>
+                    }                 
                   </div>
-                 
-                </li>
+                  <ul>
+                    <li>
+                      <h3>닉네임 {el.nickName}</h3>
+                    </li>
+                    <li>회원ID {el.id}</li>
+                    <li>이름 {el.userName}</li>
+                    <li>권한 {el.role}</li>
+                  </ul>
+                </div>
               )
             })}
-
-          </ul>
+          </div>
           
         
           <div className="paging">

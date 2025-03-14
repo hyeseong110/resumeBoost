@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import jwtAxios from '../../util/jwtUtils';
+import ReplyModalA from './modal/ReplyModalA';
 import { EC2_URL } from '../../constans';
 
 const BoardDetail = ({param}) => {
@@ -8,6 +9,11 @@ const BoardDetail = ({param}) => {
   const navigate = useNavigate();
 
   const [detail, setDetail] = useState({});
+
+   // 모달 
+  const [isModal, setIsModal] = useState(false)
+
+
 
 
   const boardDetailFn = async (boardId) => {
@@ -117,6 +123,10 @@ const BoardDetail = ({param}) => {
 
   }
 
+  const replyModalOn = () => {
+    setIsModal(true);
+  }
+
 
 
 
@@ -124,7 +134,9 @@ const BoardDetail = ({param}) => {
     <>
       <div className='board-detail'>
         <div className='board-detail-con'>
-       
+          {isModal && <ReplyModalA boardId={param} setIsModal={setIsModal}/>}
+
+
           {detail && 
           <form>
 
@@ -142,17 +154,19 @@ const BoardDetail = ({param}) => {
             <div className='board-detail-body'>
               <div className='board-detail-update'>
 
-                  <div className='board-detail-updates'>
-                    <label htmlFor="title">제목</label>
-                    <input type="text" name="title" id="title" defaultValue={detail.title} onChange={handleChange}/>
-                    <label htmlFor="category">카테고리</label>
-                    <input type="text" name="category" id="category" defaultValue={detail.category} onChange={handleChange}/>
-                    <label htmlFor="boardImgFile">사진 첨부</label>
-                    <input type="file" name="boardImgFile" id="boardImgFile" onChange={handleFile}/>
-                  </div>
+                <div className='board-detail-updates'>
+                  <label htmlFor="title">제목</label>
+                  <input type="text" name="title" id="title" defaultValue={detail.title} onChange={handleChange}/>
+                  <label htmlFor="category">카테고리</label>
+                  <input type="text" name="category" id="category" defaultValue={detail.category} onChange={handleChange}/>
+                  <label htmlFor="boardImgFile">사진 첨부</label>
+                  <input type="file" name="boardImgFile" id="boardImgFile" onChange={handleFile}/>
+                </div>
+                
+                <span className='admin-reply-btn' onClick={()=>{replyModalOn()}}>댓글 관리</span>
                  
                 {/* textarea 글 작성 칸 */}
-                <textarea textarea id='content' defaultValue={detail.content} onChange={handleChange}></textarea> 
+                <textarea name='content' defaultValue={detail.content} onChange={handleChange}></textarea> 
               </div>
 
               <div className='board-detail-infos'>

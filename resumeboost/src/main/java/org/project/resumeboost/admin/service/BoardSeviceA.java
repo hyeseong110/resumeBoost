@@ -8,7 +8,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface BoardSeviceA {
   
-  Page<BoardDto> ListAll(Pageable pageable);
+  Page<BoardDto> ListAll(Pageable pageable, String subject, String search);
 
 
   BoardDto boardDetail(Long boardId);

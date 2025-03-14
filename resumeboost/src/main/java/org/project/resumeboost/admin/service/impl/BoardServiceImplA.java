@@ -32,9 +32,24 @@ public class BoardServiceImplA implements BoardSeviceA{
   String saveFile;
 
   @Override
-  public Page<BoardDto> ListAll(Pageable pageable) {
+  public Page<BoardDto> ListAll(Pageable pageable, String subject, String search) {
     
-    Page<BoardEntity> boardEntities = boardRepository.findAll(pageable);
+    System.out.println(">>>>>>>Search!!" + subject + ":" + search);
+    
+    // Page<BoardEntity> boardEntities = boardRepository.findAll(pageable);
+
+  
+    Page<BoardEntity> boardEntities = null;
+    
+    if (subject == null & search == null) {
+      boardEntities = boardRepository.findAll(pageable);
+    } else if (subject.equals("title")) {
+      boardEntities = boardRepository.findByTitleContaining(pageable, search);
+    } else if (subject.equals("writer")) {
+      boardEntities = boardRepository.findByWriterContaining(pageable, search);
+    } else {
+      boardEntities = boardRepository.findAll(pageable);
+    }
 
     return (
       boardEntities.map(el -> BoardDto.toBoardDto(el))

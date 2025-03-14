@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import jwtAxios from '../../../util/jwtUtils';
 import { EC2_URL } from '../../../constans';
 
-const CartModalA = ({setIsModal, itemData}) => {
+const CartModalA = ({setIsModal, itemData, cartListFn}) => {
 
 
 
@@ -70,7 +70,7 @@ const CartModalA = ({setIsModal, itemData}) => {
 
     setDisable(false);
 
-
+    cartListFn();
   }
 
 
@@ -112,7 +112,7 @@ const CartModalA = ({setIsModal, itemData}) => {
             </div>
             
             <div className='cart-insert'>
-              <h2>장바구니 생성</h2>
+              <h2>장바구니 담기</h2>
 
               <label htmlFor="memberId">회원ID</label>
               <input type="text" name="memberId" id="memberId" onChange={(e)=>{handleChange(e)}}/>

@@ -15,6 +15,7 @@ const MemberModalA = ({memberId, setIsModal}) => {
     const data = res.data.member;
 
     console.log(data)
+    // console.log(typeof(data.role))
 
     setModal(data)
 
@@ -153,12 +154,15 @@ const MemberModalA = ({memberId, setIsModal}) => {
         <span className='close' onClick={closeBtn}>X</span>
 
 
+        <h1>회원 상세 정보</h1>
         <form>
-          <h1>회원 상세 정보</h1>
           <ul>
             <li>
+              
+              
               <label htmlFor="userName">이름</label>
               <input type='text' id = 'userName' name='userName' defaultValue={modal.userName} onChange={handleChange}></input>
+             
             </li>
             <li>
               <label htmlFor="userEmail">이메일</label>
@@ -208,8 +212,16 @@ const MemberModalA = ({memberId, setIsModal}) => {
             
           </ul>
 
+          <div className='admin-member-modal-img'>
+            {modal.attachFile ? 
+              <img src={`http://${EC2_URL}:8090/member/profile/${modal.newImgName}`} alt='image'></img>
+              :
+              <img src={`https://place-hold.it/100x100/666/fff/000?text= no Image`}></img>
+            }
+          </div>
 
         </form>
+
 
       </div>
     </div>

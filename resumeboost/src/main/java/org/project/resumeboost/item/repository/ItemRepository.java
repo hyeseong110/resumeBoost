@@ -18,4 +18,6 @@ public interface ItemRepository extends JpaRepository<ItemEntity, Long> {
 
   List<ItemEntity> findByMemberEntity(MemberEntity mentor);
 
+  List<ItemEntity> findByMemberEntityId(Long mentorId);
+
 }
