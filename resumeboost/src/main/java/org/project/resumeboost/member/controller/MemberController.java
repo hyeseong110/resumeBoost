@@ -53,7 +53,7 @@ public class MemberController {
   public ResponseEntity<?> joinT(@RequestBody MemberDto memberDto) {
 
     Map<String, String> map = new HashMap<>();
-
+    System.out.println(memberDto.getUserEmail());
     memberDto.setRole(Role.MENTOR);
 
     memberServiceImpl.joinOk(memberDto);
