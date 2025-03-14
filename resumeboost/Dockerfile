@@ -4,7 +4,7 @@ FROM openjdk:17-jdk-slim as build
 WORKDIR /app
 
 # Spring Boot 애플리케이션 JAR 파일을 복사
-COPY resumeboost/build/libs/*.jar app.jar
+COPY /build/libs/*.jar app.jar
 
 # 8080 포트로 서비스
 EXPOSE 8090
