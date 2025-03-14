@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import jwtAxios from '../../util/jwtUtils';
 import { getCookie } from '../../util/cookieUtil';
 import { EC2_URL } from '../../constans';
+import { S3URL } from '../../util/constant';
 
 const ItemDetail = ({param}) => {
 
@@ -184,7 +185,7 @@ const ItemDetail = ({param}) => {
                 <h1>
                   {detail.attachFile ? 
                     <div className='mentor-img'>
-                      <img src={`http://${EC2_URL}:8090/member/profile/${detail.newImgName}`} alt='image'></img>
+                      <img src={`${S3URL}${detail.newImgName}`} alt='image'></img>
                     </div> :
                     <div className='mentor-img'>
                       <img src={`https://place-hold.it/200x200/666/fff/000?text= no Image`}></img>
