@@ -4,6 +4,7 @@ import { useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import jwtAxios from "../../util/jwtUtils"
 import { S3URL } from "../../util/constant"
+import { EC2_URL } from "../../constans"
 
 const Main = () => {
   const isLogin = useSelector((state) => state.loginSlice)
@@ -13,7 +14,7 @@ const Main = () => {
   useEffect(() => {
     const reviewFn = async () => {
       try {
-        const url = "http://localhost:8090/review/reviewList"
+        const url = `http://${EC2_URL}:8090/review/reviewList`
         const res = await axios.get(url)
 
         if (res.data && res.data.reviewList) {
@@ -21,7 +22,7 @@ const Main = () => {
             res.data.reviewList.map(async (review) => {
               try {
                 const memberRes = await axios.get(
-                  `http://localhost:8090/member/memberDetail/${review.memberId}`
+                  `http://${EC2_URL}:8090/member/memberDetail/${review.memberId}`
                 )
 
                 return { ...review, memberEntity: memberRes.data.member } // 기존 reply에 상세 member 정보 추가

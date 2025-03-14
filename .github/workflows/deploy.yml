@@ -1,0 +1,59 @@
+name: Deploy to AWS EC2
+
+on:
+  push:
+    branches:
+      -dev
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up JDK 17
+        uses: actions/setup-java@v1
+        with:
+          java-version: '17'
+      
+      - name: Grant execute permission for gradlew
+        run: chmod +x resumeboost/gradlew
+        shell: bash
+
+      - name: Build with Gradle
+        run: |
+          cd resumeboost
+          ./gradlew clean build
+        shell: bash
+      
+      - name: Log in to Docker Hub
+        uses: docker/login-actions@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Build and push Backend Docker image
+        run: |
+          cd resumeboost
+          docker build -t hws1016/resumeboost-backend:latest
+          docker push hws1016/resumeboost-backend:latest
+
+      - name: Build and push Frontend Docker image
+        run: |
+          cd frontend
+          docker build -t hws1016/resumeboost-frontend:latest
+          docker push hws1016/resumeboost-frontend:latest
+
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            cd /home/ec2-user
+            docker-compose pull
+            docker-compose up -d
+            docker image prune -af

@@ -4,9 +4,9 @@ server:
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    username: lhs
-    password: 1234
-    url: jdbc:mysql://192.168.23.221:3306/resumeboostdb
+    username: root
+    password: 1111
+    url: jdbc:mysql://ec2-13-125-236-223.ap-northeast-2.compute.amazonaws.com:3307/resumeboostdb
 
   #  thymeleaf:
   #    prefix: classpath.templates/

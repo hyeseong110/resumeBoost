@@ -4,6 +4,7 @@ import jwtAxios from "../../util/jwtUtils"
 import axios from "axios"
 import { useSelector } from "react-redux"
 import { S3URL } from "../../util/constant"
+import { EC2_URL } from "../../constans"
 
 const BoardDetail = (param) => {
   const isLogin = useSelector((state) => state.loginSlice)
@@ -54,12 +55,12 @@ const BoardDetail = (param) => {
   useEffect(() => {
     const detailFn = async () => {
       const boardId = param.param.id
-      const url = `http://localhost:8090/board/detail/${boardId}`
+      const url = `http://${EC2_URL}:8090/board/detail/${boardId}`
       try {
         const board = await jwtAxios.get(url)
 
         const memberRes = await jwtAxios.get(
-          `http://localhost:8090/member/memberDetail/${board.data.boardDetail.memberEntity.id}`
+          `http://${EC2_URL}:8090/member/memberDetail/${board.data.boardDetail.memberEntity.id}`
         )
 
         setBoardDetail({
@@ -89,7 +90,7 @@ const BoardDetail = (param) => {
   const fetchReplies = async () => {
     setIsLoading(true)
     const boardId = param.param.id
-    const url = `http://localhost:8090/reply/replyList/${boardId}?page=${currentPage}&size=6&sort=id,desc`
+    const url = `http://${EC2_URL}:8090/reply/replyList/${boardId}?page=${currentPage}&size=6&sort=id,desc`
     try {
       const response = await jwtAxios.get(url)
 
@@ -98,7 +99,7 @@ const BoardDetail = (param) => {
           response.data.content.map(async (reply) => {
             try {
               const memberRes = await jwtAxios.get(
-                `http://localhost:8090/member/memberDetail/${reply.memberEntity.id}`
+                `http://${EC2_URL}:8090/member/memberDetail/${reply.memberEntity.id}`
               )
               return { ...reply, memberEntity: memberRes.data.member } // 기존 reply에 상세 member 정보 추가
             } catch (error) {
@@ -145,7 +146,7 @@ const BoardDetail = (param) => {
     }
 
     try {
-      await jwtAxios.post("http://localhost:8090/reply/insert", {
+      await jwtAxios.post(`http://${EC2_URL}:8090/reply/insert`, {
         memberId: isLogin.id,
         boardId: param.param.id,
         content: content,
@@ -213,7 +214,7 @@ const BoardDetail = (param) => {
     const bool = window.confirm("댓글 삭제 하심? 복구 못함")
     if (bool === true) {
       try {
-        await jwtAxios.delete(`http://localhost:8090/reply/delete/${id}`)
+        await jwtAxios.delete(`http://${EC2_URL}:8090/reply/delete/${id}`)
         fetchReplies()
         handleReplyCountChange()
       } catch (error) {
@@ -228,7 +229,7 @@ const BoardDetail = (param) => {
     const bool = window.confirm("게시글 삭제 하심? 복구 못함")
     if (bool === true) {
       try {
-        await jwtAxios.delete(`http://localhost:8090/board/delete/${id}`)
+        await jwtAxios.delete(`http://${EC2_URL}:8090/board/delete/${id}`)
         navigate("/board")
       } catch (error) {
         console.log(error)

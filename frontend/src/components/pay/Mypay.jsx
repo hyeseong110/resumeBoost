@@ -4,6 +4,7 @@ import jwtAxios from "../../util/jwtUtils"
 import "../../css/pay/myPay.css"
 import { useSelector } from "react-redux"
 import { S3URL } from "../../util/constant"
+import { EC2_URL } from "../../constans"
 
 const Mypay = () => {
   const param = useParams()
@@ -21,7 +22,7 @@ const Mypay = () => {
   // 결제 내역 조회
   const myPayFn = async (id) => {
     try {
-      const res = await jwtAxios.get(`http://localhost:8090/pay/myPay/${id}`)
+      const res = await jwtAxios.get(`http://${EC2_URL}:8090/pay/myPay/${id}`)
       setMyPayList(res.data.payList)
     } catch (error) {
       console.log(error)
@@ -32,7 +33,7 @@ const Mypay = () => {
   const memberFn = async (id) => {
     try {
       const res = await jwtAxios.get(
-        `http://localhost:8090/member/memberDetail/${id}`
+        `http://${EC2_URL}:8090/member/memberDetail/${id}`
       )
       setMemberInfo(res.data.member)
     } catch (error) {

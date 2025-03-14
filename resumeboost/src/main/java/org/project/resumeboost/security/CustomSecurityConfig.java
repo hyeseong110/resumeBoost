@@ -67,7 +67,8 @@ public class CustomSecurityConfig { // security 설정
   public CorsConfigurationSource configurationSource() {
     CorsConfiguration configuration = new CorsConfiguration();
 
-    configuration.setAllowedOriginPatterns(Arrays.asList("*"));
+    configuration.setAllowedOriginPatterns(
+        Arrays.asList("*"));
     configuration.setAllowedMethods(Arrays.asList("HEAD", "GET", "POST", "PUT", "DELETE"));
     configuration.setAllowedHeaders(Arrays.asList("Authorization", "Cache-Control", "Content-Type"));
     configuration.setAllowCredentials(true);

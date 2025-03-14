@@ -1,10 +1,11 @@
 import axios from "axios"
 import { getCookie, setCookie } from "./cookieUtil"
+import { EC2_URL } from "../constans"
 
 // axios 대신 jwtAxios 사용해서 토큰검증 후 서버에 요청,응답 처리
 const jwtAxios = axios.create()
 
-const host = "http://localhost:8090"
+const host = `http://${EC2_URL}:8090`
 
 // JWT 토큰 재발급 함수
 const refreshJWT = async (accessToken, refreshToken) => {

@@ -1,5 +1,6 @@
 import React from 'react'
 import jwtAxios from '../../../util/jwtUtils'
+import { EC2_URL } from '../../../constans'
 
 
 
@@ -28,7 +29,7 @@ const PagingItem = ({startPage, endPage, currentPage, totalPages, setPageData, p
 
     console.log("paging!!->" + realNum)
 
-    const res = await jwtAxios.get(`http://localhost:8090/admin/member/mentorList?page=${realNum}`)
+    const res = await jwtAxios.get(`http://${EC2_URL}:8090/admin/member/mentorList?page=${realNum}`)
 
     const data = res.data.mentor
     console.log(data)

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import jwtAxios from "../../util/jwtUtils"
+import { EC2_URL } from "../../constans"
 
 const CartDetail = ({ param }) => {
   const navigate = useNavigate()
@@ -8,7 +9,7 @@ const CartDetail = ({ param }) => {
   const [pageData, setPageData] = useState({}) // 상품리스트 데이터
 
   const itemsListFn = async () => {
-    const url = `http://localhost:8090/admin/cart/itemsList/${param}`
+    const url = `http://${EC2_URL}:8090/admin/cart/itemsList/${param}`
     const res = await jwtAxios.get(url)
     const data = res.data.itemsList // 받은 모든 데이터
 

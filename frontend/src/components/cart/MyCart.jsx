@@ -5,6 +5,7 @@ import "../../css/cart/mycart.css"
 import { addItemCart, clearCart, removeItemCart } from "../../slice/cartSlice"
 import { useDispatch, useSelector } from "react-redux"
 import { S3URL } from "../../util/constant"
+import { EC2_URL } from "../../constans"
 
 const MyCart = () => {
   const param = useParams()
@@ -23,7 +24,7 @@ const MyCart = () => {
       await Promise.all(
         memberIds.map(async (memberId) => {
           const res = await jwtAxios.get(
-            `http://localhost:8090/member/myDetail/${memberId}`
+            `http://${EC2_URL}:8090/member/myDetail/${memberId}`
           )
           memberData[memberId] = res.data.member // 각 멤버 정보를 객체에 저장
         })
@@ -36,7 +37,7 @@ const MyCart = () => {
 
   const myCartItemsFn = async () => {
     try {
-      const res = await jwtAxios.get(`http://localhost:8090/cart/myCart/${id}`)
+      const res = await jwtAxios.get(`http://${EC2_URL}:8090/cart/myCart/${id}`)
       const cartitems = res.data.cart.itemListEntities
       cartitems.forEach((item) => {
         dispatch(addItemCart(item.itemEntity))
@@ -57,7 +58,7 @@ const MyCart = () => {
 
     try {
       await jwtAxios.get(
-        `http://localhost:8090/cart/deleteCartItem/memberId/${id}/itemId/${itemId}`
+        `http://${EC2_URL}:8090/cart/deleteCartItem/memberId/${id}/itemId/${itemId}`
       )
 
       // setMyItems((prevItems) =>
@@ -75,7 +76,7 @@ const MyCart = () => {
 
     try {
       const res = await jwtAxios.get(
-        `http://localhost:8090/cart/deleteAllCartItems/${id}`
+        `http://${EC2_URL}:8090/cart/deleteAllCartItems/${id}`
       )
 
       // 모든 아이템 삭제 후 상태 갱신

@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import jwtAxios from '../../util/jwtUtils';
 import { useSelector } from 'react-redux';
+import { EC2_URL } from '../../constans';
 
 const BoardWrite = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -63,7 +64,7 @@ const BoardWrite = () => {
     formData.append('writer', isLogin.NickName);
     if (file) formData.append('boardImgFile', file);
   
-    jwtAxios.post('http://localhost:8090/board/insert', formData)
+    jwtAxios.post(`http://${EC2_URL}:8090/board/insert`, formData)
       .then((response) => {
         alert('게시글이 작성되었습니다.');
         navigate("/board");

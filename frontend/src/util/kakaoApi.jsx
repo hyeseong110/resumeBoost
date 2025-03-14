@@ -1,9 +1,10 @@
 import axios from "axios"
+import { EC2_URL } from "../constans"
 
 // REST API 키
 const rest_api_key = `0eaf07321c1e0fbf250dd675816c0407`
 // redirect 주소
-const redirect_uri = `http://localhost:3000/member/kakao`
+const redirect_uri = `http://${EC2_URL}/member/kakao`
 
 // 인가 코드 받는 경로
 const auth_code_path = `https://kauth.kakao.com/oauth/authorize`
@@ -38,7 +39,7 @@ export const getAccessToken = async (authCode) => {
 
 export const getMemberWithAccessToken = async (accessToken) => {
   const res = await axios.get(
-    `http://localhost:8090/api/member/kakao?accessToken=${accessToken}`
+    `http://${EC2_URL}:8090/api/member/kakao?accessToken=${accessToken}`
   )
 
   return res.data

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import jwtAxios from '../../util/jwtUtils'
 import Paging from './paging/Paging';
 import { useNavigate } from 'react-router-dom';
+import { EC2_URL } from '../../constans';
 
 const Board = () => {
 
@@ -17,7 +18,7 @@ const Board = () => {
 
   const boardList = async () => {
 
-    const res = await jwtAxios.get(`http://localhost:8090/admin/board`);
+    const res = await jwtAxios.get(`http://${EC2_URL}:8090/admin/board`);
     
     console.log(res.data);
 
@@ -75,7 +76,7 @@ const Board = () => {
 
     console.log("search!!")
 
-    const url = `http://localhost:8090/admin/board?subject=${searchData.subject}&search=${searchData.search}`;
+    const url = `http://${EC2_URL}:8090/admin/board?subject=${searchData.subject}&search=${searchData.search}`;
 
     const res = await jwtAxios.get(url);
 

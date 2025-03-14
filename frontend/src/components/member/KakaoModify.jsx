@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { useLocation, useNavigate } from "react-router-dom"
 import jwtAxios from "../../util/jwtUtils"
 import { login } from "../../slice/loginSlice"
+import { EC2_URL } from "../../constans"
 
 const KakaoModify = () => {
   const isLogin = useSelector((state) => state.loginSlice)
@@ -68,7 +69,7 @@ const KakaoModify = () => {
   const handleNickNameCheck = async () => {
     try {
       const response = await jwtAxios.post(
-        "http://localhost:8090/member/checkNickName",
+        `http://${EC2_URL}:8090/member/checkNickName`,
         formData
       )
       if (response.data.exists) {
@@ -101,7 +102,7 @@ const KakaoModify = () => {
       role: isMentor ? "MENTOR" : "MEMBER", // isMentor가 true이면 MENTOR, false이면 MEMBER
     }
 
-    const url = "http://localhost:8090/member/kakaoJoin"
+    const url = `http://${EC2_URL}:8090/member/kakaoJoin`
 
     try {
       console.log("Form Data:", updatedFormData)

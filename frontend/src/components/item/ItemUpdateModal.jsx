@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import jwtAxios from "../../util/jwtUtils"
+import { EC2_URL } from "../../constans"
 
 const ItemUpdateModal = ({ setUpdateModal, item, setItems }) => {
   const [updateItem, setUpdateItem] = useState(item)
@@ -8,7 +9,7 @@ const ItemUpdateModal = ({ setUpdateModal, item, setItems }) => {
   const handleUpdate = async () => {
     try {
       const response = await jwtAxios.post(
-        `http://localhost:8090/item/update`,
+        `http://${EC2_URL}:8090/item/update`,
         updateItem
       )
       if (response.status === 200) {

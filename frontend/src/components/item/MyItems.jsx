@@ -1,6 +1,7 @@
 import React, { useState } from "react"
 import jwtAxios from "../../util/jwtUtils"
 import ItemUpdateModal from "./ItemUpdateModal"
+import { EC2_URL } from "../../constans"
 
 const MyItems = ({ items, itemAxiosFn, setItems }) => {
   const [updateModal, setUpdateModal] = useState(false)
@@ -9,7 +10,7 @@ const MyItems = ({ items, itemAxiosFn, setItems }) => {
     if (!window.confirm("상품을 삭제하시겠습니까?")) return
 
     try {
-      await jwtAxios.delete(`http://localhost:8090/item/delete/${id}`)
+      await jwtAxios.delete(`http://${EC2_URL}:8090/item/delete/${id}`)
       alert("상품이 삭제되었습니다")
 
       // itemAxiosFn()

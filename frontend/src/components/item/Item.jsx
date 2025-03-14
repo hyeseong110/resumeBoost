@@ -1,5 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import { EC2_URL } from "../../constans";
 
 const Item = () => {
   const [item, setItem] = useState([]);
@@ -11,7 +12,7 @@ const Item = () => {
 
   const itemFn = async (page) => {
     try {
-      const rs = await axios.get("http://localhost:8090/item/itemList", {
+      const rs = await axios.get(`http://${EC2_URL}:8090/item/itemList`, {
         params: {
           page,
           category: category,

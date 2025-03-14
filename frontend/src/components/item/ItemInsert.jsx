@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useSelector } from "react-redux"
 import jwtAxios from "../../util/jwtUtils"
 import { useNavigate } from "react-router-dom"
+import { EC2_URL } from "../../constans"
 
 const ItemInsert = () => {
   const loginState = useSelector((state) => state.loginSlice)
@@ -17,7 +18,7 @@ const ItemInsert = () => {
   const memberAxiosFn = async (myId) => {
     try {
       const result = await jwtAxios.get(
-        `http://localhost:8090/member/myDetail/${myId}`
+        `http://${EC2_URL}:8090/member/myDetail/${myId}`
       )
       setMember(result.data.member)
     } catch (err) {
@@ -39,7 +40,7 @@ const ItemInsert = () => {
     try {
       console.log(formData)
       const response = await jwtAxios.post(
-        "http://localhost:8090/item/insert",
+        `http://${EC2_URL}:8090/item/insert`,
         formData
       )
 

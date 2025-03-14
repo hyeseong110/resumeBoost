@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { addItemCart } from "../../slice/cartSlice"
 import { S3URL } from "../../util/constant"
 import axios from "axios"
+import { EC2_URL } from "../../constans"
 
 const Mentor = () => {
   const { id: mentorId } = useParams()
@@ -62,7 +63,7 @@ const Mentor = () => {
   const mentorAxiosFn = async (mentorId) => {
     try {
       const result = await jwtAxios.get(
-        `http://localhost:8090/member/mentorDetail/${mentorId}/${loginState.id}`
+        `http://${EC2_URL}:8090/member/mentorDetail/${mentorId}/${loginState.id}`
       )
       const mentorData = result.data.mentor
       setMentor(mentorData)
@@ -82,7 +83,7 @@ const Mentor = () => {
   const itemAxiosFn = async (mentorId) => {
     try {
       const result = await jwtAxios.get(
-        `http://localhost:8090/item/myItemList/${mentorId}`
+        `http://${EC2_URL}:8090/item/myItemList/${mentorId}`
       )
       
       setItems(result.data.itemList.content)
@@ -96,7 +97,7 @@ const Mentor = () => {
     if (!window.confirm("장바구니에 추가하시겠습니까?")) return
     try {
       const response = await jwtAxios.post(
-        `http://localhost:8090/cart/addCart/memberId/${loginState.id}/id/${item.id}`
+        `http://${EC2_URL}:8090/cart/addCart/memberId/${loginState.id}/id/${item.id}`
       )
       dispatch(addItemCart(item))
 
@@ -109,12 +110,12 @@ const Mentor = () => {
 
   const reviewFn = async (mentorId) =>{
     try {
-      const res = await jwtAxios.get(`http://localhost:8090/review/mentorReview/${mentorId}`)
+      const res = await jwtAxios.get(`http://${EC2_URL}:8090/review/mentorReview/${mentorId}`)
       
       if( res.data && res.data.review){
         const updatedReviews = await Promise.all(res.data.review.map(async (review) => {
           try{
-            const memberRes = await jwtAxios.get(`http://localhost:8090/member/memberDetail/${review.memberEntity.id}`)
+            const memberRes = await jwtAxios.get(`http://${EC2_URL}:8090/member/memberDetail/${review.memberEntity.id}`)
             return { ...review, memberEntity: memberRes.data.member};
           } catch(err){
             console.error(err);
@@ -147,7 +148,7 @@ const Mentor = () => {
     const bool = window.confirm("리뷰를 삭제 하시겠습니까? 삭제하시면 복구하지 못합니다.")
     if(bool === true){
       try {
-        await jwtAxios.delete(`http://localhost:8090/review/delete/${reviewId}`);
+        await jwtAxios.delete(`http://${EC2_URL}:8090/review/delete/${reviewId}`);
         reviewFn(mentorId)
       } catch (error) {
         console.error(error);
@@ -309,7 +310,7 @@ const Mentor = () => {
                           try {
                             const formattedContent = updatedContent.replace(/\n/g, '<br />'); // 엔터를 <br />로 변환
                             await jwtAxios.put(
-                              `http://localhost:8090/review/update/${selectedReview.id}`,
+                              `http://${EC2_URL}:8090/review/update/${selectedReview.id}`,
                               { content: formattedContent }
                             );
                             alert("리뷰가 수정되었습니다.");

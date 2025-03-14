@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import jwtAxios from '../../../util/jwtUtils';
+import { EC2_URL } from '../../../constans';
 
 const CartModalA = ({setIsModal, itemData}) => {
 
@@ -12,7 +13,7 @@ const CartModalA = ({setIsModal, itemData}) => {
 
   
   const selectItem = async (itemId) => {
-    const url = `http://localhost:8090/admin/item/detail/${itemId}`;
+    const url = `http://${EC2_URL}:8090/admin/item/detail/${itemId}`;
 
     const res = await jwtAxios.get(url);
 
@@ -50,7 +51,7 @@ const CartModalA = ({setIsModal, itemData}) => {
     }
 
 
-    const url = `http://localhost:8090/admin/cart/addCart`;
+    const url = `http://${EC2_URL}:8090/admin/cart/addCart`;
     const header = {
       headers: {
           "Content-Type": "application/json"

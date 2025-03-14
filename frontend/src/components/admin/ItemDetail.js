@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import jwtAxios from "../../util/jwtUtils"
 import { getCookie } from "../../util/cookieUtil"
+import { EC2_URL } from "../../constans"
 
 const ItemDetail = ({ param }) => {
   const navigate = useNavigate()
@@ -14,7 +15,7 @@ const ItemDetail = ({ param }) => {
 
   // 멘토 데이터 가져오기 // 상품 데이터 가져오기
   const detailItem = async (mentorId) => {
-    const url = `http://localhost:8090/admin/member/detail/${mentorId}`
+    const url = `http://${EC2_URL}:8090/admin/member/detail/${mentorId}`
 
     const res = await jwtAxios.get(url)
 
@@ -22,7 +23,7 @@ const ItemDetail = ({ param }) => {
   }
 
   const getItems = async (mentorId) => {
-    const itemUrl = `http://localhost:8090/admin/item/details/${mentorId}`
+    const itemUrl = `http://${EC2_URL}:8090/admin/item/details/${mentorId}`
     const itemRes = await jwtAxios.get(itemUrl)
     setItems(itemRes.data.item)
   }
@@ -44,7 +45,7 @@ const ItemDetail = ({ param }) => {
       return
     }
 
-    const url = `http://localhost:8090/admin/item/delete/${itemId}`
+    const url = `http://${EC2_URL}:8090/admin/item/delete/${itemId}`
 
     await jwtAxios.delete(url)
 
@@ -67,7 +68,7 @@ const ItemDetail = ({ param }) => {
       return
     }
 
-    const url = `http://localhost:8090/admin/item/update`
+    const url = `http://${EC2_URL}:8090/admin/item/update`
     const header = {
       headers: {
         "Content-Type": "application/json",
@@ -116,7 +117,7 @@ const ItemDetail = ({ param }) => {
                 {detail.attachFile ? (
                   <div className='mentor-img'>
                     <img
-                      src={`http://localhost:8090/member/profile/${detail.newImgName}`}
+                      src={`http://${EC2_URL}:8090/member/profile/${detail.newImgName}`}
                       alt='image'
                     ></img>
                   </div>
