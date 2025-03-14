@@ -170,6 +170,18 @@ public class MemberController {
     return ResponseEntity.ok().body(map);
   }
 
+  @PostMapping("/modifyA")
+  public ResponseEntity<?> modifyA(MemberDto memberDto) throws IOException {
+
+    Map<String, String> map = new HashMap<>();
+
+    memberServiceImpl.modifyOk(memberDto);
+
+    map.put("member", "성공");
+
+    return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
   @PostMapping("/modify")
   public ResponseEntity<?> modify(MemberDto memberDto) throws IOException {
 

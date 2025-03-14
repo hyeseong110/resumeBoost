@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import MemberModalA from './modal/MemberModalA';
 import Paging from './paging/Paging';
 import { EC2_URL } from '../../constans';
+import { S3URL } from '../../util/constant';
 
 const Member = () => {
 
@@ -197,7 +198,7 @@ const Member = () => {
                   <div>
                     {el.attachFile ? 
                       <div className='member-img'>
-                        <img src={`http://${EC2_URL}:8090/member/profile/${el.newImgName}`} alt='image'></img>
+                        <img src={`${S3URL}${el.newImgName}`} alt='image'></img>
                       </div> :
                       <div className='member-img'>
                         <img src={`https://place-hold.it/100x100/666/fff/000?text= no Image`}></img>

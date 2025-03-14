@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import jwtAxios from '../../util/jwtUtils';
 import ReplyModalA from './modal/ReplyModalA';
 import { EC2_URL } from '../../constans';
+import { S3URL } from '../../util/constant';
 
 const BoardDetail = ({param}) => {
 
@@ -199,7 +200,7 @@ const BoardDetail = ({param}) => {
                   <li>
                     {detail.attachFile ?
                       <div className='admin-board-img'>
-                        <img src={`http://${EC2_URL}:8090/board/${detail.newImgName}`} alt='image'></img>
+                        <img src={`${S3URL}${detail.newImgName}`} alt='image'></img>
                       </div> :
                       <div>
                         <img src={`https://place-hold.it/150x150/666/fff/000?text= no Image`}></img>

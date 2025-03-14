@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import jwtAxios from '../../../util/jwtUtils'
 import { EC2_URL } from '../../../constans'
+import { S3URL } from '../../../util/constant'
 
 const MemberModalA = ({memberId, setIsModal}) => {
 
@@ -125,7 +126,7 @@ const MemberModalA = ({memberId, setIsModal}) => {
       form.append("profileFile", update.profileFile)
     }
 
-    await jwtAxios.put(`http://${EC2_URL}:8090/admin/member/update`, form, {
+    await jwtAxios.put(`http://${EC2_URL}:8090/member/modifyA`, form, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
@@ -214,7 +215,7 @@ const MemberModalA = ({memberId, setIsModal}) => {
 
           <div className='admin-member-modal-img'>
             {modal.attachFile ? 
-              <img src={`http://${EC2_URL}:8090/member/profile/${modal.newImgName}`} alt='image'></img>
+              <img src={`${S3URL}${modal.newImgName}`} alt='image'></img>
               :
               <img src={`https://place-hold.it/100x100/666/fff/000?text= no Image`}></img>
             }

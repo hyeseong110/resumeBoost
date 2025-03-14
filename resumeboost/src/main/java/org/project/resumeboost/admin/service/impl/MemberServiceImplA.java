@@ -10,14 +10,18 @@ import java.util.stream.Collectors;
 
 import org.project.resumeboost.admin.service.MemberServiceA;
 import org.project.resumeboost.basic.common.Role;
+import org.project.resumeboost.basic.controller.APIRefreshController;
 import org.project.resumeboost.board.dto.BoardDto;
 import org.project.resumeboost.board.entity.BoardEntity;
 import org.project.resumeboost.member.dto.MemberDto;
 import org.project.resumeboost.member.dto.MemberImgDto;
 import org.project.resumeboost.member.entity.MemberEntity;
 import org.project.resumeboost.member.entity.MemberImgEntity;
+import org.project.resumeboost.member.entity.MemberPtEntity;
 import org.project.resumeboost.member.repository.MemberImgRepository;
+import org.project.resumeboost.member.repository.MemberPtRepository;
 import org.project.resumeboost.member.repository.MemberRepository;
+import org.project.resumeboost.s3.S3UploadService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +36,8 @@ public class MemberServiceImplA implements MemberServiceA {
 
   private final MemberRepository memberRepository;
   private final MemberImgRepository memberImgRepository;
+  private final S3UploadService s3UploadService;
+  private final MemberPtRepository memberPtRepository;
 
   @Value("${file.path}")
   String saveFile;
@@ -91,8 +97,28 @@ public class MemberServiceImplA implements MemberServiceA {
       throw new NullPointerException("회원이 존재하지 않습니다!!");
     }
 
+    deleteExistingImage(optionalMemberEntity.get().getMemberImgEntities().get(0));
+    if (optionalMemberEntity.get().getRole().toString() != "MEMBER") {
+      Optional<MemberPtEntity> memPtOptional = memberPtRepository.findByMemberEntity(optionalMemberEntity.get());
+      if (memPtOptional.isPresent()) {
+        deleteExistingPt(optionalMemberEntity.get().getMemberPtEntities().get(0));
+      }
+    }
+
     memberRepository.deleteById(id);
 
+  }
+
+  private void deleteExistingPt(MemberPtEntity existingPtEntity) {
+    String existingImgPath = existingPtEntity.getNewPtName();
+    s3UploadService.delete("images/" + existingImgPath); // S3에서 기존 이미지 삭제
+    memberPtRepository.deleteById(existingPtEntity.getId());
+  }
+
+  private void deleteExistingImage(MemberImgEntity existingImgEntity) {
+    String existingImgPath = existingImgEntity.getNewImgName();
+    s3UploadService.delete("images/" + existingImgPath); // S3에서 기존 이미지 삭제
+    memberImgRepository.deleteById(existingImgEntity.getId());
   }
 
   @Override
