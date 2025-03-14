@@ -38,10 +38,7 @@ const LeftBar = () => {
                 <Link to={'/admin/cart'}>장바구니목록</Link>
               </li>
               <li>
-                <Link to={'/admin/payment'}>결제목록</Link>
-              </li>
-              <li>
-                <Link to={'/admin/info'}>공지목록</Link>
+                <Link to={'/admin/pay'}>결제목록</Link>
               </li>
             </ul>
           </div>

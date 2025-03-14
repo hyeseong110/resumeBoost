@@ -25,7 +25,7 @@
 
 //     console.log("paging!!->" + realNum)
 
-//     const res = await jwtAxios.get(`http://${EC2_URL}:8090/admin/cart?page=${realNum}`)
+//     const res = await jwtAxios.get(`http://localhost:8090/admin/cart?page=${realNum}`)
 
 //     const data = res.data.member
 

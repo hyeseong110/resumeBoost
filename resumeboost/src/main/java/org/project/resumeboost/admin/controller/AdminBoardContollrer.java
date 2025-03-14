@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyEmitter;
 
@@ -35,9 +36,13 @@ public class AdminBoardContollrer {
 
 
   @GetMapping("")
-  public ResponseEntity<?> boardList(@PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+  public ResponseEntity<?> boardList(
+    @PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+    @RequestParam(name = "subject", required = false) String subject,
+    @RequestParam(name = "search", required = false) String search 
+  ) {
 
-    Page<BoardDto> boardList = boardServiceA.ListAll(pageable);
+    Page<BoardDto> boardList = boardServiceA.ListAll(pageable, subject, search);
 
     Map<String, Page<BoardDto>> map = new HashMap<>();
 

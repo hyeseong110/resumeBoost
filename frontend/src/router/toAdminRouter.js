@@ -7,6 +7,9 @@ import ItemPage from '../pages/admin/ItemPage';
 import ItemDetailPage from '../pages/admin/ItemDetailPage';
 import CartPage from '../pages/admin/CartPage';
 import CartDetailPage from '../pages/admin/CartDetailPage';
+import PayPage from '../pages/admin/PayPage';
+import FullCalendarPage from '../pages/admin/FullCalendarPage';
+import PayDetailPage from '../pages/admin/PayDetailPage';
 
 const Loading = <div className='loading'>Loading...</div>;
 
@@ -74,6 +77,30 @@ const toAdminRouter = () => {
         element: (
           <Suspense fallback={Loading}>
             <CartDetailPage/>
+          </Suspense>
+        )
+      },
+      {
+        path: 'pay',
+        element: (
+          <Suspense fallback={Loading}>
+            <PayPage/>
+          </Suspense>
+        )
+      },
+      {
+        path: 'fullCalendar',
+        element: (
+          <Suspense fallback={Loading}>
+            <FullCalendarPage/>
+          </Suspense>
+        )
+      },
+      {
+        path: 'pay/detail/:id',
+        element: (
+          <Suspense fallback={Loading}>
+            <PayDetailPage/>
           </Suspense>
         )
       }

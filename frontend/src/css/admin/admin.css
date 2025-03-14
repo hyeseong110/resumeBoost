@@ -7,6 +7,11 @@
 @import url(./item/itemDetail.css);
 @import url(./cart/cart.css);
 @import url(./cart/cartDetail.css);
+@import url(./pay/pay.css);
+@import url(./reply/replyModal.css);
+@import url(./pay/payDetail.css);
+@import url(./event/event.css);
+@import url(./event/eventModal.css);
 
 
 .admin {
@@ -53,6 +58,8 @@
   box-shadow: inset -1px -1px 1px #cccccc;
 }
 
+
+
 .admin .admin-con .admin-page .admin-header > ul > li > a {
   
   height: 80px;
@@ -66,3 +73,7 @@
 }
 
 
+.admin .admin-con .admin-page .admin-header > ul > li.admin-icons img {
+  height: 35%;
+  display: block;
+}

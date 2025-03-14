@@ -63,4 +63,10 @@ public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
   // m.viewCount DESC")
   Page<MemberEntity> findByRoleOrderByViewCountDesc(Role role, Pageable pageable);
 
+  Page<MemberEntity> findAllByUserNameContaining(Pageable pageable, String search);
+
+  Page<MemberEntity> findAllByNickNameContaining(Pageable pageable, String search);
+
+  Page<MemberEntity> findById(Pageable pageable, Long valueOf);
+
 }

@@ -9,6 +9,9 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 
 import org.project.resumeboost.admin.service.MemberServiceA;
+import org.project.resumeboost.basic.common.Role;
+import org.project.resumeboost.board.dto.BoardDto;
+import org.project.resumeboost.board.entity.BoardEntity;
 import org.project.resumeboost.member.dto.MemberDto;
 import org.project.resumeboost.member.dto.MemberImgDto;
 import org.project.resumeboost.member.entity.MemberEntity;
@@ -34,9 +37,37 @@ public class MemberServiceImplA implements MemberServiceA {
   String saveFile;
 
   @Override
-  public Page<MemberDto> ListAll(Pageable pageable) {
+  public Page<MemberDto> ListAll(Pageable pageable, String subject, String search) {
 
-    Page<MemberEntity> memberEntities = memberRepository.findAll(pageable);
+    Page<MemberEntity> memberEntities = null;
+
+    if (subject == null & search == null) {
+      memberEntities = memberRepository.findAll(pageable);
+    } else if (subject.equals("role")) {
+
+      Role role = Role.valueOf(search); // .valueOf() : 문자열에 해당하는 eNum 값 리턴
+
+      memberEntities = memberRepository.findByRole(pageable, role);
+
+    } else if (subject.equals("userName")) {
+      memberEntities = memberRepository.findAllByUserNameContaining(pageable, search);
+    } else if (subject.equals("nickName")) {
+      memberEntities = memberRepository.findAllByNickNameContaining(pageable, search);
+
+    } else if (subject.equals("nickName")) {
+      memberEntities = memberRepository.findByNickNameContaining(pageable, search);
+    } else if (subject.equals("id") && !search.equals("")) {
+      memberEntities = memberRepository.findById(pageable, Long.valueOf(search));
+
+    } else {
+      memberEntities = memberRepository.findAll(pageable);
+    }
+
+    // else if (subject.equals("title")) {
+    // memberEntities = memberRepository.findByTitleContaining(pageable, search);
+    // } else if (subject.equals("writer")) {
+    // memberEntities = memberRepository.findByWriterContaining(pageable, search);
+    // }
 
     return (memberEntities.map(el -> MemberDto.toMemberDto(el)));
 
@@ -66,7 +97,7 @@ public class MemberServiceImplA implements MemberServiceA {
 
   @Override
   public void memberUpdate(MemberDto memberDto) throws IllegalStateException, IOException {
-
+    System.out.println("폼에서 받은 role 값: ->> " + memberDto.getRole());
     Optional<MemberEntity> optionalMemberEntity = memberRepository.findById(memberDto.getId());
     if (!optionalMemberEntity.isPresent()) {
       throw new NullPointerException("수정할 회원이 존재하지 않습니다!!");
@@ -93,6 +124,7 @@ public class MemberServiceImplA implements MemberServiceA {
 
     }
 
+    System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>" + (memberDto.getRole().equals(Role.MENTOR)));
     if (memberDto.getProfileFile() == null) {
 
       memberRepository.save(MemberEntity.builder()
@@ -166,6 +198,14 @@ public class MemberServiceImplA implements MemberServiceA {
 
     }
 
+  }
+
+  @Override
+  public Page<MemberDto> mentorListAll(Pageable pageable) {
+
+    Page<MemberEntity> mentorList = memberRepository.findByRole(pageable, Role.MENTOR);
+
+    return mentorList.map(el -> MemberDto.toMemberDto(el));
   }
 
 }

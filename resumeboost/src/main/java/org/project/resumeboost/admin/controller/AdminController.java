@@ -41,10 +41,13 @@ public class AdminController {
 
 
   @GetMapping("/member")
-  public ResponseEntity<?> memberList(@PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-
-    Page<MemberDto> memberList = memberServiceA.ListAll(pageable);
-   
+  public ResponseEntity<?> memberList(@PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+    @RequestParam(name = "subject", required = false) String subject,
+    @RequestParam(name = "search", required = false) String search
+  ) {
+    
+    Page<MemberDto> memberList = memberServiceA.ListAll(pageable, subject, search);
+    
     Map<String, Page<MemberDto>> map = new HashMap<>();
 
     map.put("member", memberList);
@@ -89,5 +92,24 @@ public class AdminController {
 
     
   }
+
+
+
+  @GetMapping("/member/mentorList")
+  public ResponseEntity<?> mentorList(@PageableDefault(page = 0, size = 6, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+
+    Page<MemberDto> mentorList = memberServiceA.mentorListAll(pageable);
+   
+    Map<String, Page<MemberDto>> map = new HashMap<>();
+
+    map.put("mentor", mentorList);
+
+    return ResponseEntity.status(HttpStatus.OK).body(map);
+  }
+
+
+
+
+
 
 }
