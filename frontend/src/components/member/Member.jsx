@@ -10,6 +10,7 @@ import MyReview from "./MyReview"
 import { login } from "../../slice/loginSlice"
 import MyPayList from "./MyPayList"
 import MentorInfo from "./MentorInfo"
+import { EC2_URL } from "../../constans"
 
 const Member = () => {
   const param = useParams()
@@ -31,7 +32,7 @@ const Member = () => {
 
     try {
       const result = await jwtAxios.get(
-        `http://localhost:8090/item/myItemList/${myId}`
+        `http://${EC2_URL}:8090/item/myItemList/${myId}`
       )
       setItems(result.data.itemList.content)
     } catch (err) {
@@ -41,7 +42,7 @@ const Member = () => {
   const detailAxiosFn = async () => {
     try {
       const result = await jwtAxios.get(
-        `http://localhost:8090/member/myDetail/${myId}`
+        `http://${EC2_URL}:8090/member/myDetail/${myId}`
       )
       const memberRes = result.data.member
       setMember(memberRes)
@@ -57,7 +58,7 @@ const Member = () => {
 
   const myPayFn = async (myId) => {
     try {
-      const res = await jwtAxios.get(`http://localhost:8090/pay/myPay/${myId}`)
+      const res = await jwtAxios.get(`http://${EC2_URL}:8090/pay/myPay/${myId}`)
       setMyPayList(res.data.payList)
     } catch (error) {
       console.log(error)
@@ -70,10 +71,10 @@ const Member = () => {
 
       switch (category) {
         case "myBoard":
-          url = `http://localhost:8090/board/boardList/my/${myId}`
+          url = `http://${EC2_URL}:8090/board/boardList/my/${myId}`
           break
         case "myReply":
-          url = `http://localhost:8090/reply/replyList/my/${myId}`
+          url = `http://${EC2_URL}:8090/reply/replyList/my/${myId}`
           break
       }
 
@@ -173,8 +174,8 @@ const Member = () => {
     e.preventDefault()
     const postUrl =
       role === "ROLE_MEMBER"
-        ? "http://localhost:8090/member/modify"
-        : "http://localhost:8090/member/modify/mentor"
+        ? `http://${EC2_URL}:8090/member/modify`
+        : `http://${EC2_URL}:8090/member/modify/mentor`
 
     const formData = new FormData()
 

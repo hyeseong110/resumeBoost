@@ -4,6 +4,7 @@ import jwtAxios from '../../util/jwtUtils'
 import { Link } from 'react-router-dom';
 import MemberModalA from './modal/MemberModalA';
 import Paging from './paging/Paging';
+import { EC2_URL } from '../../constans';
 
 const Member = () => {
 
@@ -20,7 +21,7 @@ const Member = () => {
   useEffect(()=> {
 
     const memberList = async () => {
-      const res = await jwtAxios.get('http://localhost:8090/admin/member');
+      const res = await jwtAxios.get(`http://${EC2_URL}:8090/admin/member`);
       
       console.log(res.data); 
       
@@ -91,7 +92,7 @@ const Member = () => {
                       <h1 className='member-pocket-img'>
                         {el.attachFile ? 
                           <div onClick={() => {memberDetail(el.id)}}>
-                            <img src={`http://localhost:8090/member/profile/${el.newImgName}`} alt='image'></img>
+                            <img src={`http://${EC2_URL}:8090/member/profile/${el.newImgName}`} alt='image'></img>
                             {/* <img src={`http://192.168.23.231:8090/member/profile/${el.newImgName}`} alt='image'></img> */}
                           </div> :
                           <div onClick={() => {memberDetail(el.id)}}>

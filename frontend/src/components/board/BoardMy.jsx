@@ -3,6 +3,7 @@ import { useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import jwtAxios from "../../util/jwtUtils"
 import { S3URL } from "../../util/constant"
+import { EC2_URL } from "../../constans"
 
 const BoardMy = () => {
   const isLogin = useSelector((state) => state.loginSlice)
@@ -30,10 +31,10 @@ const BoardMy = () => {
       // 카테고리별 엔드포인트 설정
       switch (category) {
         case "myBoard":
-          url = `http://localhost:8090/board/boardList/my/${isLogin.id}`
+          url = `http://${EC2_URL}:8090/board/boardList/my/${isLogin.id}`
           break
         case "myReply":
-          url = `http://localhost:8090/reply/replyList/my/${isLogin.id}`
+          url = `http://${EC2_URL}:8090/reply/replyList/my/${isLogin.id}`
           break
       }
 
@@ -71,7 +72,7 @@ const BoardMy = () => {
   const fetchMemberInfo = async (id) => {
     try {
       const member = await jwtAxios.get(
-        `http://localhost:8090/member/memberDetail/${id}`
+        `http://${EC2_URL}:8090/member/memberDetail/${id}`
       )
       // console.log(member.data.member);
       setMemberInfo({

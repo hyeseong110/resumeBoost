@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import jwtAxios from '../../../util/jwtUtils'
+import { EC2_URL } from '../../../constans'
 
 const MemberModalA = ({memberId, setIsModal}) => {
 
@@ -9,7 +10,7 @@ const MemberModalA = ({memberId, setIsModal}) => {
   const [update, setUpdate] = useState({})
 
   const memberDetail = async () => {
-    const res = await jwtAxios.get(`http://localhost:8090/admin/member/detail/${memberId}`);
+    const res = await jwtAxios.get(`http://${EC2_URL}:8090/admin/member/detail/${memberId}`);
 
     const data = res.data.member;
 
@@ -38,7 +39,7 @@ const MemberModalA = ({memberId, setIsModal}) => {
     }
 
     
-    await jwtAxios.delete(`http://localhost:8090/admin/member/delete/${memberId}`);
+    await jwtAxios.delete(`http://${EC2_URL}:8090/admin/member/delete/${memberId}`);
 
 
     console.log("delete Ok")
@@ -123,7 +124,7 @@ const MemberModalA = ({memberId, setIsModal}) => {
       form.append("profileFile", update.profileFile)
     }
 
-    await jwtAxios.put(`http://localhost:8090/admin/member/update`, form, {
+    await jwtAxios.put(`http://${EC2_URL}:8090/admin/member/update`, form, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
@@ -131,7 +132,7 @@ const MemberModalA = ({memberId, setIsModal}) => {
 
     memberDetail(); // 수정 후 다시 get
 
-    // await jwtAxios.put(`http://localhost:8090/admin/member/update`, update, header);
+    // await jwtAxios.put(`http://${EC2_URL}:8090/admin/member/update`, update, header);
 
   }
 

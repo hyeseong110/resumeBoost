@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
+import { EC2_URL } from '../../constans';
 
 const Work24 = () => {
   const [work, setWork] = useState([]);
@@ -13,7 +14,7 @@ const Work24 = () => {
     const fetchWorkData = async () => {
       setLoading(true);
       try {
-        const res = await axios.get(`http://localhost:8090/api/work24?startPage=${page}`);
+        const res = await axios.get(`http://${EC2_URL}:8090/api/work24?startPage=${page}`);
         const data = res.data;
         setWork(data.dhsOpenEmpInfo);
         console.log(data.dhsOpenEmpInfo);

@@ -1,6 +1,7 @@
 import axios from "axios"
 import React, { useState, useEffect } from "react"
 import { useLocation, useNavigate } from "react-router-dom"
+import { EC2_URL } from "../../constans"
 
 const Join = () => {
   const navigate = useNavigate()
@@ -96,7 +97,7 @@ const Join = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:8090/member/checkEmail",
+        `http://${EC2_URL}:8090/member/checkEmail`,
         formData
       )
       if (response.data.exists) {
@@ -119,7 +120,7 @@ const Join = () => {
     }
     try {
       const response = await axios.post(
-        "http://localhost:8090/member/checkNickName",
+        `http://${EC2_URL}:8090/member/checkNickName`,
         formData
       )
       if (response.data.exists) {
@@ -148,8 +149,8 @@ const Join = () => {
     }
 
     const endpoint = isMentor
-      ? "http://localhost:8090/member/insert/mentor"
-      : "http://localhost:8090/member/insert"
+      ? `http://${EC2_URL}:8090/member/insert/mentor`
+      : `http://${EC2_URL}:8090/member/insert`
 
     try {
       const response = await axios.post(endpoint, formData)

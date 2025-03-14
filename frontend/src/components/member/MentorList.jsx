@@ -5,6 +5,7 @@ import { useEffect } from "react"
 import jwtAxios from "./../../util/jwtUtils"
 import { useNavigate } from "react-router-dom"
 import { S3URL } from "./../../util/constant"
+import { EC2_URL } from "../../constans"
 
 const MentorList = () => {
   const loginState = useSelector((state) => state.loginSlice)
@@ -19,7 +20,7 @@ const MentorList = () => {
 
   const MentorAxiosFn = async (page = 0) => {
     try {
-      const url = "http://localhost:8090/member/mentorList"
+      const url = `http://${EC2_URL}:8090/member/mentorList`
 
       const result = await axios.get(url, {
         params: {

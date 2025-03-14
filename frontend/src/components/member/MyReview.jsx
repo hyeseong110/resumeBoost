@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux'
 import jwtAxios from '../../util/jwtUtils'
 import { S3URL } from '../../util/constant'
 import { useNavigate } from 'react-router-dom'
+import { EC2_URL } from '../../constans'
 
 const MyReview = () => {
   const isLogin = useSelector((state) => state.loginSlice)
@@ -12,12 +13,12 @@ const MyReview = () => {
 
   const reviewFn = async (mentorId) =>{
     try {
-      const res = await jwtAxios.get(`http://localhost:8090/review/mentorReview/${mentorId}`)
+      const res = await jwtAxios.get(`http://${EC2_URL}:8090/review/mentorReview/${mentorId}`)
       
       if( res.data && res.data.review){
         const updatedReviews = await Promise.all(res.data.review.map(async (review) => {
           try{
-            const memberRes = await jwtAxios.get(`http://localhost:8090/member/memberDetail/${review.memberEntity.id}`)
+            const memberRes = await jwtAxios.get(`http://${EC2_URL}:8090/member/memberDetail/${review.memberEntity.id}`)
             return { ...review, memberEntity: memberRes.data.member};
           } catch(err){
             console.error(err);
@@ -35,7 +36,7 @@ const MyReview = () => {
 
   const memberReviewFn = async (memberId) => {
     try {
-      const res = await jwtAxios.get(`http://localhost:8090/review/memberReview/${memberId}`);
+      const res = await jwtAxios.get(`http://${EC2_URL}:8090/review/memberReview/${memberId}`);
       console.log('첫 번째 API 응답:', res);  // 응답 확인을 위한 로그 추가
   
       if (!res.data.review[0].memberEntity) {
@@ -43,7 +44,7 @@ const MyReview = () => {
         return;  // 데이터가 없으면 더 이상 진행하지 않음
       }
   
-      const memberRes = await jwtAxios.get(`http://localhost:8090/member/memberDetail/${res.data.review[0].memberId}`);
+      const memberRes = await jwtAxios.get(`http://${EC2_URL}:8090/member/memberDetail/${res.data.review[0].memberId}`);
       console.log('두 번째 API 응답:', memberRes);  // 두 번째 API 응답 확인
   
       const updatedReviews = res.data.review.map((review) => ({

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { S3URL } from '../../util/constant';
 import jwtAxios from '../../util/jwtUtils';
 import axios from 'axios';
+import { EC2_URL } from '../../constans';
 
 const MentorInfo = ({ myId }) => {
   const [member, setMember] = useState(null);
@@ -13,7 +14,7 @@ const MentorInfo = ({ myId }) => {
   useEffect(() => {
     const memberFn = async () => {
       try {
-        const res = await axios.get(`http://localhost:8090/member/memberDetail/${myId}`);
+        const res = await axios.get(`http://${EC2_URL}:8090/member/memberDetail/${myId}`);
         setMember(res.data.member);
         setContent(res.data.member.detail.replace(/<br\s*\/?>/g, '\n')); // <br />를 \n으로 변환하여 상태에 저장
       } catch (error) {
@@ -66,7 +67,7 @@ const MentorInfo = ({ myId }) => {
     formData.append('id', myId);
     formData.append('detail', formattedContent);
 
-    jwtAxios.put('http://localhost:8090/member/mentor/detail', formData)
+    jwtAxios.put(`http://${EC2_URL}:8090/member/mentor/detail`, formData)
       .then((response) => {
         alert("성공");
       })
@@ -85,7 +86,7 @@ const MentorInfo = ({ myId }) => {
       formData.append('newPtName', member.newPtName); // 기존 이미지 유지
     }
 
-    jwtAxios.put('http://localhost:8090/member/mentorPtFile', formData)
+    jwtAxios.put(`http://${EC2_URL}:8090/member/mentorPtFile`, formData)
       .then((response) => {
         alert("성공");
       })

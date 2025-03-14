@@ -1,5 +1,6 @@
 import React from 'react'
 import jwtAxios from '../../../util/jwtUtils'
+import { EC2_URL } from '../../../constans'
 
 
 
@@ -25,7 +26,7 @@ const PagingCart = ({startPage, endPage, currentPage, totalPages, setPageData}) 
 
     console.log("paging!!->" + realNum)
 
-    const res = await jwtAxios.get(`http://localhost:8090/admin/cart?page=${realNum}`)
+    const res = await jwtAxios.get(`http://${EC2_URL}:8090/admin/cart?page=${realNum}`)
 
     const data = res.data.member
 

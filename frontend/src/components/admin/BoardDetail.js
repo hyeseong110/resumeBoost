@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import jwtAxios from '../../util/jwtUtils';
+import { EC2_URL } from '../../constans';
 
 const BoardDetail = ({param}) => {
 
@@ -11,7 +12,7 @@ const BoardDetail = ({param}) => {
 
   const boardDetailFn = async (boardId) => {
       
-    const res = await jwtAxios.get(`http://localhost:8090/admin/board/detail/${boardId}`);
+    const res = await jwtAxios.get(`http://${EC2_URL}:8090/admin/board/detail/${boardId}`);
 
     const data = res.data.board;
 
@@ -39,7 +40,7 @@ const BoardDetail = ({param}) => {
         return
       }
   
-      await jwtAxios.delete(`http://localhost:8090/admin/board/delete/${boardId}`); // 게시글 삭제
+      await jwtAxios.delete(`http://${EC2_URL}:8090/admin/board/delete/${boardId}`); // 게시글 삭제
   
       console.log("delete Ok")
 
@@ -105,7 +106,7 @@ const BoardDetail = ({param}) => {
       form.append("boardImgFile", detail.boardImgFile)
     }
 
-    await jwtAxios.put(`http://localhost:8090/admin/board/update`, form, {
+    await jwtAxios.put(`http://${EC2_URL}:8090/admin/board/update`, form, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
@@ -184,7 +185,7 @@ const BoardDetail = ({param}) => {
                   <li>
                     {detail.attachFile ?
                       <div className='admin-board-img'>
-                        <img src={`http://localhost:8090/board/${detail.newImgName}`} alt='image'></img>
+                        <img src={`http://${EC2_URL}:8090/board/${detail.newImgName}`} alt='image'></img>
                       </div> :
                       <div>
                         <img src={`https://place-hold.it/150x150/666/fff/000?text= no Image`}></img>

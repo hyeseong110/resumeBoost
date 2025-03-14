@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import jwtAxios from '../../util/jwtUtils';
 import { useSelector } from 'react-redux';
 import { S3URL } from '../../util/constant';
+import { EC2_URL } from '../../constans';
 
 const BoardUpdate = ({ params, boardDetail }) => {
   // console.log('ID:', params.id);
@@ -35,7 +36,7 @@ const BoardUpdate = ({ params, boardDetail }) => {
   // boardDetail이 없을 경우 params.id를 통해 데이터 가져오기
   useEffect(() => {
     if (params?.id && !boardDetail) {
-      jwtAxios.get(`http://localhost:8090/board/detail/${params.id}`)
+      jwtAxios.get(`http://${EC2_URL}:8090/board/detail/${params.id}`)
         .then(response => {
           const fetchedBoardDetail = response.data;
           setSelectedCategory(fetchedBoardDetail.category || '자유게시판');
@@ -112,7 +113,7 @@ const BoardUpdate = ({ params, boardDetail }) => {
       formData.append('newImgName', boardDetail.newImgName); // 기존 이미지 유지
     }
 
-    jwtAxios.put('http://localhost:8090/board/update', formData)
+    jwtAxios.put(`http://${EC2_URL}:8090/board/update`, formData)
       .then((response) => {
         alert('게시글이 수정되었습니다.');
         navigate(`/board/detail/${boardId}`);

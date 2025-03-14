@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import { getCookie } from "../util/cookieUtil"
 import jwtAxios from "../util/jwtUtils"
+import { EC2_URL } from "../constans"
 
 const initState = {
   items: [],
@@ -16,7 +17,7 @@ export const cartData = createAsyncThunk(
       if (!userId) throw new Error("User not logged in")
 
       const res = await jwtAxios.get(
-        `http://localhost:8090/cart/myCart/${userId}`
+        `http://${EC2_URL}:8090/cart/myCart/${userId}`
       )
       const cartItems = res.data.cart.itemListEntities
 

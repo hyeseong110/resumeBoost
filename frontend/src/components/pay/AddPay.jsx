@@ -5,6 +5,7 @@ import "../../css/pay/addPay.css"
 import jwtAxios from "../../util/jwtUtils"
 import { clearCart } from "../../slice/cartSlice"
 import { getCookie } from "../../util/cookieUtil"
+import { EC2_URL } from "../../constans"
 
 const AddPay = () => {
   const param = useParams()
@@ -40,7 +41,7 @@ const AddPay = () => {
   const payMemberFn = async () => {
     try {
       const res = await jwtAxios.get(
-        `http://localhost:8090/member/myDetail/${id}`
+        `http://${EC2_URL}:8090/member/myDetail/${id}`
       )
       setMember(res.data.member)
     } catch (error) {
@@ -49,7 +50,7 @@ const AddPay = () => {
   }
 
   const addPayFn = async () => {
-    const url = `http://localhost:8090/pay/addPay`
+    const url = `http://${EC2_URL}:8090/pay/addPay`
     try {
       const res = await jwtAxios.post(url, payData)
       console.log(res)
@@ -63,7 +64,7 @@ const AddPay = () => {
   }
 
   const addKakaoPayFn = async () => {
-    const url = `http://localhost:8090/kakao/ready`
+    const url = `http://${EC2_URL}:8090/kakao/ready`
     try {
       const res = await jwtAxios.post(url, payData)
       console.log(res)
@@ -91,7 +92,7 @@ const AddPay = () => {
     const partner_order_id = sessionStorage.getItem("partner_order_id")
     const partner_user_id = sessionStorage.getItem("partner_user_id")
 
-    const approveUrl = `http://localhost:8090/kakao/success`
+    const approveUrl = `http://${EC2_URL}:8090/kakao/success`
     try {
       const memberInfo = getCookie("member")
       const { accessToken } = memberInfo

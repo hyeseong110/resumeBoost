@@ -6,6 +6,7 @@ import { useSelector } from 'react-redux';
 import jwtAxios from '../../util/jwtUtils';
 import ScrollTop from '../../util/ScrollTop';
 import { S3URL } from '../../util/constant';
+import { EC2_URL } from '../../constans';
 
 const DefaultLayout = () => {
   const [chatbotModal, setChatbotModal] = useState(false);
@@ -23,7 +24,7 @@ const DefaultLayout = () => {
     if (newChatbotModalState) {
       try {
         // 서버로 "안녕" 메시지 전송
-        const response = await jwtAxios("http://localhost:8090/chatbot", {
+        const response = await jwtAxios(`http://${EC2_URL}:8090/chatbot`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           data: JSON.stringify({message:"안녕"}), // "안녕" 메시지를 서버로 전송
@@ -58,7 +59,7 @@ const DefaultLayout = () => {
 
     // 서버로 메시지 전송
     try {
-      const response = await jwtAxios("http://localhost:8090/chatbot", {
+      const response = await jwtAxios(`http://${EC2_URL}:8090/chatbot`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         data: JSON.stringify({ message }), // message를 JSON 형식으로 전송

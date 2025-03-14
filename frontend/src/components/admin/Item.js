@@ -4,6 +4,7 @@ import jwtAxios from "../../util/jwtUtils"
 import ItemInsert from "./modal/ItemInsert"
 import PagingItem from "./paging/PagingItem"
 import { useNavigate } from "react-router-dom"
+import { EC2_URL } from "../../constans"
 
 const Item = () => {
   const navigate = useNavigate()
@@ -15,7 +16,7 @@ const Item = () => {
   const itemListFn = async () => {
     // 멘토 데이터 get
 
-    const url = `http://localhost:8090/admin/member/mentorList`
+    const url = `http://${EC2_URL}:8090/admin/member/mentorList`
 
     const res = await jwtAxios.get(url)
 
@@ -84,7 +85,7 @@ const Item = () => {
                       {el.attachFile ? (
                         <div className='mentor-img'>
                           <img
-                            src={`http://localhost:8090/member/profile/${el.newImgName}`}
+                            src={`http://${EC2_URL}:8090/member/profile/${el.newImgName}`}
                             alt='image'
                           ></img>
                         </div>

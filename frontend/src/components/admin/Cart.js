@@ -3,6 +3,7 @@ import jwtAxios from "../../util/jwtUtils"
 import { useNavigate } from "react-router-dom"
 import PagingCart from "./paging/PagingCart"
 import CartModalA from "./modal/CartModalA"
+import { EC2_URL } from "../../constans"
 
 const Cart = () => {
   const navigate = useNavigate()
@@ -14,7 +15,7 @@ const Cart = () => {
   const [isModal, setIsModal] = useState(false)
 
   const cartListFn = async () => {
-    const url = `http://localhost:8090/admin/cart`
+    const url = `http://${EC2_URL}:8090/admin/cart`
     const res = await jwtAxios.get(url)
     const data = res.data.cart // 받은 모든 데이터
 
@@ -44,7 +45,7 @@ const Cart = () => {
   }
 
   const itemListFn = async () => {
-    const url = `http://localhost:8090/admin/item/itemList`
+    const url = `http://${EC2_URL}:8090/admin/item/itemList`
     const res = await jwtAxios.get(url)
     const data = res.data.item // 받은 모든 데이터
 

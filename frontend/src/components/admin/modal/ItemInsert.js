@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import jwtAxios from '../../../util/jwtUtils';
+import { EC2_URL } from '../../../constans';
 
 const ItemInsert = ({loginId, itemListFn}) => {
 
@@ -29,7 +30,7 @@ const ItemInsert = ({loginId, itemListFn}) => {
     })
 
     
-    const url = `http://localhost:8090/admin/item/insert`;
+    const url = `http://${EC2_URL}:8090/admin/item/insert`;
     const header = {
       headers: {
         "Content-Type": "application/json"

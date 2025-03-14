@@ -4,6 +4,7 @@ import axios from "axios"
 import jwtAxios from "./../../util/jwtUtils"
 import { useSelector } from "react-redux"
 import { S3URL } from "./../../util/constant"
+import { EC2_URL } from "../../constans"
 
 const Board = () => {
   const isLogin = useSelector((state) => state.loginSlice)
@@ -32,24 +33,24 @@ const Board = () => {
   // 게시글 목록 조회 함수
   const fetchPosts = async (page = 0) => {
     try {
-      let url = "http://localhost:8090/board/boardList"
+      let url = `http://${EC2_URL}:8090/board/boardList`
 
       // 카테고리별 엔드포인트 설정
       switch (category) {
         case "letter":
-          url = "http://localhost:8090/board/boardList/letter"
+          url = `http://${EC2_URL}:8090/board/boardList/letter`
           break
         case "resume":
-          url = "http://localhost:8090/board/boardList/resume"
+          url = `http://${EC2_URL}:8090/board/boardList/resume`
           break
         case "interview":
-          url = "http://localhost:8090/board/boardList/interview"
+          url = `http://${EC2_URL}:8090/board/boardList/interview`
           break
         case "freedom":
-          url = "http://localhost:8090/board/boardList/freedom"
+          url = `http://${EC2_URL}:8090/board/boardList/freedom`
           break
         default:
-          url = "http://localhost:8090/board/boardList"
+          url = `http://${EC2_URL}:8090/board/boardList`
       }
 
       const response = await axios.get(url, {
@@ -91,7 +92,7 @@ const Board = () => {
   const fetchMemberInfo = async (id) => {
     try {
       const member = await jwtAxios.get(
-        `http://localhost:8090/member/memberDetail/${id}`
+        `http://${EC2_URL}:8090/member/memberDetail/${id}`
       )
       // console.log(member.data.member);
       setMemberInfo({
