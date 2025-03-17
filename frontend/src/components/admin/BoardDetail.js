@@ -47,7 +47,7 @@ const BoardDetail = ({param}) => {
         return
       }
   
-      await jwtAxios.delete(`http://${EC2_URL}:8090/admin/board/delete/${boardId}`); // 게시글 삭제
+      await jwtAxios.delete(`http://${EC2_URL}:8090/board/delete/${boardId}`); // 게시글 삭제
   
       console.log("delete Ok")
 
@@ -113,7 +113,7 @@ const BoardDetail = ({param}) => {
       form.append("boardImgFile", detail.boardImgFile)
     }
 
-    await jwtAxios.put(`http://${EC2_URL}:8090/admin/board/update`, form, {
+    await jwtAxios.put(`http://${EC2_URL}:8090/board/update`, form, {
       headers: {
         "Content-Type": "multipart/form-data"
       }
