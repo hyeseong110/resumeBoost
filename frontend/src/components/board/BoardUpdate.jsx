@@ -108,6 +108,7 @@ const BoardUpdate = ({ params, boardDetail }) => {
     formData.append('category', selectedCategory);
     formData.append('writer', isLogin.NickName);
     formData.append('replyCount', boardDetail.replyCount);
+    formData.append('viewCount', boardDetail.viewCount);
     if (file) {
       formData.append('boardImgFile', file); // 새 이미지가 있을 경우 추가
     } else if (boardDetail?.newImgName) {
