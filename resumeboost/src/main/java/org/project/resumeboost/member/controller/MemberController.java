@@ -170,7 +170,7 @@ public class MemberController {
     return ResponseEntity.ok().body(map);
   }
 
-  @PostMapping("/modifyA")
+  @PutMapping("/modifyA")
   public ResponseEntity<?> modifyA(MemberDto memberDto) throws IOException {
 
     Map<String, String> map = new HashMap<>();

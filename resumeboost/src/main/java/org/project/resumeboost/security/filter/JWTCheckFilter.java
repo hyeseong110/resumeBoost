@@ -43,6 +43,15 @@ public class JWTCheckFilter extends OncePerRequestFilter { // OncePerRequestFilt
     if (path.equals("/member/insert")) {
       return true;
     }
+    if (path.equals("/member/kakaoJoin")) {
+      return true;
+    }
+    if (path.equals("/member/checkEmail")) {
+      return true;
+    }
+    if (path.equals("/member/checkNickName")) {
+      return true;
+    }
     if (path.equals("/member/insert/mentor")) {
       return true;
     }
