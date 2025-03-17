@@ -84,33 +84,29 @@ const PersonalInfoForm = ({
           value={member.address || ""}
           onChange={handleChange}
         >
-          <option value="서울">서울</option>
-          <option value="경기도">경기도</option>
-          <option value="강원도">강원도</option>
-          <option value="충청북도">충청북도</option>
-          <option value="충청남도">충청남도</option>
-          <option value="경상북도">경상북도</option>
-          <option value="경상남도">경상남도</option>
-          <option value="전라남도">전라남도</option>
-          <option value="전라남도">전라남도</option>
-          <option value="제주도">제주도</option>
+          <option value='서울'>서울</option>
+          <option value='경기도'>경기도</option>
+          <option value='강원도'>강원도</option>
+          <option value='충청북도'>충청북도</option>
+          <option value='충청남도'>충청남도</option>
+          <option value='경상북도'>경상북도</option>
+          <option value='경상남도'>경상남도</option>
+          <option value='전라남도'>전라남도</option>
+          <option value='전라남도'>전라남도</option>
+          <option value='제주도'>제주도</option>
         </select>
       </div>
 
       <div className='form-group'>
         <label>나이</label>
-        <select
-          name='age'
-          value={member.age || ""}
-          onChange={handleChange}
-        >
-          <option value="10">10대</option>
-          <option value="20">20대</option>
-          <option value="30">30대</option>
-          <option value="40">40대</option>
-          <option value="50">50대</option>
-          <option value="60">60대</option>
-          <option value="70">70대</option>
+        <select name='age' value={member.age || ""} onChange={handleChange}>
+          <option value='10'>10대</option>
+          <option value='20'>20대</option>
+          <option value='30'>30대</option>
+          <option value='40'>40대</option>
+          <option value='50'>50대</option>
+          <option value='60'>60대</option>
+          <option value='70'>70대</option>
         </select>
       </div>
 
