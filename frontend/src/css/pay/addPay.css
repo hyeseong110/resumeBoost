@@ -23,10 +23,10 @@
   min-width: 400px;
 }
 
-input {
+.payment-container .step > input {
   width: 90%;
-  padding: 10px;
   margin: 5px 0;
+  padding: 10px;
   border: 1px solid #ddd;
   border-radius: 5px;
 }

@@ -102,6 +102,7 @@ public class BoardEntity extends BasicTime {
         .category(dto.getCategory())
         .attachFile(0)
         .writer(dto.getWriter())
+        .replyCount(dto.getReplyCount())
         .memberEntity(MemberEntity.builder().id(dto.getMemberId()).build())
         .build();
   }
@@ -114,6 +115,7 @@ public class BoardEntity extends BasicTime {
         .category(dto.getCategory())
         .attachFile(1)
         .writer(dto.getWriter())
+        .replyCount(dto.getReplyCount())
         .memberEntity(MemberEntity.builder().id(dto.getMemberId()).build())
         .build();
   }
