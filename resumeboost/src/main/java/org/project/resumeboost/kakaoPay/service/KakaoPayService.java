@@ -58,7 +58,8 @@ public class KakaoPayService {
     parameters.put("total_amount", payDto.getTotalPrice());
     parameters.put("tax_free_amount", "0");
     parameters.put("approval_url",
-        "http://localhost:3000/pay/addPay/" + payDto.getMemberId() + "?cartId=" + payDto.getCartId());
+        "http://ec2-13-125-236-223.ap-northeast-2.compute.amazonaws.com//pay/addPay/" + payDto.getMemberId()
+            + "?cartId=" + payDto.getCartId());
     parameters.put("cancel_url", "http://localhost:8090/kakao/cancel");
     parameters.put("fail_url", "http://localhost:8090/kakao/fail");
 
