@@ -10,7 +10,7 @@ import { Navigate, useParams } from "react-router-dom"
 
 const Loading = <div className='loading'>Loading...</div>
 
-const ProtectedRoute = ({ children, requiredId, requiredAdmin }) => {
+const ProtectedRoute = ({ children, requiredId }) => {
   const isLogin = useSelector((state) => state.loginSlice)
 
   // 인증되지 않은 사용자일 경우 로그인 페이지로 리디렉션
@@ -20,9 +20,7 @@ const ProtectedRoute = ({ children, requiredId, requiredAdmin }) => {
 
   if (
     requiredId &&
-    isLogin.id !== requiredId &&
-    requiredAdmin &&
-    isLogin.role !== requiredAdmin
+    isLogin.id !== requiredId
   ) {
     return <Navigate to='/main' replace />
   }
@@ -36,7 +34,7 @@ const MemberDetailWrapper = () => {
 
   return (
     <Suspense fallback={Loading}>
-      <ProtectedRoute requiredId={id} requiredAdmin={"ROLE_ADMIN"}>
+      <ProtectedRoute requiredId={id}>
         <MemberDetailPage />
       </ProtectedRoute>
     </Suspense>
