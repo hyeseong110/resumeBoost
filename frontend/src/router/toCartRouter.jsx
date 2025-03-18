@@ -8,8 +8,6 @@ const Loading = <div className='loading'>Loading...</div>
 
 const ProtectedRoute = ({ children, requiredId }) => {
   const isLogin = useSelector((state) => state.loginSlice)
-  console.log(isLogin.id)
-  console.log(requiredId)
 
   // 인증되지 않은 사용자일 경우 로그인 페이지로 리디렉션
   if (!isLogin.id) {
