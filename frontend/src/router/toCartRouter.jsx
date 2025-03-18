@@ -14,7 +14,7 @@ const ProtectedRoute = ({ children, requiredId }) => {
     return <Navigate to='/auth/login' replace />
   }
 
-  if (requiredId && isLogin.id !== requiredId) {
+  if (requiredId && String(isLogin.id) !== requiredId) {
     return <Navigate to='/main' replace />
   }
 

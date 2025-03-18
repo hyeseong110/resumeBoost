@@ -23,7 +23,7 @@ const ProtectedRoute = ({ children, requiredId }) => {
 
   if (
     requiredId &&
-    isLogin.id !== requiredId
+    String(isLogin.id) !== requiredId
   ) {
     return <Navigate to='/main' replace />
   }
