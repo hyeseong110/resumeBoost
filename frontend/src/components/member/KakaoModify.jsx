@@ -113,7 +113,7 @@ const KakaoModify = () => {
         navigate("/main")
         const updatedMember = {
           NickName: formData.nickName, // member의 nickName
-          id: String(isLogin.id), // member의 id
+          id: isLogin.id, // member의 id
           social: false, // member의 social
           userEmail: formData.userEmail, // member의 userEmail
           role: "ROLE_" + formData.role, // member의 role
