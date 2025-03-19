@@ -44,6 +44,7 @@ const PersonalInfoForm = ({
           name='userEmail'
           value={member.userEmail || ""}
           onChange={handleChange}
+          readOnly
         />
       </div>
 
