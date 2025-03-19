@@ -65,10 +65,10 @@ const BoardWrite = () => {
     if (file) formData.append('boardImgFile', file);
   
     jwtAxios.post(`http://${EC2_URL}:8090/board/insert`, formData)
-      .then((response) => {
-        alert('게시글이 작성되었습니다.');
-        navigate("/board");
-      })
+      .then(
+        alert('게시글이 작성되었습니다.'),
+        navigate("/board")
+      )
       .catch((error) => {
         alert('게시글 작성에 실패했습니다.');
         // navigate("/board");
