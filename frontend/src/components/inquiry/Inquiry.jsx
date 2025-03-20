@@ -7,7 +7,7 @@ const Inquiry = () => {
     // 카카오 지도 API 스크립트 로드
     const script = document.createElement('script');
     script.async = true;
-    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=b0e17128515fd41bef6fcee58de51a27&autoload=false`;
+    script.src = `//dapi.kakao.com/v2/maps/sdk.js?appkey=`;
     script.onload = () => {
       // 스크립트 로딩 후 지도 초기화
       if (window.kakao && !map) {
