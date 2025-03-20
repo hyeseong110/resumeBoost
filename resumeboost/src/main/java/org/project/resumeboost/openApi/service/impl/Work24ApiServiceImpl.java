@@ -15,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 public class Work24ApiServiceImpl implements Work24ApiService {
 
   private static final String BASE_URL = "https://www.work24.go.kr/cm/openApi/call/wk/callOpenApiSvcInfo210L21.do";
-  private static final String AUTH_KEY = "0b61a054-3ba2-4a0d-ab5a-b70afca4ecd8";
+  private static final String AUTH_KEY = "";
 
   private final RestTemplate restTemplate;
 
