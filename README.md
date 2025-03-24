@@ -297,5 +297,44 @@
 ![Image](https://github.com/user-attachments/assets/d8d19f7f-cce5-489d-aafc-d642150a486e)
 
 </details>
+<br>
 
+### 💡 추가 활용한 Open API
 
+<details>
+<summary>카카오맵 API</summary>
+
+<br>
+   
+- 고객센터 페이지를 만들어 회사위치와 전화번호를 확인할 수 있고 지도와 마커를 구현했습니다.
+
+![Image](https://github.com/user-attachments/assets/c5d1ec7a-f7b5-45d5-be6f-7a2b73f1db4a)
+
+</details>
+
+<details>
+<summary>고용24 API</summary>
+
+<br>
+   
+- 고용24 API를 이용해 공채속보 데이터를 가져오고, xml형식의 데이터를 xmlMapper를 통해 json으로 변환 후 React 프론트 페이지에서 공채속보를 열람할 수 있습니다.
+
+![Image](https://github.com/user-attachments/assets/651f77a1-fdef-4274-83ac-9eeadd24a0c6)
+
+</details>
+<br>
+
+### 배포와 CICD
+
+<details>
+<summary>Docker, CICD</summary>
+
+<br>
+   
+- 프론트, 백엔드 개발환경이 달라 DockerFile을 따로 작성 후 image를 만들고 배포합니다.
+- 배포된 image는 EC2에서 pull해서 실행합니다.
+- image를 빌드하고 배포하는 과정을 github actions를 통해 자동화합니다.
+
+<img src="https://github.com/user-attachments/assets/2e84381b-7850-4c89-be8c-9dd7f32b8d04" width="400px">
+
+</details>
