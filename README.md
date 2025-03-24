@@ -203,13 +203,27 @@
 <br>
 
 ### 📋 게시판
+
+<details>
+<summary>게시판</summary>
+
+<br>
+   
+- 멘토회원이 등록한 상품을 볼 수 있으며 가격과 카테고리를 확인할 수 있습니다.
+- 원하는 상품을 장바구니에 담을 수 있고, 장바구니에 담을 시 데이터베이스에 장바구니정보를 저장합니다.
+- Redux slice를 이용해 백엔드 서버에서 장바구니 정보를 가져오고 아이템 선택,전체삭제를 할 수 있습니다.
+
+![Image](https://github.com/user-attachments/assets/2021c2ce-a856-44ae-8396-56c730f2b97b)
+
+</details>
+
 - 글이 입력되거나 사진이 첨부되면 업로드 버튼이 활성화됩니다.
 - 최대 세 장까지 이미지 첨부가 가능하며 첨부한 파일을 취소할 수 있습니다.
 - 게시글 하단에 업로드 날짜가 표시됩니다.
 
-| 게시글 작성 |
+| 챗봇 |
 |----------|
-|![uploadPost](https://user-images.githubusercontent.com/112460466/210381758-1de5a889-f587-41d2-b200-22c20a970519.gif)|
+![Image](https://github.com/user-attachments/assets/75c2dd2e-2062-41e6-99b3-b29cdbe40303)
 
 <br>
 
