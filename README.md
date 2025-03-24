@@ -2,12 +2,18 @@
 
 ![Image](https://github.com/user-attachments/assets/e4bcc848-5ce9-4859-97a4-7d890e75a035)
 
-- 배포 URL : https://ohmycode-readme.netlify.app
-- Test ID : readme@test.com
-- Test PW : 123123
+
 
 <br>
 
+## 📌 목차
+
+* [🔎프로젝트 소개](#프로젝트-소개)
++ [팀원구성, 역할](#팀원-구성-및-역할)
++ [기술스택](#개발-환경)
++ [프로젝트 구조](#프로젝트-구조)
++ [페이지별 기능](#페이지별-기능)
+<br>
 ## 프로젝트 소개
 
 - RESUMEBOOST는 취업 준비에 필요한 이력서, 자소서, 면접 첨삭에 특화된 플랫폼입니다.
@@ -27,7 +33,7 @@
 
 <br>
 
-## 1. 개발 환경
+## 개발 환경
 
 - Front : HTML, React, JS, Redux, Axios
 - Back-end : JAVA, Springboot, Spring security, Gradle
@@ -41,7 +47,7 @@
 
 <br>
 
-## 2. 프로젝트 구조
+## 프로젝트 구조
 
 ```
 ├── README.md
