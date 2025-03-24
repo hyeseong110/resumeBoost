@@ -283,4 +283,19 @@
 </details>
 <br>
 
+### 🛠️ 관리자페이지
+
+<details>
+<summary>관리자 페이지</summary>
+
+<br>
+
+- 일반 페이지와 구분되도록 레이아웃을 변경해 헤더대신 왼쪽 메뉴바가 나타납니다
+- 관리자 페이지는 회원,상품,결제 등 항목별로 페이지로 나뉘고 왼쪽에 메뉴를 클릭 시 각 페이지가 렌더링됩니다.
+- 각 페이지는 목록이 페이징으로 구현되었고, 기본적인 CRUD가 전부 가능합니다.
+
+![Image](https://github.com/user-attachments/assets/d8d19f7f-cce5-489d-aafc-d642150a486e)
+
+</details>
+
 
