@@ -336,5 +336,22 @@
 - image를 빌드하고 배포하는 과정을 github actions를 통해 자동화합니다.
 
 <img src="https://github.com/user-attachments/assets/2e84381b-7850-4c89-be8c-9dd7f32b8d04" width="400px">
+<br>
+
+- github actions를 통해 배포되는 영상입니다.
+
+![Image](https://github.com/user-attachments/assets/a174ad93-07d1-4061-9936-5cd953429a0c)
+  
+</details>
+
+<details>
+<summary>S3</summary>
+
+<br>
+   
+- 프로젝트 진행 중 필요한 이미지나 프로필 수정, 게시글 이미지 첨부를 할 시 이미지의 관리가 용이하며 보안이 좋은 S3를 사용해 파일 수정, 삭제를 합니다.
+- 프론트에서 파일 입력 필드를 통해 백엔드 서버로 이미지를 전송하게 되면 백엔드에서 만든 S3Service와 S3Config 클래스를 통해 S3에 파일을 저장합니다.
+
+![Image](https://github.com/user-attachments/assets/97cb4f40-b592-4d92-9ba5-0383e74098ad)
 
 </details>
