@@ -15,7 +15,7 @@ import io.jsonwebtoken.security.Keys;
 
 public class JWTUtil {
   
-  private static String key = "12347239474234298478324294729834728947294372834234234";
+  private static String key = "###################################";
 
   public static String generateToken(Map<String, Object> valueMap, int min) {
 
