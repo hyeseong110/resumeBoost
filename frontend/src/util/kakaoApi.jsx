@@ -2,7 +2,7 @@ import axios from "axios"
 import { EC2_URL } from "../constans"
 
 // REST API 키
-const rest_api_key = `0eaf07321c1e0fbf250dd675816c0407`
+const rest_api_key = `######################`
 // redirect 주소
 const redirect_uri = `http://${EC2_URL}/member/kakao`
 
