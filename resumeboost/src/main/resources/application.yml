@@ -43,3 +43,7 @@ file.path: "E:/saveFiles/"
 kakaopay:
   secret-key: "#####################"
   cid: TC0ONETIME
+
+openapi:
+  work24:
+    auth-key: "636aad1d-698b-456e-a596-27f14fc289a9"
