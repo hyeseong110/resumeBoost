@@ -64,14 +64,14 @@ public class BoardServiceImpl implements BoardService {
     } else {
       String oldImgName = boardFile.getOriginalFilename();
       // 암호화
-      // UUID uuid = UUID.randomUUID();
-      // String newImgName = uuid + "(ง •_•)ง" + oldImgName;
-      // String saveFilePath = saveFile + "board/" + newImgName;
-      // boardFile.transferTo(new File(saveFilePath));
+      UUID uuid = UUID.randomUUID();
+      String newImgName = uuid + "(ง •_•)ง" + oldImgName;
+      String saveFilePath = saveFile + "board/" + newImgName;
+      boardFile.transferTo(new File(saveFilePath));
 
       // S3 upload
-      String uploadedImgUrl = s3UploadService.upload(boardFile, "images");
-      String newImgName = uploadedImgUrl.substring(uploadedImgUrl.indexOf("images/") + "images/".length());
+      // String uploadedImgUrl = s3UploadService.upload(boardFile, "images");
+      // String newImgName = uploadedImgUrl.substring(uploadedImgUrl.indexOf("images/") + "images/".length());
 
       BoardEntity boardEntity = BoardEntity.toYesFileInsert(boardDto);
       // 내가 작성한 게시글 카운트
@@ -113,26 +113,26 @@ public class BoardServiceImpl implements BoardService {
     } else {
       if (optionalBoardImgEntities.isPresent()) {
         String newImgName = optionalBoardImgEntities.get().getNewImgName();
-        // String saveFilePath = saveFile + "board/" + newImgName;
-        // File deleteFile = new File(saveFilePath);
-        // if (deleteFile.exists()) {
-        // deleteFile.delete();
-        // }
+        String saveFilePath = saveFile + "board/" + newImgName;
+        File deleteFile = new File(saveFilePath);
+        if (deleteFile.exists()) {
+        deleteFile.delete();
+        }
 
         // S3 기존 이미지 삭제
-        s3UploadService.delete("images/" + newImgName);
+        // s3UploadService.delete("images/" + newImgName);
         boardImgRepository.deleteById(optionalBoardImgEntities.get().getId());
       }
       String oldImgName = boardFile.getOriginalFilename();
       // 암호화
-      // UUID uuid = UUID.randomUUID();
-      // String newImgName = uuid + "(ง •_•)ง" + oldImgName;
-      // String saveFilePath = saveFile + "board/" + newImgName;
-      // boardFile.transferTo(new File(saveFilePath));
+      UUID uuid = UUID.randomUUID();
+      String newImgName = uuid + "(ง •_•)ง" + oldImgName;
+      String saveFilePath = saveFile + "board/" + newImgName;
+      boardFile.transferTo(new File(saveFilePath));
 
       // S3 upload
-      String uploadedImgUrl = s3UploadService.upload(boardFile, "images");
-      String newImgName = uploadedImgUrl.substring(uploadedImgUrl.indexOf("images/") + "images/".length());
+      // String uploadedImgUrl = s3UploadService.upload(boardFile, "images");
+      // String newImgName = uploadedImgUrl.substring(uploadedImgUrl.indexOf("images/") + "images/".length());
 
       BoardEntity boardEntity = BoardEntity.toYesFileUpdate(boardDto);
       // 게시글 저장
