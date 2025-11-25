@@ -11,11 +11,24 @@ public class WebMvcConfigureClass implements WebMvcConfigurer {
 	// @Override
 	// public void addResourceHandlers(ResourceHandlerRegistry registry) {
 
-	// registry.addResourceHandler("/member/profile/**")
-	// .addResourceLocations("file://192.168.23.211/손경락/saveFiles/member/profile/");
-	// registry.addResourceHandler("/member/portfolio/**")
-	// .addResourceLocations("file://192.168.23.211/손경락/saveFiles/member/portfolio/");
-	// registry.addResourceHandler("/board/img/**")
-	// .addResourceLocations("file://192.168.23.211/손경락/saveFiles/board/");
+	// registry.addResourceHandler("/member/profile/**","/member/portfolio/**",  "/board/img/**")
+	// .addResourceLocations("file:/E:/saveFiles/");
+	// // registry.addResourceHandler("/member/portfolio/**")
+	// // .addResourceLocations("file://192.168.23.211/손경락/saveFiles/member/portfolio/");
+	// // registry.addResourceHandler("/board/img/**")
+	// // .addResourceLocations("file://192.168.23.211/손경락/saveFiles/board/");
 	// }
+	
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
+        registry.addResourceHandler("/member/profile/**")
+                .addResourceLocations("file:///E:/saveFiles/member/profile/");
+
+        registry.addResourceHandler("/member/portfolio/**")
+                .addResourceLocations("file:///E:/saveFiles/member/portfolio/");
+
+        registry.addResourceHandler("/board/img/**")
+                .addResourceLocations("file:///E:/saveFiles/board/");
+    }
 }

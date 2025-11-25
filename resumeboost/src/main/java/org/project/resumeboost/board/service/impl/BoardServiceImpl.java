@@ -65,9 +65,16 @@ public class BoardServiceImpl implements BoardService {
       String oldImgName = boardFile.getOriginalFilename();
       // 암호화
       UUID uuid = UUID.randomUUID();
-      String newImgName = uuid + "(ง •_•)ง" + oldImgName;
+      // String newImgName = uuid + "(ง •_•)ง" + oldImgName;
+      String newImgName = uuid + "_" + oldImgName;
       String saveFilePath = saveFile + "board/" + newImgName;
       boardFile.transferTo(new File(saveFilePath));
+
+      File folder = new File(saveFile + "board/");
+      if (!folder.exists()) {
+          folder.mkdirs();
+      }
+
 
       // S3 upload
       // String uploadedImgUrl = s3UploadService.upload(boardFile, "images");
@@ -126,7 +133,8 @@ public class BoardServiceImpl implements BoardService {
       String oldImgName = boardFile.getOriginalFilename();
       // 암호화
       UUID uuid = UUID.randomUUID();
-      String newImgName = uuid + "(ง •_•)ง" + oldImgName;
+      // String newImgName = uuid + "(ง •_•)ง" + oldImgName;
+      String newImgName = uuid + "_" + oldImgName;
       String saveFilePath = saveFile + "board/" + newImgName;
       boardFile.transferTo(new File(saveFilePath));
 
